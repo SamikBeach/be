@@ -1,17 +1,24 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as winston from 'winston';
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModule,
+} from 'nest-winston';
+
 import emailConfig from './config/emailConfig';
 import { UserModule } from './user/user.module';
 import { EmailService } from './email/email.service';
 import { validationSchema } from './config/validationSchema';
+import authConfig from './config/authConfig';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule.forRoot({
       envFilePath: [`${__dirname}/config/env/.env.${process.env.NODE_ENV}`],
-      load: [emailConfig],
+      load: [emailConfig, authConfig],
       isGlobal: true,
       validationSchema,
       validationOptions: {
@@ -29,6 +36,19 @@ import { validationSchema } from './config/validationSchema';
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
       migrations: [__dirname + '/**/migrations/*.js'],
       migrationsTableName: 'migrations',
+    }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          level: process.env.NODE_ENV === 'production' ? 'info' : 'silly',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            nestWinstonModuleUtilities.format.nestLike('MyApp', {
+              prettyPrint: true,
+            })
+          ),
+        }),
+      ],
     }),
   ],
   controllers: [],
