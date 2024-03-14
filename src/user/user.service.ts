@@ -10,7 +10,7 @@ export class UserService {
   async createUser(name: string, email: string, password: string) {
     await this.checkUserExists(email);
 
-    const signupVerifyToken = uuid.v1();
+    const signupVerifyToken = uuid.v4();
 
     await this.saveUser(name, email, password, signupVerifyToken);
     await this.sendMemberJoinEmail(email, signupVerifyToken);

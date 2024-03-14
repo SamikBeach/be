@@ -12,6 +12,7 @@ export class UserController {
   @Post()
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
     const { name, email, password } = dto;
+
     await this.userService.createUser(name, email, password);
   }
 
