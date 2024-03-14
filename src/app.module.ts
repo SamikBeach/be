@@ -12,6 +12,7 @@ import { UserModule } from './user/user.module';
 import { EmailService } from './email/email.service';
 import { validationSchema } from './config/validationSchema';
 import authConfig from './config/authConfig';
+import { ExceptionModule } from './exception/exception.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import authConfig from './config/authConfig';
         }),
       ],
     }),
+    ExceptionModule,
   ],
   controllers: [],
   providers: [EmailService],
