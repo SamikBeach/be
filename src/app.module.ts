@@ -14,6 +14,7 @@ import { validationSchema } from './config/validationSchema';
 import authConfig from './config/authConfig';
 import { ExceptionModule } from './exception/exception.module';
 import { LoggingModule } from './logging/logging.module';
+import { BatchModule } from './batch/batch.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { LoggingModule } from './logging/logging.module';
     }),
     LoggingModule,
     ExceptionModule,
+    BatchModule,
   ],
   controllers: [],
   providers: [EmailService],
