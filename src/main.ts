@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 import {
@@ -29,6 +30,15 @@ async function bootstrap() {
       transform: true,
     })
   );
+
+  const config = new DocumentBuilder()
+    .setTitle('SamikBeach')
+    .setDescription('The SamikBeach API description')
+    .setVersion('1.0')
+    .addTag('bong')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
