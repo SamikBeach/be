@@ -8,7 +8,6 @@ import {
 } from 'nest-winston';
 
 import emailConfig from './config/emailConfig';
-import { UserModule } from './user/user.module';
 import { EmailService } from './email/email.service';
 import { validationSchema } from './config/validationSchema';
 import authConfig from './config/authConfig';
@@ -19,10 +18,11 @@ import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { HealthCheckController } from './health-check/health-check.controller';
 import { DogHealthIndicator } from './health-check/dog.health';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    UserModule,
+    UsersModule,
     ConfigModule.forRoot({
       envFilePath: [`${__dirname}/config/env/.env.${process.env.NODE_ENV}`],
       load: [emailConfig, authConfig],
