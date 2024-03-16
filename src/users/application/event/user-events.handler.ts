@@ -11,11 +11,11 @@ export class UserEventsHandler implements IEventHandler<UserCreatedEvent> {
     switch (event.name) {
       case UserCreatedEvent.name: {
         console.log('UserCreatedEvent!');
-        const { email, signupVerifyToken } = event as UserCreatedEvent;
-        await this.emailService.sendMemberJoinVerification(
-          email,
-          signupVerifyToken
-        );
+        // const { email, signupVerifyToken } = event as UserCreatedEvent;
+        // await this.emailService.sendMemberJoinVerification(
+        //   email,
+        //   signupVerifyToken
+        // );
         break;
       }
       default:

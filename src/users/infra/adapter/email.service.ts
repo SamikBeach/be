@@ -10,6 +10,6 @@ export class EmailService implements IEmailService {
     email: string,
     signupVerifyToken: string
   ): Promise<void> {
-    this.emailService.sendMemberJoinVerification(email, signupVerifyToken);
+    // this.emailService.sendMemberJoinVerification(email, signupVerifyToken);
   }
 }
