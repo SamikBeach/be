@@ -8,9 +8,11 @@ import {
 } from 'nest-winston';
 import * as winston from 'winston';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
+    cors: true,
     logger: WinstonModule.createLogger({
       transports: [
         new winston.transports.Console({
@@ -25,6 +27,13 @@ async function bootstrap() {
       ],
     }),
   });
+
+  app.use(
+    helmet({
+      crossOriginEmbedderPolicy: false,
+    })
+  );
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -40,7 +49,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(3001);
 }
 
 bootstrap();
