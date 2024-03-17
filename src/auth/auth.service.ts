@@ -18,11 +18,14 @@ export class AuthService {
   login(user: User) {
     const payload = { ...user };
 
-    return jwt.sign(payload, this.config.jwtSecret, {
-      expiresIn: '1d',
-      audience: 'example.com',
-      issuer: 'example.com',
-    });
+    return {
+      id: user.id,
+      jwt: jwt.sign(payload, this.config.jwtSecret, {
+        expiresIn: '1d',
+        audience: 'example.com',
+        issuer: 'example.com',
+      }),
+    };
   }
 
   verify(jwtString: string) {
