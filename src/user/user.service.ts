@@ -14,11 +14,11 @@ import { ulid } from 'ulid';
 import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     private emailService: EmailService,
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    private userRepository: Repository<UserEntity>,
     private dataSource: DataSource,
     private authService: AuthService
   ) {}
@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { email: emailAddress },
     });
 
@@ -65,7 +65,7 @@ export class UsersService {
     user.email = email;
     user.password = password;
     user.signupVerifyToken = signupVerifyToken;
-    await this.usersRepository.save(user);
+    await this.userRepository.save(user);
   }
 
   private async saveUserUsingQueryRunner(
@@ -130,7 +130,7 @@ export class UsersService {
     id: string;
     jwt: string;
   }> {
-    const user = await this.usersRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { signupVerifyToken },
     });
 
@@ -153,7 +153,7 @@ export class UsersService {
     jwt: string;
   }> {
     console.log(email, password);
-    const user = await this.usersRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { email, password },
     });
 
@@ -171,7 +171,7 @@ export class UsersService {
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
-    const user = await this.usersRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id: userId },
     });
 

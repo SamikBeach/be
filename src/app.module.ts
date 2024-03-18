@@ -18,11 +18,11 @@ import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { HealthCheckController } from './health-check/health-check.controller';
 import { DogHealthIndicator } from './health-check/dog.health';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    UsersModule,
+    UserModule,
     ConfigModule.forRoot({
       envFilePath: [`${__dirname}/config/env/.env.${process.env.NODE_ENV}`],
       load: [emailConfig, authConfig],

@@ -23,12 +23,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserInfo } from './UserInfo';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
-@Controller('users')
-export class UsersController {
+@Controller('user')
+export class UserController {
   constructor(
-    private usersService: UsersService,
+    private userService: UserService,
     private authService: AuthService,
     // @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: WinstonLogger,
     // @Inject(WINSTON_MODULE_NEST_PROVIDER) private readonly logger: LoggerService,
@@ -42,7 +42,7 @@ export class UsersController {
 
     const { name, email, password } = dto;
 
-    await this.usersService.createUser(name, email, password);
+    await this.userService.createUser(name, email, password);
   }
 
   // private printWinstonLog(dto) {
@@ -76,7 +76,7 @@ export class UsersController {
   }> {
     const { signupVerifyToken } = dto;
 
-    return await this.usersService.verifyEmail(signupVerifyToken);
+    return await this.userService.verifyEmail(signupVerifyToken);
   }
 
   @Post('/login')
@@ -86,7 +86,7 @@ export class UsersController {
   }> {
     const { email, password } = dto;
 
-    return await this.usersService.login(email, password);
+    return await this.userService.login(email, password);
   }
 
   // @Get(':id')
@@ -95,7 +95,7 @@ export class UsersController {
 
   //   this.authService.verify(jwtString);
 
-  //   return this.usersService.getUserInfo(userId);
+  //   return this.userService.getUserInfo(userId);
   // }
 
   @UseGuards(AuthGuard)
@@ -104,6 +104,6 @@ export class UsersController {
     @Headers() headers: any,
     @Param('id') userId: string
   ): Promise<UserInfo> {
-    return this.usersService.getUserInfo(userId);
+    return this.userService.getUserInfo(userId);
   }
 }
