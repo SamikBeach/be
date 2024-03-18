@@ -19,10 +19,12 @@ import { HttpModule } from '@nestjs/axios';
 import { HealthCheckController } from './health-check/health-check.controller';
 import { DogHealthIndicator } from './health-check/dog.health';
 import { UserModule } from './domains/user/user.module';
+import { BookModule } from './domains/book/book.module';
 
 @Module({
   imports: [
     UserModule,
+    BookModule,
     ConfigModule.forRoot({
       envFilePath: [`${__dirname}/config/env/.env.${process.env.NODE_ENV}`],
       load: [emailConfig, authConfig],
