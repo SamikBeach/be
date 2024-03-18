@@ -64,6 +64,9 @@ import { UsersModule } from './users/users.module';
     HttpModule,
   ],
   controllers: [HealthCheckController],
-  providers: [EmailService, DogHealthIndicator],
+  providers: [
+    // EmailService,
+    DogHealthIndicator,
+  ],
 })
 export class AppModule {}
