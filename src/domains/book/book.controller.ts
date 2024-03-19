@@ -5,12 +5,16 @@ import {
   LoggerService,
   Logger,
   Get,
+  Param,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth.guard';
 import { BookInfo } from './BookInfo';
 import { BookService } from './book.service';
+import { GetBooksDto } from './dto/get-books.dto';
 
 @Controller('book')
+@UseGuards(AuthGuard)
 export class BookController {
   constructor(
     private bookService: BookService,
@@ -19,9 +23,14 @@ export class BookController {
     @Inject(Logger) private readonly logger: LoggerService
   ) {}
 
-  @UseGuards(AuthGuard)
   @Get()
-  async getBookInfo(): Promise<BookInfo[]> {
-    return this.bookService.getAllBooks();
+  async getBooks(@Query() dto: GetBooksDto): Promise<BookInfo[]> {
+    const { author } = dto;
+
+    if (dto === undefined || Object.values(dto).length === 0) {
+      return this.bookService.getAllBooks();
+    }
+
+    return this.bookService.getBookByAuthor(author);
   }
 }
