@@ -19,7 +19,7 @@ import { HttpModule } from '@nestjs/axios';
 import { HealthCheckController } from './health-check/health-check.controller';
 import { DogHealthIndicator } from './health-check/dog.health';
 import { UserModule } from './domains/user/user.module';
-import { BookModule } from './domains/book/book.module';
+import { BookModule } from './domains/book_old/book.module';
 
 @Module({
   imports: [
