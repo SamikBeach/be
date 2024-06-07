@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { AuthorModel } from './author.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Nationality')
 export class NationalityModel {
