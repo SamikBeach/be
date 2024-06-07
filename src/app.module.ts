@@ -16,12 +16,15 @@ import { UserModel } from './user/entities/user.entity';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
 import { LogMiddleware } from './common/middleware/log.middleware';
+import { AuthorModule } from './author/author.module';
+import { AuthorModel } from './author/entities/author.entity';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
     CommonModule,
+    AuthorModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -33,7 +36,7 @@ import { LogMiddleware } from './common/middleware/log.middleware';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserModel],
+      entities: [UserModel, AuthorModel],
       synchronize: false,
     }),
   ],
