@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { NationalityModel } from './nationality.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -26,6 +33,7 @@ export class AuthorModel {
   @Column()
   died_date_is_bc: number;
 
-  @Column()
-  nationality_id: number;
+  @ManyToOne(() => NationalityModel)
+  @JoinColumn({ name: 'nationality_id' })
+  nationality: NationalityModel;
 }

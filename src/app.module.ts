@@ -18,6 +18,7 @@ import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
 import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
+import { NationalityModel } from './author/entities/nationality.entity';
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { AuthorModel } from './author/entities/author.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserModel, AuthorModel],
+      entities: [UserModel, AuthorModel, NationalityModel],
       synchronize: false,
     }),
   ],

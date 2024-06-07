@@ -21,6 +21,7 @@ export class AuthorService {
       where: {
         id: authorId,
       },
+      relations: ['nationality'],
     });
   }
 }
