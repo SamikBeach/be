@@ -84,7 +84,7 @@ export class AuthService {
       complete: true,
     });
 
-    if (user.type !== 'refresh') {
+    if (user.payload.type !== 'refresh') {
       throw new UnauthorizedException(
         '토큰 재발급은 Refresh 토큰으로만 가능합니다!'
       );
