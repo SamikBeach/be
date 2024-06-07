@@ -34,7 +34,6 @@ export class UserService {
   async getAllUsers() {
     const result = await this.userRepository.find();
 
-    console.log(result);
     return result;
   }
 

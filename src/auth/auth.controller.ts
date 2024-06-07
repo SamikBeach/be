@@ -19,10 +19,16 @@ export class AuthController {
   @Post('token/access')
   // @IsPublic()
   // @UseGuards(RefreshTokenGuard)
-  postTokenAccess(@Headers('authorization') rawToken: string) {
-    const token = this.authService.extractTokenFromHeader(rawToken, true);
+  postTokenAccess(@Headers('authorization') tokenWithPrefix: string) {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: true,
+    });
 
-    const newToken = this.authService.rotateToken(token, false);
+    const newToken = this.authService.rotateToken({
+      token,
+      isRefreshToken: false,
+    });
 
     return {
       accessToken: newToken,
@@ -32,10 +38,16 @@ export class AuthController {
   @Post('token/refresh')
   // @IsPublic()
   // @UseGuards(RefreshTokenGuard)
-  postTokenRefresh(@Headers('authorization') rawToken: string) {
-    const token = this.authService.extractTokenFromHeader(rawToken, true);
+  postTokenRefresh(@Headers('authorization') tokenWithPrefix: string) {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: true,
+    });
 
-    const newToken = this.authService.rotateToken(token, true);
+    const newToken = this.authService.rotateToken({
+      token,
+      isRefreshToken: true,
+    });
 
     return {
       refreshToken: newToken,
@@ -45,12 +57,15 @@ export class AuthController {
   @Post('login/email')
   // @IsPublic()
   // @UseGuards(BasicTokenGuard)
-  loginWithEmail(@Headers('authorization') rawToken: string) {
-    const token = this.authService.extractTokenFromHeader(rawToken, false);
+  loginWithEmail(@Headers('authorization') tokenWithPrefix: string) {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: false,
+    });
 
-    const credentials = this.authService.decodeBasicToken(token);
+    const { email, password } = this.authService.decodeBasicToken(token);
 
-    return this.authService.loginWithEmail(credentials);
+    return this.authService.loginWithEmail({ email, password });
   }
 
   @Post('register/email')

@@ -17,13 +17,14 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly configService: ConfigService
   ) {}
-
-  extractTokenFromHeader(header: string, isBearer: boolean) {
-    // 'Basic {token}'
-    // [Basic, {token}]
-    // 'Bearer {token}'
-    // [Bearer, {token}]
-    const splitToken = header.split(' ');
+  extractTokenFromHeader({
+    tokenWithPrefix,
+    isBearer,
+  }: {
+    tokenWithPrefix: string;
+    isBearer: boolean;
+  }) {
+    const splitToken = tokenWithPrefix.split(' ');
 
     const prefix = isBearer ? 'Bearer' : 'Basic';
 
@@ -37,9 +38,9 @@ export class AuthService {
   }
 
   /**
-   * Basic al;sdkfjoiasdjlzkxcjvsdf
+   * Basic dslkfjaljdfklsajlkjlk
    *
-   * 1) al;sdkfjoiasdjlzkxcjvsdf -> email:password
+   * 1) dslkfjaljdfklsajlkjlk -> email:password
    * 2) email:password -> [email, password]
    * 3) {email: email, password: password}
    */
@@ -71,27 +72,39 @@ export class AuthService {
     }
   }
 
-  rotateToken(token: string, isRefreshToken: boolean) {
-    const decoded = this.jwtService.verify(token, {
+  rotateToken({
+    token,
+    isRefreshToken,
+  }: {
+    token: string;
+    isRefreshToken: boolean;
+  }) {
+    const user = this.jwtService.verify(token, {
       secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
       complete: true,
     });
 
-    if (decoded.type !== 'refresh') {
+    if (user.type !== 'refresh') {
       throw new UnauthorizedException(
         '토큰 재발급은 Refresh 토큰으로만 가능합니다!'
       );
     }
 
-    return this.signToken(
-      {
-        ...decoded,
+    return this.signToken({
+      user: {
+        ...user,
       },
-      isRefreshToken
-    );
+      isRefreshToken,
+    });
   }
 
-  signToken(user: Pick<UserModel, 'email' | 'id'>, isRefreshToken: boolean) {
+  signToken({
+    user,
+    isRefreshToken,
+  }: {
+    user: Pick<UserModel, 'email' | 'id'>;
+    isRefreshToken: boolean;
+  }) {
     const payload = {
       email: user.email,
       sub: user.id,
@@ -106,8 +119,8 @@ export class AuthService {
 
   loginUser(user: Pick<UserModel, 'email' | 'id'>) {
     return {
-      accessToken: this.signToken(user, false),
-      refreshToken: this.signToken(user, true),
+      accessToken: this.signToken({ user, isRefreshToken: false }),
+      refreshToken: this.signToken({ user, isRefreshToken: true }),
     };
   }
 
@@ -131,9 +144,12 @@ export class AuthService {
      * 1) 입력된 비밀번호
      * 2) 기존 해시 (hash) -> 사용자 정보에 저장돼있는 hash
      */
-    const passOk = await bcrypt.compare(user.password, existingUser.password);
+    const isValidPassword = await bcrypt.compare(
+      user.password,
+      existingUser.password
+    );
 
-    if (!passOk) {
+    if (!isValidPassword) {
       throw new UnauthorizedException('비밀번호가 틀렸습니다.');
     }
 
