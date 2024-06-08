@@ -3,9 +3,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { NationalityModel } from './nationality.entity';
+import { WritingModel } from 'src/writing/entities/writing.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -36,4 +38,7 @@ export class AuthorModel {
   @ManyToOne(() => NationalityModel)
   @JoinColumn({ name: 'nationality_id' })
   nationality: NationalityModel;
+
+  @OneToMany(() => WritingModel, writing => writing.author)
+  writing: WritingModel[];
 }

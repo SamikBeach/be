@@ -11,7 +11,7 @@ export class WritingService {
   ) {}
 
   async getAllWritings() {
-    return await this.writingRepository.find();
+    return await this.writingRepository.find({ relations: ['author'] });
   }
 
   async getWritingById(writingId: number) {
@@ -19,6 +19,7 @@ export class WritingService {
       where: {
         id: writingId,
       },
+      relations: ['author'],
     });
   }
 
@@ -27,6 +28,7 @@ export class WritingService {
       where: {
         author_id: authorId,
       },
+      relations: ['author'],
     });
   }
 }

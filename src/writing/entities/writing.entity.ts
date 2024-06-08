@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { AuthorModel } from 'src/author/entities/author.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('Writing')
 export class WritingModel {
@@ -10,6 +17,10 @@ export class WritingModel {
 
   @Column()
   author_id: number;
+
+  @ManyToOne(() => AuthorModel)
+  @JoinColumn({ name: 'author_id' })
+  author: AuthorModel;
 
   @Column()
   title_in_kor: string;
