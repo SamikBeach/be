@@ -2,12 +2,15 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { NationalityModel } from './nationality.entity';
 import { WritingModel } from 'src/writing/entities/writing.entity';
+import { EducationModel } from './education.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -41,4 +44,12 @@ export class AuthorModel {
 
   @OneToMany(() => WritingModel, writing => writing.author)
   writing: WritingModel[];
+
+  @ManyToMany(() => EducationModel)
+  @JoinTable({
+    name: 'author_education',
+    joinColumn: { name: 'author_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'education_id', referencedColumnName: 'id' },
+  })
+  education: EducationModel[];
 }

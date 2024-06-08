@@ -19,7 +19,7 @@ export class AuthorService {
       where: {
         id: authorId,
       },
-      relations: ['nationality', 'writing'],
+      relations: ['nationality', 'writing', 'education'],
     });
   }
 }

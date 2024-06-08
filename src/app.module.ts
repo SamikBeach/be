@@ -21,14 +21,11 @@ import { AuthorModel } from './author/entities/author.entity';
 import { NationalityModel } from './author/entities/nationality.entity';
 import { WritingModule } from './writing/writing.module';
 import { WritingModel } from './writing/entities/writing.entity';
+import { EducationModel } from './author/entities/education.entity';
+import { AuthorEducationModel } from './author/entities/author_education.entity';
 
 @Module({
   imports: [
-    AuthModule,
-    UserModule,
-    CommonModule,
-    AuthorModule,
-    WritingModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -40,9 +37,21 @@ import { WritingModel } from './writing/entities/writing.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserModel, AuthorModel, NationalityModel, WritingModel],
+      entities: [
+        UserModel,
+        AuthorModel,
+        NationalityModel,
+        WritingModel,
+        EducationModel,
+        AuthorEducationModel,
+      ],
       synchronize: false,
     }),
+    AuthModule,
+    UserModule,
+    CommonModule,
+    AuthorModule,
+    WritingModule,
   ],
   controllers: [AppController],
   providers: [
