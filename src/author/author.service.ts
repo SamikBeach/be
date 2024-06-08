@@ -19,7 +19,17 @@ export class AuthorService {
       where: {
         id: authorId,
       },
-      relations: ['nationality', 'writing', 'education'],
+      relations: {
+        nationality: true,
+        writing: true,
+        education: true,
+        era: true,
+        region: true,
+        school: true,
+        main_interest: true,
+        influenced: true,
+        influenced_by: true,
+      },
     });
   }
 }
