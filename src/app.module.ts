@@ -19,6 +19,8 @@ import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
 import { NationalityModel } from './author/entities/nationality.entity';
+import { WritingModule } from './writing/writing.module';
+import { WritingModel } from './writing/entities/writing.entity';
 
 @Module({
   imports: [
@@ -26,6 +28,7 @@ import { NationalityModel } from './author/entities/nationality.entity';
     UserModule,
     CommonModule,
     AuthorModule,
+    WritingModule,
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -37,7 +40,7 @@ import { NationalityModel } from './author/entities/nationality.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserModel, AuthorModel, NationalityModel],
+      entities: [UserModel, AuthorModel, NationalityModel, WritingModel],
       synchronize: false,
     }),
   ],
