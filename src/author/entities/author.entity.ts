@@ -15,6 +15,7 @@ import { EraModel } from './era/era.entity';
 import { RegionModel } from './region/region.entity';
 import { SchoolModel } from './school/school.entity';
 import { MainInterestModel } from './main_interests/main_interest.entity';
+import { BookModel } from 'src/book/entities/book.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -110,4 +111,15 @@ export class AuthorModel {
     },
   })
   influenced_by: AuthorModel[];
+
+  @ManyToMany(() => BookModel)
+  @JoinTable({
+    name: 'author_book',
+    joinColumn: { name: 'author_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'book_id',
+      referencedColumnName: 'id',
+    },
+  })
+  book: BookModel[];
 }

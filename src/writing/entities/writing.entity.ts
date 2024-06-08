@@ -1,8 +1,11 @@
 import { AuthorModel } from 'src/author/entities/author.entity';
+import { BookModel } from 'src/book/entities/book.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -33,4 +36,15 @@ export class WritingModel {
 
   @Column()
   publication_date_is_bc: number;
+
+  @ManyToMany(() => BookModel)
+  @JoinTable({
+    name: 'writing_book',
+    joinColumn: { name: 'writing_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'book_id',
+      referencedColumnName: 'id',
+    },
+  })
+  book: BookModel[];
 }

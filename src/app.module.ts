@@ -33,6 +33,10 @@ import { MainInterestModel } from './author/entities/main_interests/main_interes
 import { AuthorMainInterestModel } from './author/entities/main_interests/author_main_interest.entity';
 import { AuthorInfluencedModel } from './author/entities/influenced/author_influenced.entity';
 import { AuthorInfluencedByModel } from './author/entities/influenced_by/author_influenced_by.entity';
+import { BookModule } from './book/book.module';
+import { BookModel } from './book/entities/book.entity';
+import { AuthorBookModel } from './author/entities/author_book/author_book.entity';
+import { WritingBookModel } from './writing/entities/writing_book/writing_book.entity';
 
 @Module({
   imports: [
@@ -64,6 +68,9 @@ import { AuthorInfluencedByModel } from './author/entities/influenced_by/author_
         AuthorMainInterestModel,
         AuthorInfluencedModel,
         AuthorInfluencedByModel,
+        BookModel,
+        AuthorBookModel,
+        WritingBookModel,
       ],
       synchronize: false,
     }),
@@ -72,6 +79,7 @@ import { AuthorInfluencedByModel } from './author/entities/influenced_by/author_
     CommonModule,
     AuthorModule,
     WritingModule,
+    BookModule,
   ],
   controllers: [AppController],
   providers: [

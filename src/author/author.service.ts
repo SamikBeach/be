@@ -29,6 +29,7 @@ export class AuthorService {
         main_interest: true,
         influenced: true,
         influenced_by: true,
+        book: true,
       },
     });
   }
