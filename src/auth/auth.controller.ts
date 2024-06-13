@@ -37,10 +37,7 @@ export class AuthController {
   @Post('token/refresh')
   @IsPublic()
   @UseGuards(RefreshTokenGuard)
-  postTokenRefresh(
-    @Headers('authorization') tokenWithPrefix: string,
-    @Req() req: Request
-  ) {
+  postTokenRefresh(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
     const newToken = this.authService.rotateToken({
