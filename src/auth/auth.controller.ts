@@ -12,7 +12,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { RefreshTokenGuard } from './guard/bearer-token.guard';
 import { BasicTokenGuard } from './guard/basic-token.guard';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -21,14 +21,11 @@ export class AuthController {
   @Post('token/access')
   @IsPublic()
   @UseGuards(RefreshTokenGuard)
-  postTokenAccess(@Headers('authorization') tokenWithPrefix: string) {
-    const token = this.authService.extractTokenFromHeader({
-      tokenWithPrefix,
-      isBearer: true,
-    });
+  postTokenAccess(@Req() req: Request) {
+    const refreshToken = req.cookies['refreshToken'];
 
     const newToken = this.authService.rotateToken({
-      token,
+      token: refreshToken,
       isRefreshToken: false,
     });
 
@@ -40,14 +37,14 @@ export class AuthController {
   @Post('token/refresh')
   @IsPublic()
   @UseGuards(RefreshTokenGuard)
-  postTokenRefresh(@Headers('authorization') tokenWithPrefix: string) {
-    const token = this.authService.extractTokenFromHeader({
-      tokenWithPrefix,
-      isBearer: true,
-    });
+  postTokenRefresh(
+    @Headers('authorization') tokenWithPrefix: string,
+    @Req() req: Request
+  ) {
+    const refreshToken = req.cookies['refreshToken'];
 
     const newToken = this.authService.rotateToken({
-      token,
+      token: refreshToken,
       isRefreshToken: true,
     });
 
@@ -62,7 +59,6 @@ export class AuthController {
   async loginWithEmail(
     @Headers('authorization') tokenWithPrefix: string,
     @Res({ passthrough: true }) res: Response
-    // @Req() req: Request
   ) {
     const token = this.authService.extractTokenFromHeader({
       tokenWithPrefix,
