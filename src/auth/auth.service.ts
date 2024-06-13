@@ -117,7 +117,10 @@ export class AuthService {
     });
   }
 
-  loginUser(user: Pick<UserModel, 'email' | 'id'>) {
+  loginUser(user: Pick<UserModel, 'email' | 'id'>): {
+    accessToken: string;
+    refreshToken: string;
+  } {
     return {
       accessToken: this.signToken({ user, isRefreshToken: false }),
       refreshToken: this.signToken({ user, isRefreshToken: true }),
@@ -156,7 +159,10 @@ export class AuthService {
     return existingUser;
   }
 
-  async loginWithEmail(user: Pick<UserModel, 'email' | 'password'>) {
+  async loginWithEmail(user: Pick<UserModel, 'email' | 'password'>): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
     const existingUser = await this.authenticateWithEmailAndPassword(user);
 
     return this.loginUser(existingUser);

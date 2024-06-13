@@ -1,9 +1,18 @@
-import { Controller, Post, Body, Headers, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Headers,
+  UseGuards,
+  Res,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { RefreshTokenGuard } from './guard/bearer-token.guard';
 import { BasicTokenGuard } from './guard/basic-token.guard';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -50,7 +59,11 @@ export class AuthController {
   @Post('login/email')
   @IsPublic()
   @UseGuards(BasicTokenGuard)
-  loginWithEmail(@Headers('authorization') tokenWithPrefix: string) {
+  async loginWithEmail(
+    @Headers('authorization') tokenWithPrefix: string,
+    @Res({ passthrough: true }) res: Response
+    // @Req() req: Request
+  ) {
     const token = this.authService.extractTokenFromHeader({
       tokenWithPrefix,
       isBearer: false,
@@ -58,12 +71,43 @@ export class AuthController {
 
     const { email, password } = this.authService.decodeBasicToken(token);
 
-    return this.authService.loginWithEmail({ email, password });
+    const { refreshToken, accessToken } = await this.authService.loginWithEmail(
+      {
+        email,
+        password,
+      }
+    );
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 
   @Post('register/email')
   @IsPublic()
-  registerWithEmail(@Body() body: RegisterUserDto) {
-    return this.authService.registerWithEmail(body);
+  async registerWithEmail(
+    @Body() body: RegisterUserDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const { accessToken, refreshToken } =
+      await this.authService.registerWithEmail(body);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }
