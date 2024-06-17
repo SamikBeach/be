@@ -11,7 +11,20 @@ export class AuthorService {
   ) {}
 
   async getAllAuthors() {
-    return await this.authorRepository.find();
+    return await this.authorRepository.find({
+      relations: {
+        nationality: true,
+        // writing: true,
+        // education: true,
+        era: true,
+        region: true,
+        // school: true,
+        // main_interest: true,
+        influenced: true,
+        influenced_by: true,
+        // book: true,
+      },
+    });
   }
 
   async getAuthorById(authorId: number) {
