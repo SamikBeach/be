@@ -23,7 +23,7 @@ import { WritingModule } from './writing/writing.module';
 import { WritingModel } from './writing/entities/writing.entity';
 import { EducationModel } from './author/entities/education/education.entity';
 import { AuthorEducationModel } from './author/entities/education/author_education.entity';
-import { EraModel } from './author/entities/era/era.entity';
+import { EraModel } from './author/era/entities/era.entity';
 import { AuthorEraModel } from './author/entities/era/author_era.entity';
 import { RegionModel } from './author/entities/region/region.entity';
 import { AuthorRegionModel } from './author/entities/region/author_region.entity';
@@ -37,6 +37,7 @@ import { BookModule } from './book/book.module';
 import { BookModel } from './book/entities/book.entity';
 import { AuthorBookModel } from './author/entities/author_book/author_book.entity';
 import { WritingBookModel } from './writing/entities/writing_book/writing_book.entity';
+import { EraModule } from './author/era/era.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { WritingBookModel } from './writing/entities/writing_book/writing_book.e
     AuthorModule,
     WritingModule,
     BookModule,
+    EraModule,
   ],
   controllers: [AppController],
   providers: [
