@@ -7,10 +7,10 @@ import { Repository } from 'typeorm';
 export class EraService {
   constructor(
     @InjectRepository(EraModel)
-    private readonly authorRepository: Repository<EraModel>
+    private readonly eraRepository: Repository<EraModel>
   ) {}
 
   async getAllEras() {
-    return await this.authorRepository.find();
+    return await this.eraRepository.find();
   }
 }

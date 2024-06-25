@@ -18,14 +18,14 @@ import { AccessTokenGuard } from './auth/guard/bearer-token.guard';
 import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
-import { NationalityModel } from './author/entities/nationality/nationality.entity';
+import { NationalityModel } from './author/nationality/entities/nationality.entity';
 import { WritingModule } from './writing/writing.module';
 import { WritingModel } from './writing/entities/writing.entity';
 import { EducationModel } from './author/entities/education/education.entity';
 import { AuthorEducationModel } from './author/entities/education/author_education.entity';
 import { EraModel } from './author/era/entities/era.entity';
 import { AuthorEraModel } from './author/entities/era/author_era.entity';
-import { RegionModel } from './author/entities/region/region.entity';
+import { RegionModel } from './author/region/entities/region.entity';
 import { AuthorRegionModel } from './author/entities/region/author_region.entity';
 import { SchoolModel } from './author/entities/school/school.entity';
 import { AuthorSchoolModel } from './author/entities/school/author_school.entity';
@@ -38,6 +38,8 @@ import { BookModel } from './book/entities/book.entity';
 import { AuthorBookModel } from './author/entities/author_book/author_book.entity';
 import { WritingBookModel } from './writing/entities/writing_book/writing_book.entity';
 import { EraModule } from './author/era/era.module';
+import { RegionModule } from './author/region/region.module';
+import { NationalityModule } from './author/nationality/nationality.module';
 
 @Module({
   imports: [
@@ -82,6 +84,8 @@ import { EraModule } from './author/era/era.module';
     WritingModule,
     BookModule,
     EraModule,
+    RegionModule,
+    NationalityModule,
   ],
   controllers: [AppController],
   providers: [

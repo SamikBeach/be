@@ -46,4 +46,34 @@ export class AuthorService {
       },
     });
   }
+
+  async searchAuthors({
+    nationalityId,
+    eraId,
+    regionId,
+  }: {
+    nationalityId: number;
+    eraId: number;
+    regionId: number;
+  }) {
+    return await this.authorRepository.find({
+      where: {
+        ...(nationalityId ? { nationality: { id: nationalityId } } : {}),
+        ...(eraId ? { era: { id: eraId } } : {}),
+        ...(regionId ? { region: { id: regionId } } : {}),
+      },
+      relations: {
+        nationality: true,
+        // writing: true,
+        // education: true,
+        era: true,
+        region: true,
+        // school: true,
+        // main_interest: true,
+        influenced: true,
+        influenced_by: true,
+        // book: true,
+      },
+    });
+  }
 }

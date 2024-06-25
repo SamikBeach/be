@@ -8,11 +8,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { NationalityModel } from './nationality/nationality.entity';
+import { NationalityModel } from '../nationality/entities/nationality.entity';
 import { WritingModel } from 'src/writing/entities/writing.entity';
 import { EducationModel } from './education/education.entity';
 import { EraModel } from '../era/entities/era.entity';
-import { RegionModel } from './region/region.entity';
+import { RegionModel } from '../region/entities/region.entity';
 import { SchoolModel } from './school/school.entity';
 import { MainInterestModel } from './main_interests/main_interest.entity';
 import { BookModel } from 'src/book/entities/book.entity';
