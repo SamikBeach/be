@@ -1,5 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { BookService } from './book.service';
+import { IsPublic } from 'src/common/decorator/is-public.decorator';
 
 @Controller('book')
 export class BookController {
@@ -11,6 +12,7 @@ export class BookController {
   }
 
   @Get(':bookId')
+  @IsPublic()
   getAuthorById(@Param('bookId') bookId: number) {
     return this.bookService.getBookById(bookId);
   }

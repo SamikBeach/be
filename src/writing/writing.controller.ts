@@ -1,5 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { WritingService } from './writing.service';
+import { IsPublic } from 'src/common/decorator/is-public.decorator';
 
 @Controller('writing')
 export class WritingController {
@@ -16,7 +17,8 @@ export class WritingController {
   }
 
   @Get(':writingId')
-  getAuthorById(@Param('writingId') writingId: number) {
+  @IsPublic()
+  getWritingById(@Param('writingId') writingId: number) {
     return this.writingService.getWritingById(writingId);
   }
 }

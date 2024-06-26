@@ -27,6 +27,7 @@ export class AuthorController {
   }
 
   @Get(':authorId')
+  @IsPublic()
   getAuthorById(@Param('authorId') authorId: number) {
     return this.authorService.getAuthorById(authorId);
   }
