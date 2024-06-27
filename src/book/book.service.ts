@@ -21,4 +21,10 @@ export class BookService {
       },
     });
   }
+
+  async searchBooks() {
+    return await this.bookRepository.find({
+      where: {},
+    });
+  }
 }

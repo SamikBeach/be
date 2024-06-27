@@ -11,9 +11,15 @@ export class BookController {
     return this.bookService.getAllBooks();
   }
 
+  @Get('search')
+  @IsPublic()
+  searchBooks() {
+    return this.bookService.searchBooks();
+  }
+
   @Get(':bookId')
   @IsPublic()
-  getAuthorById(@Param('bookId') bookId: number) {
+  getBookById(@Param('bookId') bookId: number) {
     return this.bookService.getBookById(bookId);
   }
 }
