@@ -27,7 +27,7 @@ import { EraModel } from './author/era/entities/era.entity';
 import { AuthorEraModel } from './author/entities/era/author_era.entity';
 import { RegionModel } from './author/region/entities/region.entity';
 import { AuthorRegionModel } from './author/entities/region/author_region.entity';
-import { SchoolModel } from './author/entities/school/school.entity';
+import { SchoolModel } from './author/school/entities/school.entity';
 import { AuthorSchoolModel } from './author/entities/school/author_school.entity';
 import { MainInterestModel } from './author/main_interest/entities/main_interest.entity';
 import { AuthorMainInterestModel } from './author/entities/main_interest/author_main_interest.entity';
@@ -41,6 +41,7 @@ import { EraModule } from './author/era/era.module';
 import { RegionModule } from './author/region/region.module';
 import { NationalityModule } from './author/nationality/nationality.module';
 import { MainInterestModule } from './author/main_interest/main_interest.module';
+import { SchoolModule } from './author/school/school.module';
 
 @Module({
   imports: [
@@ -88,6 +89,7 @@ import { MainInterestModule } from './author/main_interest/main_interest.module'
     RegionModule,
     NationalityModule,
     MainInterestModule,
+    SchoolModule,
   ],
   controllers: [AppController],
   providers: [
