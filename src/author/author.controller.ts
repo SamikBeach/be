@@ -19,7 +19,8 @@ export class AuthorController {
     @Query('eraId') eraId: number,
     @Query('regionId') regionId: number,
     @Query('mainInterestId') mainInterestId: number,
-    @Query('schoolId') schoolId: number
+    @Query('schoolId') schoolId: number,
+    @Query('educationId') educationId: number
   ) {
     return this.authorService.searchAuthors({
       nationalityId,
@@ -27,6 +28,7 @@ export class AuthorController {
       regionId,
       mainInterestId,
       schoolId,
+      educationId,
     });
   }
 

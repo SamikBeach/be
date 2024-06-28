@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { NationalityModel } from '../nationality/entities/nationality.entity';
 import { WritingModel } from 'src/writing/entities/writing.entity';
-import { EducationModel } from './education/education.entity';
+import { EducationModel } from '../education/entities/education.entity';
 import { EraModel } from '../era/entities/era.entity';
 import { RegionModel } from '../region/entities/region.entity';
 import { SchoolModel } from '../school/entities/school.entity';
