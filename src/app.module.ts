@@ -29,8 +29,8 @@ import { RegionModel } from './author/region/entities/region.entity';
 import { AuthorRegionModel } from './author/entities/region/author_region.entity';
 import { SchoolModel } from './author/entities/school/school.entity';
 import { AuthorSchoolModel } from './author/entities/school/author_school.entity';
-import { MainInterestModel } from './author/entities/main_interests/main_interest.entity';
-import { AuthorMainInterestModel } from './author/entities/main_interests/author_main_interest.entity';
+import { MainInterestModel } from './author/main_interest/entities/main_interest.entity';
+import { AuthorMainInterestModel } from './author/entities/main_interest/author_main_interest.entity';
 import { AuthorInfluencedModel } from './author/entities/influenced/author_influenced.entity';
 import { AuthorInfluencedByModel } from './author/entities/influenced_by/author_influenced_by.entity';
 import { BookModule } from './book/book.module';
@@ -40,6 +40,7 @@ import { WritingBookModel } from './writing/entities/writing_book/writing_book.e
 import { EraModule } from './author/era/era.module';
 import { RegionModule } from './author/region/region.module';
 import { NationalityModule } from './author/nationality/nationality.module';
+import { MainInterestModule } from './author/main_interest/main_interest.module';
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { NationalityModule } from './author/nationality/nationality.module';
     EraModule,
     RegionModule,
     NationalityModule,
+    MainInterestModule,
   ],
   controllers: [AppController],
   providers: [

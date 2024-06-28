@@ -51,16 +51,19 @@ export class AuthorService {
     nationalityId,
     eraId,
     regionId,
+    mainInterestId,
   }: {
     nationalityId: number;
     eraId: number;
     regionId: number;
+    mainInterestId: number;
   }) {
     return await this.authorRepository.find({
       where: {
         ...(nationalityId ? { nationality: { id: nationalityId } } : {}),
         ...(eraId ? { era: { id: eraId } } : {}),
         ...(regionId ? { region: { id: regionId } } : {}),
+        ...(mainInterestId ? { mainInterest: { id: mainInterestId } } : {}),
       },
       relations: {
         nationality: true,
@@ -69,7 +72,7 @@ export class AuthorService {
         // era: true,
         // region: true,
         // school: true,
-        // main_interest: true,
+        main_interest: true,
         influenced: true,
         influenced_by: true,
         book: true,

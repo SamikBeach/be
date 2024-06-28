@@ -17,12 +17,14 @@ export class AuthorController {
   searchAuthor(
     @Query('nationalityId') nationalityId: number,
     @Query('eraId') eraId: number,
-    @Query('regionId') regionId: number
+    @Query('regionId') regionId: number,
+    @Query('mainInterestId') mainInterestId: number
   ) {
     return this.authorService.searchAuthors({
       nationalityId,
       eraId,
       regionId,
+      mainInterestId,
     });
   }
 

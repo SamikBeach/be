@@ -14,7 +14,7 @@ import { EducationModel } from './education/education.entity';
 import { EraModel } from '../era/entities/era.entity';
 import { RegionModel } from '../region/entities/region.entity';
 import { SchoolModel } from './school/school.entity';
-import { MainInterestModel } from './main_interests/main_interest.entity';
+import { MainInterestModel } from '../main_interest/entities/main_interest.entity';
 import { BookModel } from 'src/book/entities/book.entity';
 
 @Entity('Author')
