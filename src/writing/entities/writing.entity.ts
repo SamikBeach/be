@@ -26,16 +26,16 @@ export class WritingModel {
   author: AuthorModel;
 
   @Column()
-  title_in_kor: string;
+  title_in_kor?: string | null;
 
   @Column()
-  title_in_eng: string;
+  title_in_eng?: string | null;
 
   @Column()
-  publication_date: string;
+  publication_date?: string | null;
 
   @Column()
-  publication_date_is_bc: number;
+  publication_date_is_bc?: 0 | 1 | null;
 
   @ManyToMany(() => BookModel)
   @JoinTable({
@@ -46,5 +46,5 @@ export class WritingModel {
       referencedColumnName: 'id',
     },
   })
-  book: BookModel[];
+  books: BookModel[];
 }

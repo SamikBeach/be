@@ -48,7 +48,7 @@ export class AuthorModel {
   nationality: NationalityModel;
 
   @OneToMany(() => WritingModel, writing => writing.author)
-  writing: WritingModel[];
+  writings: WritingModel[];
 
   @ManyToMany(() => EducationModel)
   @JoinTable({
@@ -56,7 +56,7 @@ export class AuthorModel {
     joinColumn: { name: 'author_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'education_id', referencedColumnName: 'id' },
   })
-  education: EducationModel[];
+  educations: EducationModel[];
 
   @ManyToMany(() => EraModel)
   @JoinTable({
@@ -64,7 +64,7 @@ export class AuthorModel {
     joinColumn: { name: 'author_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'era_id', referencedColumnName: 'id' },
   })
-  era: EraModel[];
+  eras: EraModel[];
 
   @ManyToMany(() => RegionModel)
   @JoinTable({
@@ -72,7 +72,7 @@ export class AuthorModel {
     joinColumn: { name: 'author_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'region_id', referencedColumnName: 'id' },
   })
-  region: RegionModel[];
+  regions: RegionModel[];
 
   @ManyToMany(() => SchoolModel)
   @JoinTable({
@@ -80,7 +80,7 @@ export class AuthorModel {
     joinColumn: { name: 'author_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'school_id', referencedColumnName: 'id' },
   })
-  school: SchoolModel[];
+  schools: SchoolModel[];
 
   @ManyToMany(() => MainInterestModel)
   @JoinTable({
@@ -88,7 +88,7 @@ export class AuthorModel {
     joinColumn: { name: 'author_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'main_interest_id', referencedColumnName: 'id' },
   })
-  main_interest: MainInterestModel[];
+  main_interests: MainInterestModel[];
 
   @ManyToMany(() => AuthorModel)
   @JoinTable({
@@ -99,7 +99,7 @@ export class AuthorModel {
       referencedColumnName: 'id',
     },
   })
-  influenced: AuthorModel[];
+  influenceds: AuthorModel[];
 
   @ManyToMany(() => AuthorModel)
   @JoinTable({
@@ -110,7 +110,7 @@ export class AuthorModel {
       referencedColumnName: 'id',
     },
   })
-  influenced_by: AuthorModel[];
+  influenced_bys: AuthorModel[];
 
   @ManyToMany(() => BookModel)
   @JoinTable({
@@ -121,5 +121,5 @@ export class AuthorModel {
       referencedColumnName: 'id',
     },
   })
-  book: BookModel[];
+  books: BookModel[];
 }

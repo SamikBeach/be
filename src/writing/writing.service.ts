@@ -19,7 +19,7 @@ export class WritingService {
       where: {
         id: writingId,
       },
-      relations: { author: true, book: true },
+      relations: { author: true, books: true },
     });
   }
 
@@ -28,7 +28,7 @@ export class WritingService {
       where: {
         author_id: authorId,
       },
-      relations: { author: true, book: true },
+      relations: { author: true, books: true },
     });
   }
 }
