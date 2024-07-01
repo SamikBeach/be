@@ -39,9 +39,9 @@ export class AuthorService {
         // eras: true,
         // regions: true,
         // schools: true,
-        main_interests: true,
-        influenceds: true,
-        influenced_bys: true,
+        // main_interests: true,
+        // influenceds: true,
+        // influenced_bys: true,
         books: true,
       },
     });
