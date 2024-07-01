@@ -11,7 +11,9 @@ export class BookService {
   ) {}
 
   async getAllBooks() {
-    return await this.bookRepository.find();
+    return await this.bookRepository.find({
+      relations: { authors: true, writings: true },
+    });
   }
 
   async getBookById(bookId: number) {
@@ -19,12 +21,13 @@ export class BookService {
       where: {
         id: bookId,
       },
+      relations: { authors: true, writings: true },
     });
   }
 
   async searchBooks() {
     return await this.bookRepository.find({
-      where: {},
+      relations: { authors: true, writings: true },
     });
   }
 }
