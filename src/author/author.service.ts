@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
 import { SearchAuthorDto } from './dto/search-author.dto';
 import { CommonService } from '@common/common.service';
