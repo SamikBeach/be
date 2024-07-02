@@ -66,10 +66,9 @@ export class AuthorService {
             : {}),
           ...(dto.schoolId ? { schools: { id: dto.schoolId } } : {}),
           ...(dto.educationId ? { educations: { id: dto.educationId } } : {}),
-          // id: MoreThan(600),
         },
         relations: {
-          // nationality: true,
+          nationality: true,
           // writings: true,
           // educations: true,
           // eras: true,
