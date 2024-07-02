@@ -35,7 +35,7 @@ import { AuthorInfluencedModel } from './author/entities/influenced/author_influ
 import { AuthorInfluencedByModel } from './author/entities/influenced_by/author_influenced_by.entity';
 import { BookModule } from './book/book.module';
 import { BookModel } from './book/entities/book.entity';
-import { AuthorBookModel } from './author/entities/author_book/author_book.entity';
+import { AuthorBookModel } from './author/entities/book/author_book.entity';
 import { WritingBookModel } from './writing/entities/writing_book/writing_book.entity';
 import { EraModule } from './author/era/era.module';
 import { RegionModule } from './author/region/region.module';
