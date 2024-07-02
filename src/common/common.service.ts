@@ -37,8 +37,6 @@ export class CommonService {
      */
     const findOptions = this.composeFindOptions<T>(dto);
 
-    console.log({ findOptions });
-    console.log({ overrideFindOptions });
     const results = await repository.find({
       ...findOptions,
       ...overrideFindOptions,
@@ -240,8 +238,6 @@ export class CommonService {
         options[field] = FILTER_MAPPER[operator](value);
       }
     }
-
-    console.log({ options });
 
     return options;
   }
