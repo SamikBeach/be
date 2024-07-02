@@ -1,6 +1,8 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Query } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { PaginateAuthorDto } from './dto/paginate-author.dto';
+import { SearchAuthorDto } from './dto/search-author.dto';
 
 @Controller('author')
 export class AuthorController {
@@ -14,14 +16,16 @@ export class AuthorController {
 
   @Get('search')
   @IsPublic()
-  searchAuthor(
-    @Query('nationalityId') nationalityId: number,
-    @Query('eraId') eraId: number,
-    @Query('regionId') regionId: number,
-    @Query('mainInterestId') mainInterestId: number,
-    @Query('schoolId') schoolId: number,
-    @Query('educationId') educationId: number
-  ) {
+  searchAuthor(@Query() query: SearchAuthorDto) {
+    const {
+      nationalityId,
+      eraId,
+      regionId,
+      mainInterestId,
+      schoolId,
+      educationId,
+    } = query;
+
     return this.authorService.searchAuthors({
       nationalityId,
       eraId,

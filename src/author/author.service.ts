@@ -65,11 +65,11 @@ export class AuthorService {
     return await this.authorRepository.find({
       where: {
         ...(nationalityId ? { nationality: { id: nationalityId } } : {}),
-        ...(eraId ? { era: { id: eraId } } : {}),
-        ...(regionId ? { region: { id: regionId } } : {}),
-        ...(mainInterestId ? { main_interest: { id: mainInterestId } } : {}),
-        ...(schoolId ? { school: { id: schoolId } } : {}),
-        ...(educationId ? { education: { id: educationId } } : {}),
+        ...(eraId ? { eras: { id: eraId } } : {}),
+        ...(regionId ? { regions: { id: regionId } } : {}),
+        ...(mainInterestId ? { main_interests: { id: mainInterestId } } : {}),
+        ...(schoolId ? { schools: { id: schoolId } } : {}),
+        ...(educationId ? { educations: { id: educationId } } : {}),
       },
       relations: {
         nationality: true,
@@ -77,7 +77,7 @@ export class AuthorService {
         // educations: true,
         eras: true,
         regions: true,
-        // schools: true,
+        schools: true,
         // main_interests: true,
         influenceds: true,
         influenced_bys: true,
