@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@auth/*": ["src/auth/*"],
+      "@author/*": ["src/author/*"],
+      "@book/*": ["src/book/*"],
+      "@common/*": ["src/common/*"],
+      "@user/*": ["src/user/*"],
+      "@writing/*": ["src/writing/*"]
+    }
   }
 }

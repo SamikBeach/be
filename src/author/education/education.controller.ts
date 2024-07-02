@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { EducationService } from './education.service';
-import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('education')
 export class EducationController {

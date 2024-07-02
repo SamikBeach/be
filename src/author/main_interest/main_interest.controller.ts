@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { MainInterestService } from './main_interest.service';
-import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('main-interest')
 export class MainInterestController {

@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from 'src/common/decorator/is-public.decorator';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '@user/user.service';
+import { IS_PUBLIC_KEY } from '@common/decorator/is-public.decorator';
 
 @Injectable()
 export class BearerTokenGuard implements CanActivate {

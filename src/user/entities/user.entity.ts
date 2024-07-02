@@ -1,5 +1,5 @@
+import { BaseModel } from '@common/entities/base.entity';
 import { IsEmail, IsString, Length } from 'class-validator';
-import { BaseModel } from 'src/common/entities/base.entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('User')

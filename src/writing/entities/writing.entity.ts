@@ -1,5 +1,5 @@
-import { AuthorModel } from 'src/author/entities/author.entity';
-import { BookModel } from 'src/book/entities/book.entity';
+import { AuthorModel } from '@author/entities/author.entity';
+import { BookModel } from '@book/entities/book.entity';
 import {
   Column,
   Entity,

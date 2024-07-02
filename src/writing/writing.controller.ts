@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { WritingService } from './writing.service';
-import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('writing')
 export class WritingController {

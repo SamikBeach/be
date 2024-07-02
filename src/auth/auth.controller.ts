@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { IsPublic } from 'src/common/decorator/is-public.decorator';
 import { RefreshTokenGuard } from './guard/bearer-token.guard';
 import { BasicTokenGuard } from './guard/basic-token.guard';
 import { Request, Response } from 'express';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('auth')
 export class AuthController {

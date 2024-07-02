@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AuthorService } from './author.service';
-import { IsPublic } from 'src/common/decorator/is-public.decorator';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('author')
 export class AuthorController {
