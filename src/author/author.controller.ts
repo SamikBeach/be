@@ -17,23 +17,7 @@ export class AuthorController {
   @Get('search')
   @IsPublic()
   searchAuthor(@Query() query: SearchAuthorDto) {
-    const {
-      nationalityId,
-      eraId,
-      regionId,
-      mainInterestId,
-      schoolId,
-      educationId,
-    } = query;
-
-    return this.authorService.searchAuthors({
-      nationalityId,
-      eraId,
-      regionId,
-      mainInterestId,
-      schoolId,
-      educationId,
-    });
+    return this.authorService.searchAuthors(query);
   }
 
   @Get(':authorId')

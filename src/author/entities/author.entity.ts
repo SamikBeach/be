@@ -16,9 +16,10 @@ import { SchoolModel } from '../school/entities/school.entity';
 import { MainInterestModel } from '../main_interest/entities/main_interest.entity';
 import { WritingModel } from '@writing/entities/writing.entity';
 import { BookModel } from '@book/entities/book.entity';
+import { BaseModel } from '@common/entities/base.entity';
 
 @Entity('Author')
-export class AuthorModel {
+export class AuthorModel extends BaseModel {
   @PrimaryGeneratedColumn()
   id: number;
 

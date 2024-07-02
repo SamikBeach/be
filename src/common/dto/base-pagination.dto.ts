@@ -25,7 +25,7 @@ export class BasePaginationDto {
   // Ascending / Descending
   @IsIn(['ASC', 'DESC'])
   @IsOptional()
-  order__createdAt: 'ASC' | 'DESC' = 'ASC';
+  order__id: 'ASC' | 'DESC' = 'ASC';
 
   // 몇개의 데이터를 응답으로 받을지
   @IsNumber()
