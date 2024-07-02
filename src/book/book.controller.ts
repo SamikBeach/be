@@ -1,6 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { BookService } from './book.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { SearchBookDto } from './dto/search-book.dto';
 
 @Controller('book')
 export class BookController {
@@ -13,8 +14,8 @@ export class BookController {
 
   @Get('search')
   @IsPublic()
-  searchBooks() {
-    return this.bookService.searchBooks();
+  searchBooks(@Query() dto: SearchBookDto) {
+    return this.bookService.searchBooks(dto);
   }
 
   @Get(':bookId')

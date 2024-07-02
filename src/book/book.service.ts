@@ -5,13 +5,16 @@ import { Repository } from 'typeorm';
 import axios from 'axios';
 import { ENV_ALADIN_API_KEY } from '@common/const/env-keys.const';
 import { ConfigService } from '@nestjs/config';
+import { CommonService } from '@common/common.service';
+import { SearchBookDto } from './dto/search-book.dto';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(BookModel)
     private readonly bookRepository: Repository<BookModel>,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly commonService: CommonService
   ) {}
 
   async getAllBooks() {
@@ -37,9 +40,14 @@ export class BookService {
     return { ...book, info: aladinBook.data.item[0] };
   }
 
-  async searchBooks() {
-    return await this.bookRepository.find({
-      relations: { authors: true, writings: true },
-    });
+  async searchBooks(dto: SearchBookDto) {
+    return this.commonService.paginate(
+      dto,
+      this.bookRepository,
+      {
+        relations: { authors: true, writings: true },
+      },
+      'book/search'
+    );
   }
 }
