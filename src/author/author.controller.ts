@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { PaginateAuthorDto } from './dto/paginate-author.dto';
 import { SearchAuthorDto } from './dto/search-author.dto';
 
 @Controller('author')
