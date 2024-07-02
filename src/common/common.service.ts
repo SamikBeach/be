@@ -5,7 +5,6 @@ import {
   FindManyOptions,
   FindOptionsOrder,
   FindOptionsWhere,
-  MoreThan,
   Repository,
 } from 'typeorm';
 import { FILTER_MAPPER } from './const/filter-mapper.const';
