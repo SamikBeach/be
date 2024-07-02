@@ -2,12 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BookModel } from './entities/book.entity';
 import { Repository } from 'typeorm';
+import axios from 'axios';
+import { ENV_ALADIN_API_KEY } from '@common/const/env-keys.const';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectRepository(BookModel)
-    private readonly bookRepository: Repository<BookModel>
+    private readonly bookRepository: Repository<BookModel>,
+    private readonly configService: ConfigService
   ) {}
 
   async getAllBooks() {
@@ -17,12 +21,20 @@ export class BookService {
   }
 
   async getBookById(bookId: number) {
-    return await this.bookRepository.findOne({
+    const book = await this.bookRepository.findOne({
       where: {
         id: bookId,
       },
       relations: { authors: true, writings: true },
     });
+
+    const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
+
+    const aladinBook = await axios.get(
+      `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
+    );
+
+    return { ...book, info: aladinBook.data.item[0] };
   }
 
   async searchBooks() {
