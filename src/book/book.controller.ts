@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { BookService } from './book.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { SearchBookDto } from './dto/search-book.dto';
+import { SearchBooksDto } from './dto/search-books.dto';
 
 @Controller('book')
 export class BookController {
@@ -14,7 +14,7 @@ export class BookController {
 
   @Get('search')
   @IsPublic()
-  searchBooks(@Query() dto: SearchBookDto) {
+  searchBooks(@Query() dto: SearchBooksDto) {
     return this.bookService.searchBooks(dto);
   }
 

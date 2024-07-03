@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ENV_ALADIN_API_KEY } from '@common/const/env-keys.const';
 import { ConfigService } from '@nestjs/config';
 import { CommonService } from '@common/common.service';
-import { SearchBookDto } from './dto/search-book.dto';
+import { SearchBooksDto } from './dto/search-books.dto';
 
 @Injectable()
 export class BookService {
@@ -40,7 +40,7 @@ export class BookService {
     return { ...book, info: aladinBook.data.item[0] };
   }
 
-  async searchBooks(dto: SearchBookDto) {
+  async searchBooks(dto: SearchBooksDto) {
     return this.commonService.paginate(
       dto,
       this.bookRepository,

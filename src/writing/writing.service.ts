@@ -2,12 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WritingModel } from './entities/writing.entity';
+import { CommonService } from '@common/common.service';
+import { SearchWritingsDto } from './dto/search-writings.dto';
 
 @Injectable()
 export class WritingService {
   constructor(
     @InjectRepository(WritingModel)
-    private readonly writingRepository: Repository<WritingModel>
+    private readonly writingRepository: Repository<WritingModel>,
+    private readonly commonService: CommonService
   ) {}
 
   async getAllWritings() {
@@ -28,12 +31,14 @@ export class WritingService {
     });
   }
 
-  async searchWriting(authorId: number) {
-    return await this.writingRepository.find({
-      where: {
-        author_id: authorId,
+  async searchWritings(dto: SearchWritingsDto) {
+    return this.commonService.paginate(
+      dto,
+      this.writingRepository,
+      {
+        relations: { author: true, books: true },
       },
-      relations: { author: true, books: true },
-    });
+      'writing/search'
+    );
   }
 }
