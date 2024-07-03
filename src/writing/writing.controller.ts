@@ -13,6 +13,7 @@ export class WritingController {
   }
 
   @Get('search')
+  @IsPublic()
   searchWriting(@Query() dto: SearchWritingsDto) {
     return this.writingService.searchWritings(dto);
   }
