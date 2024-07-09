@@ -1,28 +1,28 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsArray, IsOptional } from 'class-validator';
 import { PaginateAuthorDto } from './paginate-author.dto';
 
 export class SearchAuthorDto extends PaginateAuthorDto {
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  nationalityId: number;
+  nationalityIds: number[];
 
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  eraId: number;
+  eraIds: number[];
 
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  regionId: number;
+  regionIds: number[];
 
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  mainInterestId: number;
+  mainInterestIds: number[];
 
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  schoolId: number;
+  schoolIds: number[];
 
-  @IsNumber()
+  @IsArray()
   @IsOptional()
-  educationId: number;
+  educationIds: number[];
 }
