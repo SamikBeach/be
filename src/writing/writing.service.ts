@@ -61,6 +61,9 @@ export class WritingService {
       dto,
       this.writingRepository,
       {
+        where: {
+          ...(dto.authorId ? { author: { id: dto.authorId } } : {}),
+        },
         relations: { author: true, books: true },
       },
       'writing/search'

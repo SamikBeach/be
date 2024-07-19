@@ -38,16 +38,16 @@ export class AuthorService {
     const author = await this.authorRepository.findOne({
       where: { id: authorId },
       relations: {
-        // nationality: true,
-        writings: true,
-        // educations: true,
-        // eras: true,
+        nationality: true,
+        // writings: true,
+        educations: true,
+        eras: true,
         regions: true,
         schools: true,
         main_interests: true,
-        // influenceds: true,
+        influenceds: true,
         influenced_bys: true,
-        books: true,
+        // books: true,
       },
     });
 
@@ -95,11 +95,11 @@ export class AuthorService {
         relations: {
           nationality: true,
           // writings: true,
-          // educations: true,
-          // eras: true,
+          educations: true,
+          eras: true,
           regions: true,
-          // schools: true,
-          // main_interests: true,
+          schools: true,
+          main_interests: true,
           influenceds: true,
           influenced_bys: true,
           // books: true,

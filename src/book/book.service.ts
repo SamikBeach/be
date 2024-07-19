@@ -34,7 +34,7 @@ export class BookService {
     const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
 
     const aladinBook = await axios.get(
-      `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
+      `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
     );
 
     return { ...book, info: aladinBook.data.item[0] };
@@ -45,6 +45,9 @@ export class BookService {
       dto,
       this.bookRepository,
       {
+        where: {
+          ...(dto.authorId ? { authors: { id: dto.authorId } } : {}),
+        },
         relations: { authors: true, writings: true },
       },
       'book/search'
@@ -55,7 +58,7 @@ export class BookService {
     const data = await Promise.all(
       result.data.map(async book => {
         const aladinBook = await axios.get(
-          `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
+          `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
         );
 
         return { ...book, info: aladinBook.data.item[0] };
