@@ -105,7 +105,14 @@ export class AuthorService {
           // books: true,
         },
         order: dto.sort?.reduce((acc, cur) => {
-          acc[cur.type] = cur.direction;
+          if (cur.type === 'name') {
+            acc[cur.type] = cur.direction;
+          } else {
+            acc[cur.type] = {
+              [cur.type]: cur.direction,
+            };
+          }
+
           return acc;
         }, {}),
       },
