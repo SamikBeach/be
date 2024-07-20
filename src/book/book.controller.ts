@@ -8,6 +8,7 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Get()
+  @IsPublic()
   getAllBooks() {
     return this.bookService.getAllBooks();
   }

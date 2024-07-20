@@ -8,6 +8,7 @@ export class WritingController {
   constructor(private readonly writingService: WritingService) {}
 
   @Get()
+  @IsPublic()
   getAllAuthors() {
     return this.writingService.getAllWritings();
   }

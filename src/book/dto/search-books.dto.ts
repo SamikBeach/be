@@ -1,12 +1,12 @@
-import { IsNumber, IsOptional } from 'class-validator';
+import { IsArray, IsOptional } from 'class-validator';
 import { PaginateBookDto } from './paginate-book.dto';
 
 export class SearchBooksDto extends PaginateBookDto {
   @IsOptional()
-  @IsNumber()
-  authorId: number;
+  @IsArray()
+  authorIds: number[];
 
   @IsOptional()
-  @IsNumber()
-  writingId: number;
+  @IsArray()
+  writingIds: number[];
 }
