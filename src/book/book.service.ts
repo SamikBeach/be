@@ -47,6 +47,7 @@ export class BookService {
       {
         where: {
           ...(dto.authorId ? { authors: { id: dto.authorId } } : {}),
+          ...(dto.writingId ? { writings: { id: dto.writingId } } : {}),
         },
         relations: { authors: true, writings: true },
       },

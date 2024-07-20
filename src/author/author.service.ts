@@ -20,16 +20,16 @@ export class AuthorService {
   async getAllAuthors() {
     return await this.authorRepository.find({
       relations: {
-        nationality: true,
-        // writings: true,
+        // nationality: true,
+        writings: true,
         // educations: true,
         // eras: true,
         // regions: true,
         // schools: true,
         // main_interests: true,
-        influenceds: true,
-        influenced_bys: true,
-        books: true,
+        // influenceds: true,
+        // influenced_bys: true,
+        // books: true,
       },
     });
   }
@@ -95,11 +95,11 @@ export class AuthorService {
         relations: {
           nationality: true,
           // writings: true,
-          educations: true,
-          eras: true,
-          regions: true,
-          schools: true,
-          main_interests: true,
+          // educations: true,
+          // eras: true,
+          // regions: true,
+          // schools: true,
+          // main_interests: true,
           influenceds: true,
           influenced_bys: true,
           // books: true,

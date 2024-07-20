@@ -5,4 +5,8 @@ export class SearchBooksDto extends PaginateBookDto {
   @IsOptional()
   @IsNumber()
   authorId: number;
+
+  @IsOptional()
+  @IsNumber()
+  writingId: number;
 }
