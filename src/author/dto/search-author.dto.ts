@@ -25,4 +25,8 @@ export class SearchAuthorDto extends PaginateAuthorDto {
   @IsArray()
   @IsOptional()
   educationIds: number[];
+
+  @IsOptional()
+  @IsArray()
+  sort: { type: string; direction: 'ASC' | 'DESC' }[];
 }

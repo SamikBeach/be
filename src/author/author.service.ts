@@ -104,6 +104,10 @@ export class AuthorService {
           influenced_bys: true,
           // books: true,
         },
+        order: dto.sort?.reduce((acc, cur) => {
+          acc[cur.type] = cur.direction;
+          return acc;
+        }, {}),
       },
       'author/search'
     );
