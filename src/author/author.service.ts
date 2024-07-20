@@ -104,6 +104,7 @@ export class AuthorService {
           influenced_bys: true,
           // books: true,
         },
+        // Name, Nationality까지만 됨.
         order: dto.sort?.reduce((acc, cur) => {
           if (cur.type === 'name') {
             acc[cur.type] = cur.direction;
