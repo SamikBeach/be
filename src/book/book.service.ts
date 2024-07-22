@@ -66,10 +66,10 @@ export class BookService {
       })
     );
 
-    return {
-      ...result,
-      data,
-    };
+    // return {
+    //   ...result,
+    //   data,
+    // };
 
     // aladin API 호출 제한으로 인해 일단은 더미 데이터로 대체
     return {
