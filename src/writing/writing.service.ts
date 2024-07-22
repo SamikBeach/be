@@ -62,6 +62,7 @@ export class WritingService {
       this.writingRepository,
       {
         where: {
+          // TODO: title_in_eng도 함께(OR 조건) 검색 가능하도록 수정
           ...(dto.keyword ? { title: ILike(`%${dto.keyword}%`) } : {}),
           ...(dto.authorIds ? { author: { id: In(dto.authorIds) } } : {}),
         },
