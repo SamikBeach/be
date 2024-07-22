@@ -31,13 +31,24 @@ export class BookService {
       relations: { authors: true, writings: true },
     });
 
-    const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
+    // const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
 
-    const aladinBook = await axios.get(
-      `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
-    );
+    // const aladinBook = await axios.get(
+    //   `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
+    // );
 
-    return { ...book, info: aladinBook.data.item[0] };
+    // return { ...book, info: aladinBook.data.item[0] };
+
+    // aladin API 호출 제한으로 인해 일단은 더미 데이터로 대체
+    return {
+      ...book,
+      info: {
+        title: 'title',
+        cover: 'cover',
+        pubDate: '2022-01-01',
+        publisher: 'publisher',
+      },
+    };
   }
 
   async searchBooks(dto: SearchBooksDto) {
