@@ -1,4 +1,4 @@
-import { IsArray, IsOptional } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 import { PaginateWritingDto } from './paginate-writing.dto';
 
 export class SearchWritingsDto extends PaginateWritingDto {
@@ -9,4 +9,8 @@ export class SearchWritingsDto extends PaginateWritingDto {
   @IsOptional()
   @IsArray()
   sort: { type: string; direction: 'ASC' | 'DESC' }[];
+
+  @IsOptional()
+  @IsString()
+  keyword: string;
 }

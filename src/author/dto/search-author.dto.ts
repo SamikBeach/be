@@ -1,4 +1,4 @@
-import { IsArray, IsOptional } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 import { PaginateAuthorDto } from './paginate-author.dto';
 
 export class SearchAuthorDto extends PaginateAuthorDto {
@@ -29,4 +29,8 @@ export class SearchAuthorDto extends PaginateAuthorDto {
   @IsOptional()
   @IsArray()
   sort: { type: string; direction: 'ASC' | 'DESC' }[];
+
+  @IsOptional()
+  @IsString()
+  keyword: string;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
 import { SearchAuthorDto } from './dto/search-author.dto';
 import { CommonService } from '@common/common.service';
@@ -79,6 +79,7 @@ export class AuthorService {
       this.authorRepository,
       {
         where: {
+          ...(dto.keyword ? { name: ILike(`%${dto.keyword}%`) } : {}),
           ...(dto.nationalityIds
             ? { nationality: { id: In(dto.nationalityIds) } }
             : {}),
@@ -97,11 +98,11 @@ export class AuthorService {
           // writings: true,
           educations: true,
           eras: true,
-          regions: true,
-          schools: true,
-          main_interests: true,
-          // influenceds: true,
-          // influenced_bys: true,
+          // regions: true,
+          // schools: true,
+          // main_interests: true,
+          influenceds: true,
+          influenced_bys: true,
           // books: true,
         },
         order: dto.sort?.reduce((acc, cur) => {

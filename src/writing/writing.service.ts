@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { WritingModel } from './entities/writing.entity';
 import { CommonService } from '@common/common.service';
 import { SearchWritingsDto } from './dto/search-writings.dto';
@@ -62,6 +62,7 @@ export class WritingService {
       this.writingRepository,
       {
         where: {
+          ...(dto.keyword ? { title: ILike(`%${dto.keyword}%`) } : {}),
           ...(dto.authorIds ? { author: { id: In(dto.authorIds) } } : {}),
         },
         relations: { author: true, books: true },
