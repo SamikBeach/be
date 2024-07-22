@@ -54,17 +54,17 @@ export class BookService {
       'book/search'
     );
 
-    const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
+    // const aladinApiKey = this.configService.get<string>(ENV_ALADIN_API_KEY);
 
-    const data = await Promise.all(
-      result.data.map(async book => {
-        const aladinBook = await axios.get(
-          `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
-        );
+    // const data = await Promise.all(
+    //   result.data.map(async book => {
+    //     const aladinBook = await axios.get(
+    //       `http://www.aladin.co.kr/ttb/api/ItemLookUp.aspx?ttbkey=${aladinApiKey}&Version=20131101&itemIdType=ISBN&ItemId=${book.isbn}&cover=Big&output=js&OptResult=ebookList,usedList,fileFormatList,c2binfo,packing,b2bSupply,subbarcode,cardReviewImgList,ratingInfo,bestSellerRank`
+    //     );
 
-        return { ...book, info: aladinBook.data.item[0] };
-      })
-    );
+    //     return { ...book, info: aladinBook.data.item[0] };
+    //   })
+    // );
 
     // return {
     //   ...result,
