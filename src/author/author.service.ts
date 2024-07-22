@@ -95,21 +95,40 @@ export class AuthorService {
         relations: {
           nationality: true,
           // writings: true,
-          // educations: true,
-          // eras: true,
-          // regions: true,
-          // schools: true,
-          // main_interests: true,
-          influenceds: true,
-          influenced_bys: true,
+          educations: true,
+          eras: true,
+          regions: true,
+          schools: true,
+          main_interests: true,
+          // influenceds: true,
+          // influenced_bys: true,
           // books: true,
         },
-        // Name, Nationality까지만 됨.
         order: dto.sort?.reduce((acc, cur) => {
           if (cur.type === 'name') {
             acc[cur.type] = cur.direction;
-          } else {
+          } else if (cur.type === 'nationality') {
             acc[cur.type] = {
+              [cur.type]: cur.direction,
+            };
+          } else if (cur.type === 'era') {
+            acc['eras'] = {
+              [cur.type]: cur.direction,
+            };
+          } else if (cur.type === 'region') {
+            acc['regions'] = {
+              [cur.type]: cur.direction,
+            };
+          } else if (cur.type === 'education') {
+            acc['educations'] = {
+              [cur.type]: cur.direction,
+            };
+          } else if (cur.type === 'mainInterest') {
+            acc['main_interests'] = {
+              [cur.type]: cur.direction,
+            };
+          } else if (cur.type === 'school') {
+            acc['schools'] = {
               [cur.type]: cur.direction,
             };
           }
