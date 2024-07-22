@@ -65,6 +65,17 @@ export class WritingService {
           ...(dto.authorIds ? { author: { id: In(dto.authorIds) } } : {}),
         },
         relations: { author: true, books: true },
+        order: dto.sort?.reduce((acc, cur) => {
+          if (cur.type === 'author') {
+            acc['author'] = {
+              name: cur.direction,
+            };
+          } else {
+            acc[cur.type] = cur.direction;
+          }
+
+          return acc;
+        }, {}),
       },
       'writing/search'
     );

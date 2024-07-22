@@ -123,7 +123,7 @@ export class AuthorService {
             acc['educations'] = {
               [cur.type]: cur.direction,
             };
-          } else if (cur.type === 'mainInterest') {
+          } else if (cur.type === 'main_interest') {
             acc['main_interests'] = {
               [cur.type]: cur.direction,
             };
