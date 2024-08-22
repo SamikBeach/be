@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
-import { SearchAuthorDto } from './dto/search-author.dto';
+import { SearchAuthorsDto } from './dto/search-authors.dto';
 import { CommonService } from '@common/common.service';
 
 @Injectable()
@@ -30,16 +30,16 @@ export class AuthorService {
     });
   }
 
-  async searchAuthors(dto: SearchAuthorDto) {
+  async searchAuthors(dto: SearchAuthorsDto) {
     return this.commonService.paginate(
       dto,
       this.authorRepository,
       {
         where: {
-          // TODO
+          ...(dto.keyword ? { name: ILike(`%${dto.keyword}%`) } : {}),
         },
         relations: {
-          // TODO
+          era: true,
         },
         // order: dto.sort?.reduce((acc, cur) => {
         //   if (cur.type === 'name') {
