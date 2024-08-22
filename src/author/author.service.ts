@@ -93,18 +93,21 @@ export class AuthorService {
             ? { educations: { id: In(dto.educationIds) } }
             : {}),
         },
-        relations: {
-          // nationality: true,
-          writings: true,
-          // educations: true,
-          // eras: true,
-          // regions: true,
-          // schools: true,
-          // main_interests: true,
-          influenceds: true,
-          influenced_bys: true,
-          // books: true,
-        },
+        relations:
+          dto.fields !== undefined
+            ? dto.fields
+            : {
+                nationality: true,
+                // writings: true,
+                educations: true,
+                eras: true,
+                regions: true,
+                schools: true,
+                main_interests: true,
+                // influenceds: true,
+                // influenced_bys: true,
+                // books: true,
+              },
         order: dto.sort?.reduce((acc, cur) => {
           if (cur.type === 'name') {
             acc[cur.type] = cur.direction;

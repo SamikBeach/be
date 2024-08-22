@@ -33,4 +33,8 @@ export class SearchAuthorDto extends PaginateAuthorDto {
   @IsOptional()
   @IsString()
   keyword: string;
+
+  fields: {
+    [key: string]: boolean;
+  };
 }
