@@ -23,7 +23,7 @@
       "@book/*": ["src/book/*"],
       "@common/*": ["src/common/*"],
       "@user/*": ["src/user/*"],
-      "@writing/*": ["src/writing/*"]
+      "@original_work/*": ["src/original_work/*"]
     }
   }
 }

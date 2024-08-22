@@ -1,5 +1,5 @@
 import { AuthorModel } from '@author/entities/author.entity';
-import { WritingModel } from '@writing/entities/writing.entity';
+import { WritingModel } from '@writing/entities/original_work.entity';
 import {
   Column,
   Entity,
