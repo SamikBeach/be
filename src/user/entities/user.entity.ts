@@ -14,5 +14,5 @@ export class UserModel extends BaseModel {
   @Column()
   @IsString()
   @Length(3, 12)
-  password: string;
+  name: string;
 }

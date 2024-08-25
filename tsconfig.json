@@ -25,5 +25,6 @@
       "@user/*": ["src/user/*"],
       "@original_work/*": ["src/original_work/*"]
     }
-  }
+  },
+  "exclude": ["src/auth_legacy/*"]
 }
