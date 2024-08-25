@@ -37,21 +37,17 @@ export class AuthorService {
       {
         where: {
           ...(dto.keyword ? { name: ILike(`%${dto.keyword}%`) } : {}),
+          ...(dto.eraId ? { era: { id: dto.eraId } } : {}),
         },
         relations: {
           era: true,
         },
-        // order: dto.sort?.reduce((acc, cur) => {
-        //   if (cur.type === 'name') {
-        //     acc[cur.type] = cur.direction;
-        //   } else if (cur.type === 'era') {
-        //     acc['eras'] = {
-        //       [cur.type]: cur.direction,
-        //     };
-        //   }
-
-        //   return acc;
-        // }, {}),
+        order: {
+          name: dto.sort === 'alphabetical' ? 'ASC' : undefined,
+          // TODO: 기원 전/후 구분
+          born_date: dto.sort === 'birth_date' ? 'ASC' : undefined,
+          died_date: dto.sort === 'death_date' ? 'ASC' : undefined,
+        },
       },
       'author/search'
     );

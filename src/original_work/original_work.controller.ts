@@ -3,7 +3,7 @@ import { OriginalWorkService } from './original_work.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { SearchOriginalWorksDto } from './dto/search-original-works.dto';
 
-@Controller('original_work')
+@Controller('original-work')
 export class OriginalWorkController {
   constructor(private readonly originalWorkService: OriginalWorkService) {}
 

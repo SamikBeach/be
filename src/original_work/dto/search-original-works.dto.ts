@@ -1,16 +1,23 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { PaginateOriginalWorkDto } from './paginate-original-work.dto';
 
+export type OriginalWorkSort =
+  | 'trending'
+  | 'top_likes'
+  | 'top_comments'
+  | 'publication_date'
+  | 'alphabetical';
+
 export class SearchOriginalWorksDto extends PaginateOriginalWorkDto {
   @IsOptional()
-  @IsNumber()
-  authorId: number;
-
-  // @IsOptional()
-  // @IsArray()
-  // sort: { type: string; direction: 'ASC' | 'DESC' }[];
+  @IsString()
+  sort?: OriginalWorkSort;
 
   @IsOptional()
   @IsString()
-  keyword: string;
+  keyword?: string;
+
+  @IsOptional()
+  @IsNumber()
+  authorId?: number;
 }

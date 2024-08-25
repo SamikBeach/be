@@ -42,6 +42,11 @@ export class OriginalWorkService {
         relations: {
           author: true,
         },
+        order: {
+          title: dto.sort === 'alphabetical' ? 'ASC' : undefined,
+          // TODO: 기원 전/후 구분
+          publication_date: dto.sort === 'publication_date' ? 'ASC' : undefined,
+        },
       },
       'original_work/search'
     );
