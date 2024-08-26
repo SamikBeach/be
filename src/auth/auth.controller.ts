@@ -49,6 +49,15 @@ export class AuthController {
     };
   }
 
+  @Post('/logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('refreshToken', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+  }
+
   @Post('/login/google')
   @IsPublic()
   async loginWithGoogle(

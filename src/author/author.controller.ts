@@ -14,13 +14,13 @@ export class AuthorController {
   }
 
   @Get('search')
-  @IsPublic()
+  // @IsPublic()
   searchAuthor(@Query() query: SearchAuthorsDto) {
     return this.authorService.searchAuthors(query);
   }
 
   @Get(':authorId')
-  @IsPublic()
+  // @IsPublic()
   getAuthorById(@Param('authorId') authorId: number) {
     return this.authorService.getAuthorById(authorId);
   }
