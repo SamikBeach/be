@@ -1,9 +1,18 @@
 import { BaseModel } from '@common/entities/base.entity';
-import { IsEmail, IsString, Length } from 'class-validator';
-import { Column, Entity } from 'typeorm';
+import { IsEmail, IsString } from 'class-validator';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('User')
 export class UserModel extends BaseModel {
+  @PrimaryGeneratedColumn()
+  id: number;
+
   @Column({
     unique: true,
   })
@@ -13,6 +22,11 @@ export class UserModel extends BaseModel {
 
   @Column()
   @IsString()
-  @Length(3, 12)
   name: string;
+
+  @CreateDateColumn()
+  created_at: Date = new Date();
+
+  @UpdateDateColumn()
+  updated_at: Date = new Date();
 }
