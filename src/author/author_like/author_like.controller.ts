@@ -16,13 +16,16 @@ export class AuthorLikeController {
 
   @Post(':authorId')
   @IsPublic()
-  create(@Param('authorId') authorId: number, @Body('userId') userId: number) {
+  addLike(@Param('authorId') authorId: number, @Body('userId') userId: number) {
     return this.authorLikeService.addLike({ authorId, userId });
   }
 
   @Delete(':authorId')
   @IsPublic()
-  remove(@Param('authorId') authorId: number, @Query('userId') userId: number) {
+  removeLike(
+    @Param('authorId') authorId: number,
+    @Query('userId') userId: number
+  ) {
     return this.authorLikeService.removeLike({
       authorId,
       userId,
@@ -31,7 +34,10 @@ export class AuthorLikeController {
 
   @Get(':authorId')
   @IsPublic()
-  find(@Param('authorId') authorId: number, @Query('userId') userId: number) {
+  findLike(
+    @Param('authorId') authorId: number,
+    @Query('userId') userId: number
+  ) {
     return this.authorLikeService.findLike({
       authorId,
       userId,

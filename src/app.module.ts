@@ -26,6 +26,8 @@ import { AuthorLikeModule } from './author/author_like/author_like.module';
 import { AuthorLikeModel } from '@author/author_like/entities/author_like.entity';
 import { OriginalWorkLikeModule } from './original_work/original_work_like/original_work_like.module';
 import { OriginalWorkLikeModel } from '@original_work/original_work_like/entities/original_work_like.entity';
+import { AuthorCommentModule } from './author/author_comment/author_comment.module';
+import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
 
 @Module({
   imports: [
@@ -46,7 +48,8 @@ import { OriginalWorkLikeModel } from '@original_work/original_work_like/entitie
         OriginalWorkModel,
         EraModel,
         AuthorLikeModel,
-        OriginalWorkLikeModel
+        OriginalWorkLikeModel,
+        AuthorCommentModel,
       ],
       synchronize: false,
     }),
@@ -58,6 +61,7 @@ import { OriginalWorkLikeModel } from '@original_work/original_work_like/entitie
     EraModule,
     AuthorLikeModule,
     OriginalWorkLikeModule,
+    AuthorCommentModule,
   ],
   controllers: [AppController],
   providers: [
