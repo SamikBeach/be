@@ -1,4 +1,12 @@
-import { Controller, Post, Param, Delete, Query, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Param,
+  Delete,
+  Query,
+  Body,
+  Get,
+} from '@nestjs/common';
 import { AuthorLikeService } from './author_like.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 
@@ -19,5 +27,20 @@ export class AuthorLikeController {
       authorId,
       userId,
     });
+  }
+
+  @Get(':authorId')
+  @IsPublic()
+  find(@Param('authorId') authorId: number, @Query('userId') userId: number) {
+    return this.authorLikeService.findLike({
+      authorId,
+      userId,
+    });
+  }
+
+  @Get(':authorId/count')
+  @IsPublic()
+  findAllLikes(@Param('authorId') authorId: number) {
+    return this.authorLikeService.findAllLikes(authorId);
   }
 }

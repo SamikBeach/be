@@ -29,4 +29,25 @@ export class AuthorLikeService {
 
     return deleted;
   }
+
+  async findLike({ authorId, userId }: { authorId: number; userId: number }) {
+    const isExist = await this.authorLikeRepository.exists({
+      where: {
+        user_id: userId,
+        author_id: authorId,
+      },
+    });
+
+    return { isExist };
+  }
+
+  async findAllLikes(authorId: number) {
+    const likes = await this.authorLikeRepository.find({
+      where: {
+        author_id: authorId,
+      },
+    });
+
+    return { count: likes.length };
+  }
 }
