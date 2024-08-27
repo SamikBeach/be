@@ -1,10 +1,16 @@
-import { Controller, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Post, Body, Param, Patch, Get } from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('author-comment')
 export class AuthorCommentController {
   constructor(private readonly authorCommentService: AuthorCommentService) {}
+
+  @Get(':authorId')
+  @IsPublic()
+  getAllComments(@Param('authorId') authorId: number) {
+    return this.authorCommentService.getAllComments(authorId);
+  }
 
   @Post(':authorId')
   @IsPublic()

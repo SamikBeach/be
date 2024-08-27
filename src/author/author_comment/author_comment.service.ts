@@ -10,6 +10,16 @@ export class AuthorCommentService {
     private readonly authorCommentRepository: Repository<AuthorCommentModel>
   ) {}
 
+  async getAllComments(authorId: number) {
+    return await this.authorCommentRepository.find({
+      where: {
+        author_id: authorId,
+      },
+      // TODO: user 조인
+      relations: {},
+    });
+  }
+
   async addComment({
     authorId,
     userId,
