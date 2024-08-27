@@ -1,8 +1,11 @@
+import { UserModel } from '@user/entities/user.entity';
 import { IsNumber, IsString } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +18,10 @@ export class AuthorCommentModel {
   @Column()
   @IsNumber()
   user_id: number;
+
+  @ManyToOne(() => UserModel)
+  @JoinColumn({ name: 'user_id' })
+  user: UserModel;
 
   @Column()
   @IsString()

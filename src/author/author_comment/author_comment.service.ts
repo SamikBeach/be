@@ -15,8 +15,15 @@ export class AuthorCommentService {
       where: {
         author_id: authorId,
       },
-      // TODO: user 조인
-      relations: {},
+      relations: {
+        user: true,
+      },
+      select: {
+        user: {
+          id: true,
+          name: true,
+        },
+      },
     });
   }
 
