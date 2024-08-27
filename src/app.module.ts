@@ -28,6 +28,8 @@ import { OriginalWorkLikeModule } from './original_work/original_work_like/origi
 import { OriginalWorkLikeModel } from '@original_work/original_work_like/entities/original_work_like.entity';
 import { AuthorCommentModule } from './author/author_comment/author_comment.module';
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
+import { AuthorCommentLikeModule } from './author/author_comment_like/author_comment_like.module';
+import { AuthorCommentLikeModel } from '@author/author_comment_like/entities/author_comment_like.entity';
 
 @Module({
   imports: [
@@ -50,6 +52,7 @@ import { AuthorCommentModel } from '@author/author_comment/entities/author_comme
         AuthorLikeModel,
         OriginalWorkLikeModel,
         AuthorCommentModel,
+        AuthorCommentLikeModel,
       ],
       synchronize: false,
     }),
@@ -62,6 +65,7 @@ import { AuthorCommentModel } from '@author/author_comment/entities/author_comme
     AuthorLikeModule,
     OriginalWorkLikeModule,
     AuthorCommentModule,
+    AuthorCommentLikeModule,
   ],
   controllers: [AppController],
   providers: [
