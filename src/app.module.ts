@@ -24,6 +24,8 @@ import { EraModule } from './author/era/era.module';
 import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
 import { AuthorLikeModule } from './author/author_like/author_like.module';
 import { AuthorLikeModel } from '@author/author_like/entities/author_like.entity';
+import { OriginalWorkLikeModule } from './original_work/original_work_like/original_work_like.module';
+import { OriginalWorkLikeModel } from '@original_work/original_work_like/entities/original_work_like.entity';
 
 @Module({
   imports: [
@@ -44,6 +46,7 @@ import { AuthorLikeModel } from '@author/author_like/entities/author_like.entity
         OriginalWorkModel,
         EraModel,
         AuthorLikeModel,
+        OriginalWorkLikeModel
       ],
       synchronize: false,
     }),
@@ -54,6 +57,7 @@ import { AuthorLikeModel } from '@author/author_like/entities/author_like.entity
     OriginalWorkModule,
     EraModule,
     AuthorLikeModule,
+    OriginalWorkLikeModule,
   ],
   controllers: [AppController],
   providers: [

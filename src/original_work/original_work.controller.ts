@@ -9,7 +9,7 @@ export class OriginalWorkController {
 
   @Get()
   @IsPublic()
-  getAllAuthors() {
+  getAllOriginalWorks() {
     return this.originalWorkService.getAllOriginalWorks();
   }
 
