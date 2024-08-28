@@ -43,4 +43,10 @@ export class AuthorCommentController {
       comment,
     });
   }
+
+  @Get('commentId/:commentId')
+  @IsPublic()
+  getSubCommentsByCommentById(@Param('commentId') commentId: number) {
+    return this.authorCommentService.getSubCommentsByCommentById(commentId);
+  }
 }

@@ -74,4 +74,21 @@ export class AuthorCommentService {
 
     return updated;
   }
+
+  async getSubCommentsByCommentById(commentId: number) {
+    return await this.authorCommentRepository.find({
+      where: {
+        target_comment_id: commentId,
+      },
+      relations: {
+        user: true,
+      },
+      select: {
+        user: {
+          id: true,
+          name: true,
+        },
+      },
+    });
+  }
 }
