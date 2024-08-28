@@ -30,6 +30,10 @@ import { AuthorCommentModule } from './author/author_comment/author_comment.modu
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
 import { AuthorCommentLikeModule } from './author/author_comment_like/author_comment_like.module';
 import { AuthorCommentLikeModel } from '@author/author_comment_like/entities/author_comment_like.entity';
+import { OriginalWorkCommentModel } from '@original_work/original_work_comment/entities/original_work_comment.entity';
+import { OriginalWorkCommentModule } from '@original_work/original_work_comment/original_work_comment.module';
+import { OriginalWorkCommentLikeModule } from '@original_work/original_work_comment_like/original_work_comment_like.module';
+import { OriginalWorkCommentLikeModel } from '@original_work/original_work_comment_like/entities/original_work_comment_like.entity';
 
 @Module({
   imports: [
@@ -50,9 +54,11 @@ import { AuthorCommentLikeModel } from '@author/author_comment_like/entities/aut
         OriginalWorkModel,
         EraModel,
         AuthorLikeModel,
-        OriginalWorkLikeModel,
         AuthorCommentModel,
         AuthorCommentLikeModel,
+        OriginalWorkLikeModel,
+        OriginalWorkCommentModel,
+        OriginalWorkCommentLikeModel,
       ],
       synchronize: false,
     }),
@@ -63,9 +69,11 @@ import { AuthorCommentLikeModel } from '@author/author_comment_like/entities/aut
     OriginalWorkModule,
     EraModule,
     AuthorLikeModule,
-    OriginalWorkLikeModule,
     AuthorCommentModule,
     AuthorCommentLikeModule,
+    OriginalWorkLikeModule,
+    OriginalWorkCommentModule,
+    OriginalWorkCommentLikeModule,
   ],
   controllers: [AppController],
   providers: [
