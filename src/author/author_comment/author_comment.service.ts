@@ -54,17 +54,14 @@ export class AuthorCommentService {
   }
 
   async updateComment({
-    authorId,
     commentId,
     comment,
   }: {
-    authorId: number;
     commentId: number;
     comment: string;
   }) {
     const updated = await this.authorCommentRepository.update(
       {
-        author_id: authorId,
         id: commentId,
       },
       {
@@ -73,6 +70,14 @@ export class AuthorCommentService {
     );
 
     return updated;
+  }
+
+  async deleteComment({ commentId }: { commentId: number }) {
+    const deleted = await this.authorCommentRepository.delete({
+      id: commentId,
+    });
+
+    return deleted;
   }
 
   async getSubCommentsByCommentById(commentId: number) {

@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Param, Patch, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Patch,
+  Get,
+  Delete,
+} from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 
@@ -30,17 +38,23 @@ export class AuthorCommentController {
     });
   }
 
-  @Patch(':authorId/commentId/:commentId')
+  @Patch(':commentId')
   @IsPublic()
   updateComment(
-    @Param('authorId') authorId: number,
     @Param('commentId') commentId: number,
     @Body('comment') comment: string
   ) {
     return this.authorCommentService.updateComment({
-      authorId,
       commentId,
       comment,
+    });
+  }
+
+  @Delete(':commentId')
+  @IsPublic()
+  deleteComment(@Param('commentId') commentId: number) {
+    return this.authorCommentService.deleteComment({
+      commentId,
     });
   }
 
