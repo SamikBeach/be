@@ -58,7 +58,7 @@ export class OriginalWorkCommentService {
     await this.logService.createLog({
       user_id: userId,
       target_original_work_id: originalWorkId,
-      comment_id: newOriginalWorkComment.id,
+      original_work_comment_id: newOriginalWorkComment.id,
     });
 
     return newOriginalWorkComment;

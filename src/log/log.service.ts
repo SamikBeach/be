@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { SearchLogsDto } from './dto/search-logs.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogModel } from './entities/log.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsOrder, Repository } from 'typeorm';
 import { CommonService } from '@common/common.service';
 
 @Injectable()
@@ -13,24 +13,39 @@ export class LogService {
     private readonly commonService: CommonService
   ) {}
 
+  async getLogs({
+    take,
+    order,
+  }: {
+    take: number;
+    order: FindOptionsOrder<LogModel>;
+  }) {
+    return await this.logRepository.find({
+      relations: {
+        user: true,
+        target_author: true,
+        target_original_work: {
+          author: true,
+        },
+      },
+      take,
+      order,
+    });
+  }
+
   async searchLogs(dto: SearchLogsDto) {
-    // return await this.logRepository.find({
-    //   relations: {
-    //     user: true,
-    //     comment: true,
-    //     target_author: true,
-    //     target_original_work: true,
-    //   },
-    // });
     return await this.commonService.paginate(
       dto,
       this.logRepository,
       {
         relations: {
           user: true,
-          comment: true,
+          author_comment: true,
+          original_work_comment: true,
           target_author: true,
-          target_original_work: true,
+          target_original_work: {
+            author: true,
+          },
         },
       },
       'log/search'
@@ -39,12 +54,14 @@ export class LogService {
 
   async createLog({
     user_id,
-    comment_id,
+    author_comment_id,
+    original_work_comment_id,
     target_author_id,
     target_original_work_id,
   }: {
     user_id: number;
-    comment_id?: number;
+    author_comment_id?: number;
+    original_work_comment_id?: number;
     target_author_id?: number;
     target_original_work_id?: number;
   }) {
@@ -52,8 +69,11 @@ export class LogService {
       user: {
         id: user_id,
       },
-      comment: {
-        id: comment_id,
+      author_comment: {
+        id: author_comment_id,
+      },
+      original_work_comment: {
+        id: original_work_comment_id,
       },
       target_author: {
         id: target_author_id,

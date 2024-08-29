@@ -19,6 +19,12 @@ export class OriginalWorkController {
     return this.originalWorkService.searchOriginalWorks(dto);
   }
 
+  @Get('trending')
+  @IsPublic()
+  getTrendingAuthors() {
+    return this.originalWorkService.getTrendingOriginalWorks();
+  }
+
   @Get(':originalWorkId')
   @IsPublic()
   getOriginalWorkById(@Param('originalWorkId') originalWorkId: number) {

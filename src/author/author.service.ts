@@ -4,13 +4,15 @@ import { ILike, Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
 import { SearchAuthorsDto } from './dto/search-authors.dto';
 import { CommonService } from '@common/common.service';
+import { LogService } from '@log/log.service';
 
 @Injectable()
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorModel)
     private readonly authorRepository: Repository<AuthorModel>,
-    private readonly commonService: CommonService
+    private readonly commonService: CommonService,
+    private readonly logService: LogService
   ) {}
 
   async getAllAuthors() {
@@ -51,5 +53,50 @@ export class AuthorService {
       },
       'author/search'
     );
+  }
+
+  async getTrendingAuthors() {
+    const logs = await this.logService.getLogs({
+      take: 100,
+      order: {
+        created_at: 'DESC',
+      },
+    });
+
+    const trendingAuthors = logs.reduce((acc, log) => {
+      if (log.target_author?.id == null) {
+        return acc;
+      }
+
+      if (!acc[log.target_author.id]) {
+        acc[log.target_author.id] = 0;
+      }
+
+      acc[log.target_author?.id]++;
+
+      return acc;
+    }, {});
+
+    const targetAuthors = logs
+      .map(log => log.target_author)
+      .reduce((acc, author) => {
+        if (author?.id == null) {
+          return acc;
+        }
+
+        if (acc.some(a => a.id === author.id)) {
+          return acc;
+        }
+
+        acc.push(author);
+
+        return acc;
+      }, []);
+
+    const result = targetAuthors.sort((a, b) => {
+      return trendingAuthors[b.id] - trendingAuthors[a.id];
+    });
+
+    return result;
   }
 }

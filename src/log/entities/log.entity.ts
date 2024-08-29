@@ -22,9 +22,12 @@ export class LogModel {
   user: UserModel;
 
   @ManyToOne(() => AuthorCommentModel)
+  @JoinColumn({ name: 'author_comment_id' })
+  author_comment?: AuthorCommentModel;
+
   @ManyToOne(() => OriginalWorkCommentModel)
-  @JoinColumn({ name: 'comment_id' })
-  comment?: AuthorCommentModel | OriginalWorkCommentModel;
+  @JoinColumn({ name: 'original_work_comment_id' })
+  original_work_comment?: OriginalWorkCommentModel;
 
   @ManyToOne(() => AuthorModel)
   @JoinColumn({ name: 'target_author_id' })

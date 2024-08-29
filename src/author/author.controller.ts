@@ -19,6 +19,12 @@ export class AuthorController {
     return this.authorService.searchAuthors(query);
   }
 
+  @Get('trending')
+  @IsPublic()
+  getTrendingAuthors() {
+    return this.authorService.getTrendingAuthors();
+  }
+
   @Get(':authorId')
   @IsPublic()
   getAuthorById(@Param('authorId') authorId: number) {

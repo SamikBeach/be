@@ -57,7 +57,7 @@ export class AuthorCommentService {
     await this.logService.createLog({
       user_id: userId,
       target_author_id: authorId,
-      comment_id: newAuthorComment.id,
+      author_comment_id: newAuthorComment.id,
     });
 
     return newAuthorComment;
