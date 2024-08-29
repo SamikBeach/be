@@ -29,7 +29,7 @@ export class BasePaginationDto {
 
   @IsIn(['ASC', 'DESC'])
   @IsOptional()
-  order__name: 'ASC' | 'DESC' = 'ASC';
+  order__name?: 'ASC' | 'DESC' = 'ASC';
 
   // 몇개의 데이터를 응답으로 받을지
   @IsNumber()

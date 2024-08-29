@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorCommentModel } from './entities/author_comment.entity';
 import { Repository } from 'typeorm';
+import { LogService } from '@log/log.service';
 
 @Injectable()
 export class AuthorCommentService {
   constructor(
     @InjectRepository(AuthorCommentModel)
-    private readonly authorCommentRepository: Repository<AuthorCommentModel>
+    private readonly authorCommentRepository: Repository<AuthorCommentModel>,
+    private readonly logService: LogService
   ) {}
 
   async getAllComments(authorId: number) {
@@ -42,13 +44,21 @@ export class AuthorCommentService {
   }) {
     const created = this.authorCommentRepository.create({
       author_id: authorId,
-      user_id: userId,
+      user: {
+        id: userId,
+      },
       comment: comment,
       target_comment_id: targetCommentId,
       target_user_id: targetUserId,
     });
 
     const newAuthorComment = await this.authorCommentRepository.save(created);
+
+    await this.logService.createLog({
+      user_id: userId,
+      target_author_id: authorId,
+      comment_id: newAuthorComment.id,
+    });
 
     return newAuthorComment;
   }

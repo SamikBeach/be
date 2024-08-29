@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OriginalWorkLikeModel } from './entities/original_work_like.entity';
+import { LogService } from '@log/log.service';
 
 @Injectable()
 export class OriginalWorkLikeService {
   constructor(
     @InjectRepository(OriginalWorkLikeModel)
-    private readonly originalWorkLikeRepository: Repository<OriginalWorkLikeModel>
+    private readonly originalWorkLikeRepository: Repository<OriginalWorkLikeModel>,
+    private readonly logService: LogService
   ) {}
 
   async addLike({
@@ -24,6 +26,11 @@ export class OriginalWorkLikeService {
 
     const newOriginalWorkLike =
       await this.originalWorkLikeRepository.save(created);
+
+    await this.logService.createLog({
+      user_id: userId,
+      target_original_work_id: originalWorkId,
+    });
 
     return newOriginalWorkLike;
   }

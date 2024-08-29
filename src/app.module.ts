@@ -34,6 +34,8 @@ import { OriginalWorkCommentModel } from '@original_work/original_work_comment/e
 import { OriginalWorkCommentModule } from '@original_work/original_work_comment/original_work_comment.module';
 import { OriginalWorkCommentLikeModule } from '@original_work/original_work_comment_like/original_work_comment_like.module';
 import { OriginalWorkCommentLikeModel } from '@original_work/original_work_comment_like/entities/original_work_comment_like.entity';
+import { LogModel } from '@log/entities/log.entity';
+import { LogModule } from '@log/log.module';
 
 @Module({
   imports: [
@@ -59,6 +61,7 @@ import { OriginalWorkCommentLikeModel } from '@original_work/original_work_comme
         OriginalWorkLikeModel,
         OriginalWorkCommentModel,
         OriginalWorkCommentLikeModel,
+        LogModel,
       ],
       synchronize: false,
     }),
@@ -74,6 +77,7 @@ import { OriginalWorkCommentLikeModel } from '@original_work/original_work_comme
     OriginalWorkLikeModule,
     OriginalWorkCommentModule,
     OriginalWorkCommentLikeModule,
+    LogModule,
   ],
   controllers: [AppController],
   providers: [

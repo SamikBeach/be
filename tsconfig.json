@@ -23,7 +23,8 @@
       "@book/*": ["src/book/*"],
       "@common/*": ["src/common/*"],
       "@user/*": ["src/user/*"],
-      "@original_work/*": ["src/original_work/*"]
+      "@original_work/*": ["src/original_work/*"],
+      "@log/*": ["src/log/*"]
     }
   },
   "exclude": ["src/auth_legacy/*"]

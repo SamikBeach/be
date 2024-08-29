@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OriginalWorkCommentModel } from './entities/original_work_comment.entity';
 import { Repository } from 'typeorm';
+import { LogService } from '@log/log.service';
 
 @Injectable()
 export class OriginalWorkCommentService {
   constructor(
     @InjectRepository(OriginalWorkCommentModel)
-    private readonly originalWorkCommentRepository: Repository<OriginalWorkCommentModel>
+    private readonly originalWorkCommentRepository: Repository<OriginalWorkCommentModel>,
+    private readonly logService: LogService
   ) {}
 
   async getAllComments(originalWorkId: number) {
@@ -42,7 +44,9 @@ export class OriginalWorkCommentService {
   }) {
     const created = this.originalWorkCommentRepository.create({
       original_work_id: originalWorkId,
-      user_id: userId,
+      user: {
+        id: userId,
+      },
       comment: comment,
       target_comment_id: targetCommentId,
       target_user_id: targetUserId,
@@ -50,6 +54,12 @@ export class OriginalWorkCommentService {
 
     const newOriginalWorkComment =
       await this.originalWorkCommentRepository.save(created);
+
+    await this.logService.createLog({
+      user_id: userId,
+      target_original_work_id: originalWorkId,
+      comment_id: newOriginalWorkComment.id,
+    });
 
     return newOriginalWorkComment;
   }

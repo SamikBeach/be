@@ -9,5 +9,4 @@ export class PaginateAuthorDto extends BasePaginationDto {
   @IsString()
   @IsOptional()
   where__name__i_like: string;
-  
 }

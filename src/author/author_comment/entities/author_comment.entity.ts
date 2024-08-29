@@ -15,10 +15,6 @@ export class AuthorCommentModel {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  @IsNumber()
-  user_id: number;
-
   @ManyToOne(() => UserModel)
   @JoinColumn({ name: 'user_id' })
   user: UserModel;
