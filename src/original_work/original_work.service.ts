@@ -43,6 +43,8 @@ export class OriginalWorkService {
         },
         relations: {
           author: true,
+          liked_users: true,
+          comments: true,
         },
         order: {
           title: dto.sort === 'alphabetical' ? 'ASC' : undefined,

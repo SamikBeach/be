@@ -1,9 +1,14 @@
 import { AuthorModel } from '@author/entities/author.entity';
+import { OriginalWorkCommentModel } from '@original_work/original_work_comment/entities/original_work_comment.entity';
+import { UserModel } from '@user/entities/user.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -33,4 +38,15 @@ export class OriginalWorkModel {
 
   @Column()
   publication_date_is_bc?: 0 | 1 | null;
+
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'original_work_like',
+    joinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  liked_users: UserModel[];
+
+  @OneToMany(() => OriginalWorkCommentModel, comment => comment.original_work)
+  comments: OriginalWorkCommentModel[];
 }

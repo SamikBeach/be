@@ -1,3 +1,4 @@
+import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { IsNumber, IsString } from 'class-validator';
 import {
@@ -26,6 +27,10 @@ export class OriginalWorkCommentModel {
   @Column()
   @IsNumber()
   original_work_id: number;
+
+  @ManyToOne(() => OriginalWorkModel)
+  @JoinColumn({ name: 'original_work_id' })
+  original_work: OriginalWorkModel;
 
   @Column()
   target_comment_id?: number;
