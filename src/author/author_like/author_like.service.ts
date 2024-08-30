@@ -48,7 +48,7 @@ export class AuthorLikeService {
     return { isExist };
   }
 
-  async findAllLikes(authorId: number) {
+  async getLikeCountByAuthorId(authorId: number) {
     const likes = await this.authorLikeRepository.find({
       where: {
         author_id: authorId,

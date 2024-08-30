@@ -67,7 +67,7 @@ export class OriginalWorkLikeService {
     return { isExist };
   }
 
-  async findAllLikes(originalWorkId: number) {
+  async getLikeCountByOriginalWorkId(originalWorkId: number) {
     const likes = await this.originalWorkLikeRepository.find({
       where: {
         original_work_id: originalWorkId,

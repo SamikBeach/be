@@ -44,4 +44,24 @@ export class UserService {
       },
     });
   }
+
+  async getUserLikesByUserId(userId: number) {
+    const { likedAuthors, likedOriginalWorks } =
+      await this.userRepository.findOne({
+        where: {
+          id: userId,
+        },
+        relations: {
+          likedAuthors: true,
+          likedOriginalWorks: {
+            author: true,
+          },
+        },
+      });
+
+    return {
+      authors: likedAuthors,
+      original_works: likedOriginalWorks,
+    };
+  }
 }

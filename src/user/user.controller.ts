@@ -2,6 +2,7 @@ import { Controller, Get, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
 import { AuthService } from '@auth/auth.service';
+import { IsPublic } from '@common/decorator/is-public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -40,7 +41,14 @@ export class UserController {
   }
 
   @Get(':userId')
+  @IsPublic()
   getUserById(@Param('userId') userId: number) {
     return this.userService.getUserById(userId);
+  }
+
+  @Get(':userId/like')
+  @IsPublic()
+  getUserLikesByUserId(@Param('userId') userId: number) {
+    return this.userService.getUserLikesByUserId(userId);
   }
 }

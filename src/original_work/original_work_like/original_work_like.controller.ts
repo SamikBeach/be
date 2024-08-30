@@ -52,6 +52,8 @@ export class OriginalWorkLikeController {
   @Get(':originalWorkId/count')
   @IsPublic()
   findAllLikes(@Param('originalWorkId') originalWorkId: number) {
-    return this.originalWorkLikeService.findAllLikes(originalWorkId);
+    return this.originalWorkLikeService.getLikeCountByOriginalWorkId(
+      originalWorkId
+    );
   }
 }

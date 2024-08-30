@@ -47,6 +47,6 @@ export class AuthorLikeController {
   @Get(':authorId/count')
   @IsPublic()
   findAllLikes(@Param('authorId') authorId: number) {
-    return this.authorLikeService.findAllLikes(authorId);
+    return this.authorLikeService.getLikeCountByAuthorId(authorId);
   }
 }
