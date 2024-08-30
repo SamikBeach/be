@@ -1,3 +1,4 @@
+import { AuthorModel } from '@author/entities/author.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { IsNumber, IsString } from 'class-validator';
 import {
@@ -26,6 +27,10 @@ export class AuthorCommentModel {
   @Column()
   @IsNumber()
   author_id: number;
+
+  @ManyToOne(() => AuthorModel)
+  @JoinColumn({ name: 'author_id' })
+  author: AuthorModel;
 
   @Column()
   target_comment_id?: number;

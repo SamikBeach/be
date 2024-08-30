@@ -2,10 +2,16 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { EraModel } from '../era/entities/era.entity';
+import { UserModel } from '@user/entities/user.entity';
+import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
+import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -36,4 +42,18 @@ export class AuthorModel {
   @ManyToOne(() => EraModel)
   @JoinColumn({ name: 'era_id' })
   era: EraModel;
+
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'author_like',
+    joinColumn: { name: 'author_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  liked_users: UserModel[];
+
+  @OneToMany(() => AuthorCommentModel, comment => comment.author)
+  comments: AuthorCommentModel[];
+
+  @OneToMany(() => OriginalWorkModel, originalWork => originalWork.author)
+  original_works: OriginalWorkModel[];
 }

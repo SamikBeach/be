@@ -43,6 +43,21 @@ export class AuthorService {
         },
         relations: {
           era: true,
+          liked_users: true,
+          comments: true,
+          original_works: true,
+        },
+        select: {
+          liked_users: {
+            id: true,
+            name: true,
+          },
+          comments: {
+            id: true,
+          },
+          original_works: {
+            id: true,
+          },
         },
         order: {
           name: dto.sort === 'alphabetical' ? 'ASC' : undefined,
