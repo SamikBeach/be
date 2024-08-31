@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorCommentModel } from './entities/author_comment.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
 import { CommonService } from '@common/common.service';
 
@@ -38,7 +38,7 @@ export class AuthorCommentService {
       {
         where: {
           author_id: authorId,
-          target_comment_id: null,
+          target_comment_id: IsNull(),
         },
         relations: {
           user: true,
@@ -55,24 +55,6 @@ export class AuthorCommentService {
       },
       'author-comment/search'
     );
-
-    return await this.authorCommentRepository.find({
-      where: {
-        author_id: authorId,
-      },
-      relations: {
-        user: true,
-      },
-      select: {
-        user: {
-          id: true,
-          name: true,
-        },
-      },
-      order: {
-        created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
-      },
-    });
   }
 
   async addComment({

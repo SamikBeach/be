@@ -6,15 +6,29 @@ import {
   Patch,
   Get,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { OriginalWorkCommentService } from './original_work_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { SearchAuthorCommentsDto } from '@author/author_comment/dto/search-comment.dto';
 
 @Controller('original-work-comment')
 export class OriginalWorkCommentController {
   constructor(
     private readonly originalWorkCommentService: OriginalWorkCommentService
   ) {}
+
+  @Get(':originalWorkId/search')
+  @IsPublic()
+  searchComments(
+    @Param('originalWorkId') originalWorkId: number,
+    @Query() dto: SearchAuthorCommentsDto
+  ) {
+    return this.originalWorkCommentService.searchComments({
+      originalWorkId,
+      dto,
+    });
+  }
 
   @Get(':originalWorkId')
   @IsPublic()

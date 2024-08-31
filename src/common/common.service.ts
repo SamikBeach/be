@@ -47,7 +47,7 @@ export class CommonService {
     });
 
     const lastItem =
-      results.length > 0 && results.length === dto.take
+      results.length > 0 && results.length == dto.take
         ? results[results.length - 1]
         : null;
 

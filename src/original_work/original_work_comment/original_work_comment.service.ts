@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OriginalWorkCommentModel } from './entities/original_work_comment.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
+import { CommonService } from '@common/common.service';
+import { SearchAuthorCommentsDto } from '@author/author_comment/dto/search-comment.dto';
 
 @Injectable()
 export class OriginalWorkCommentService {
   constructor(
     @InjectRepository(OriginalWorkCommentModel)
     private readonly originalWorkCommentRepository: Repository<OriginalWorkCommentModel>,
+    private readonly commonService: CommonService,
     private readonly logService: LogService
   ) {}
 
@@ -27,6 +30,38 @@ export class OriginalWorkCommentService {
         },
       },
     });
+  }
+
+  async searchComments({
+    originalWorkId,
+    dto,
+  }: {
+    originalWorkId: number;
+    dto: SearchAuthorCommentsDto;
+  }) {
+    return this.commonService.paginate(
+      dto,
+      this.originalWorkCommentRepository,
+      {
+        where: {
+          original_work_id: originalWorkId,
+          target_comment_id: IsNull(),
+        },
+        relations: {
+          user: true,
+        },
+        select: {
+          user: {
+            id: true,
+            name: true,
+          },
+        },
+        order: {
+          created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
+        },
+      },
+      'original-work-comment/search'
+    );
   }
 
   async addComment({

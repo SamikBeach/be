@@ -4,9 +4,14 @@ import { OriginalWorkCommentController } from './original_work_comment.controlle
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OriginalWorkCommentModel } from './entities/original_work_comment.entity';
 import { LogModule } from '@log/log.module';
+import { CommonModule } from '@common/common.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OriginalWorkCommentModel]), LogModule],
+  imports: [
+    TypeOrmModule.forFeature([OriginalWorkCommentModel]),
+    LogModule,
+    CommonModule,
+  ],
   exports: [OriginalWorkCommentService],
   controllers: [OriginalWorkCommentController],
   providers: [OriginalWorkCommentService],
