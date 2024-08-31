@@ -15,12 +15,6 @@ import { IsPublic } from '@common/decorator/is-public.decorator';
 export class AuthorCommentController {
   constructor(private readonly authorCommentService: AuthorCommentService) {}
 
-  @Get(':authorId')
-  @IsPublic()
-  getAllComments(@Param('authorId') authorId: number) {
-    return this.authorCommentService.getAllComments(authorId);
-  }
-
   @Get(':authorId/search')
   @IsPublic()
   searchComments(@Param('authorId') authorId: number, @Query() dto: string) {
@@ -28,6 +22,12 @@ export class AuthorCommentController {
       authorId,
       dto,
     });
+  }
+
+  @Get(':authorId')
+  @IsPublic()
+  getAllComments(@Param('authorId') authorId: number) {
+    return this.authorCommentService.getAllComments(authorId);
   }
 
   @Post(':authorId')

@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorCommentModel } from './entities/author_comment.entity';
 import { Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
+import { CommonService } from '@common/common.service';
 
 @Injectable()
 export class AuthorCommentService {
   constructor(
     @InjectRepository(AuthorCommentModel)
     private readonly authorCommentRepository: Repository<AuthorCommentModel>,
+    private readonly commonService: CommonService,
     private readonly logService: LogService
   ) {}
 
@@ -29,16 +31,37 @@ export class AuthorCommentService {
     });
   }
 
-  // TODO: fix
   async searchComments({ authorId, dto }) {
+    return this.commonService.paginate(
+      dto,
+      this.authorCommentRepository,
+      {
+        where: {
+          author_id: authorId,
+          target_comment_id: null,
+        },
+        relations: {
+          user: true,
+        },
+        select: {
+          user: {
+            id: true,
+            name: true,
+          },
+        },
+        order: {
+          created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
+        },
+      },
+      'author-comment/search'
+    );
+
     return await this.authorCommentRepository.find({
       where: {
         author_id: authorId,
       },
       relations: {
         user: true,
-        sub_comments: true,
-        liked_users: true,
       },
       select: {
         user: {
