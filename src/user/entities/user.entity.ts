@@ -34,7 +34,7 @@ export class UserModel extends BaseModel {
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'author_id', referencedColumnName: 'id' },
   })
-  likedAuthors: AuthorModel[];
+  liked_authors: AuthorModel[];
 
   @ManyToMany(() => OriginalWorkModel)
   @JoinTable({
@@ -42,7 +42,7 @@ export class UserModel extends BaseModel {
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
   })
-  likedOriginalWorks: OriginalWorkModel[];
+  liked_original_works: OriginalWorkModel[];
 
   @CreateDateColumn()
   created_at: Date = new Date();

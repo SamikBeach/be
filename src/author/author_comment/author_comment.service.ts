@@ -29,6 +29,29 @@ export class AuthorCommentService {
     });
   }
 
+  // TODO: fix
+  async searchComments({ authorId, dto }) {
+    return await this.authorCommentRepository.find({
+      where: {
+        author_id: authorId,
+      },
+      relations: {
+        user: true,
+        sub_comments: true,
+        liked_users: true,
+      },
+      select: {
+        user: {
+          id: true,
+          name: true,
+        },
+      },
+      order: {
+        created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
+      },
+    });
+  }
+
   async addComment({
     authorId,
     userId,

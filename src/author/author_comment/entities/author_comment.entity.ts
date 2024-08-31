@@ -6,7 +6,10 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -51,4 +54,15 @@ export class AuthorCommentModel {
 
   @UpdateDateColumn()
   updated_at: Date = new Date();
+
+  @OneToMany(() => AuthorCommentModel, comment => comment.target_comment_id)
+  sub_comments: AuthorCommentModel[];
+
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'author_comment_like',
+    joinColumn: { name: 'author_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  liked_users: UserModel[];
 }

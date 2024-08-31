@@ -6,6 +6,7 @@ import {
   Patch,
   Get,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -18,6 +19,15 @@ export class AuthorCommentController {
   @IsPublic()
   getAllComments(@Param('authorId') authorId: number) {
     return this.authorCommentService.getAllComments(authorId);
+  }
+
+  @Get(':authorId/search')
+  @IsPublic()
+  searchComments(@Param('authorId') authorId: number, @Query() dto: string) {
+    return this.authorCommentService.searchComments({
+      authorId,
+      dto,
+    });
   }
 
   @Post(':authorId')
