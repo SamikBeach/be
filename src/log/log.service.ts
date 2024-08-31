@@ -42,9 +42,14 @@ export class LogService {
           user: true,
           author_comment: true,
           original_work_comment: true,
-          target_author: true,
+          target_author: {
+            liked_users: true,
+            comments: true,
+          },
           target_original_work: {
             author: true,
+            liked_users: true,
+            comments: true,
           },
         },
       },
