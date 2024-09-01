@@ -1,17 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
-import { SearchAuthorsDto } from './dto/search-authors.dto';
-import { CommonService } from '@common/common.service';
 import { LogService } from '@log/log.service';
+import {
+  FilterOperator,
+  PaginateQuery,
+  Paginated,
+  paginate,
+} from 'nestjs-paginate';
 
 @Injectable()
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorModel)
     private readonly authorRepository: Repository<AuthorModel>,
-    private readonly commonService: CommonService,
+    private readonly dataSource: DataSource,
     private readonly logService: LogService
   ) {}
 
@@ -32,42 +36,17 @@ export class AuthorService {
     });
   }
 
-  async searchAuthors(dto: SearchAuthorsDto) {
-    return this.commonService.paginate(
-      dto,
-      this.authorRepository,
-      {
-        where: {
-          ...(dto.keyword ? { name: ILike(`%${dto.keyword}%`) } : {}),
-          ...(dto.eraId ? { era: { id: dto.eraId } } : {}),
-        },
-        relations: {
-          era: true,
-          liked_users: true,
-          comments: true,
-          original_works: true,
-        },
-        select: {
-          liked_users: {
-            id: true,
-            name: true,
-          },
-          comments: {
-            id: true,
-          },
-          original_works: {
-            id: true,
-          },
-        },
-        order: {
-          name: dto.sort === 'alphabetical' ? 'ASC' : undefined,
-          // TODO: 기원 전/후 구분
-          born_date: dto.sort === 'birth_date' ? 'ASC' : undefined,
-          died_date: dto.sort === 'death_date' ? 'ASC' : undefined,
-        },
+  async searchAuthors(dto: PaginateQuery): Promise<Paginated<AuthorModel>> {
+    return await paginate(dto, this.authorRepository, {
+      sortableColumns: ['id', 'era'],
+      defaultSortBy: [['id', 'ASC']],
+      searchableColumns: ['era'],
+      filterableColumns: {
+        era_id: [FilterOperator.EQ],
       },
-      'author/search'
-    );
+      relativePath: true,
+      relations: ['era', 'liked_users', 'comments', 'original_works'],
+    });
   }
 
   async getTrendingAuthors() {

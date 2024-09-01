@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { SearchAuthorsDto } from './dto/search-authors.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('author')
 export class AuthorController {
@@ -15,7 +15,7 @@ export class AuthorController {
 
   @Get('search')
   @IsPublic()
-  searchAuthor(@Query() query: SearchAuthorsDto) {
+  searchAuthor(@Paginate() query: PaginateQuery) {
     return this.authorService.searchAuthors(query);
   }
 

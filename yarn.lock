@@ -173,6 +173,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@microsoft/tsdoc@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "@microsoft/tsdoc@npm:0.15.0"
+  checksum: 10c0/6beaf6e01ff54daeba69862cb3d27e03bbabfe299d23d0fade885f5b29bf98af01cecc746d23875fe60ba89514e3b630b71140b1b18d37301096f7a1e35451aa
+  languageName: node
+  linkType: hard
+
 "@nestjs/common@npm:^10.3.9":
   version: 10.3.9
   resolution: "@nestjs/common@npm:10.3.9"
@@ -249,7 +256,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nestjs/mapped-types@npm:*":
+"@nestjs/mapped-types@npm:*, @nestjs/mapped-types@npm:2.0.5":
   version: 2.0.5
   resolution: "@nestjs/mapped-types@npm:2.0.5"
   peerDependencies:
@@ -279,6 +286,34 @@ __metadata:
     "@nestjs/common": ^10.0.0
     "@nestjs/core": ^10.0.0
   checksum: 10c0/02a1f39f23d354799c561de9d454099ac119a26592639bd31de62f8cb88388eef5651355031ce4fcc3aa1499c51274986a0361eb0fcedeeb2e9bfe4c05be431c
+  languageName: node
+  linkType: hard
+
+"@nestjs/swagger@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "@nestjs/swagger@npm:7.4.0"
+  dependencies:
+    "@microsoft/tsdoc": "npm:^0.15.0"
+    "@nestjs/mapped-types": "npm:2.0.5"
+    js-yaml: "npm:4.1.0"
+    lodash: "npm:4.17.21"
+    path-to-regexp: "npm:3.2.0"
+    swagger-ui-dist: "npm:5.17.14"
+  peerDependencies:
+    "@fastify/static": ^6.0.0 || ^7.0.0
+    "@nestjs/common": ^9.0.0 || ^10.0.0
+    "@nestjs/core": ^9.0.0 || ^10.0.0
+    class-transformer: "*"
+    class-validator: "*"
+    reflect-metadata: ^0.1.12 || ^0.2.0
+  peerDependenciesMeta:
+    "@fastify/static":
+      optional: true
+    class-transformer:
+      optional: true
+    class-validator:
+      optional: true
+  checksum: 10c0/6dca99984bea2303353cd890b622b037e8cb4129c38047883936c619073e0a94ccb13ca98ab68d3ad5d0bc96564f94b9e83809a7489f36e2cae4c553c385d779
   languageName: node
   linkType: hard
 
@@ -954,6 +989,7 @@ __metadata:
     "@nestjs/jwt": "npm:^10.2.0"
     "@nestjs/mapped-types": "npm:*"
     "@nestjs/platform-express": "npm:^10.3.9"
+    "@nestjs/swagger": "npm:^7.4.0"
     "@nestjs/testing": "npm:^10.3.8"
     "@nestjs/typeorm": "npm:^10.0.2"
     "@types/cookie-parser": "npm:^1.4.7"
@@ -973,6 +1009,7 @@ __metadata:
     express: "npm:^4.19.2"
     google-auth-library: "npm:^9.14.0"
     mysql2: "npm:^3.10.0"
+    nestjs-paginate: "npm:^9.0.2"
     prettier: "npm:^3.3.0"
     reflect-metadata: "npm:^0.2.2"
     rimraf: "npm:^5.0.7"
@@ -2579,7 +2616,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^4.1.0":
+"js-yaml@npm:4.1.0, js-yaml@npm:^4.1.0":
   version: 4.1.0
   resolution: "js-yaml@npm:4.1.0"
   dependencies:
@@ -2778,7 +2815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21":
+"lodash@npm:4.17.21, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -3126,6 +3163,21 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: 10c0/3ec9fd413e7bf071c937ae60d572bc67155262068ed522cf4b3be5edbe6ddf67d095ec03a3a14ebf8fc8e95f8e1d61be4869db0dbb0de696f6b837358bd43fc2
+  languageName: node
+  linkType: hard
+
+"nestjs-paginate@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "nestjs-paginate@npm:9.0.2"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    "@nestjs/common": ^10.0.0
+    "@nestjs/swagger": ^7.0.0
+    express: ^4.0.0
+    fastify: ^4.0.0
+    typeorm: ^0.3.17
+  checksum: 10c0/ff86c3292fc9a6e04b419126cd35df63522ada1a0bc93617fa6a547b7fc67c403882ac0a05662b48d5c375688d70fc63c9f4ef0a2c5926ca3b1f5c51cc251079
   languageName: node
   linkType: hard
 
@@ -3940,6 +3992,13 @@ __metadata:
   dependencies:
     has-flag: "npm:^4.0.0"
   checksum: 10c0/afb4c88521b8b136b5f5f95160c98dee7243dc79d5432db7efc27efb219385bbc7d9427398e43dd6cc730a0f87d5085ce1652af7efbe391327bc0a7d0f7fc124
+  languageName: node
+  linkType: hard
+
+"swagger-ui-dist@npm:5.17.14":
+  version: 5.17.14
+  resolution: "swagger-ui-dist@npm:5.17.14"
+  checksum: 10c0/cb61bba39e76d7d0d83da605a55e9504c1a5b421f9f13cced06d3e222f0a291594d417ec57b30a38aabe30d8a7e257c4977b8f0bba0e865d60f92b0a8ef4dfc1
   languageName: node
   linkType: hard
 
