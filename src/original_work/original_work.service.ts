@@ -80,7 +80,12 @@ export class OriginalWorkService {
         'comment_count',
       ],
       defaultSortBy: [['id', 'ASC']],
-      searchableColumns: ['title', 'title_in_eng', 'title_in_kor'],
+      searchableColumns: [
+        'title',
+        'title_in_eng',
+        'title_in_kor',
+        'author.name',
+      ],
       filterableColumns: {
         author_id: [FilterOperator.EQ],
       },
