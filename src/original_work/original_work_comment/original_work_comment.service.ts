@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OriginalWorkCommentModel } from './entities/original_work_comment.entity';
 import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
-import { CommonService } from '@common/common.service';
 import { OriginalWorkService } from '@original_work/original_work.service';
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
@@ -12,10 +11,41 @@ export class OriginalWorkCommentService {
   constructor(
     @InjectRepository(OriginalWorkCommentModel)
     private readonly originalWorkCommentRepository: Repository<OriginalWorkCommentModel>,
-    private readonly commonService: CommonService,
     private readonly logService: LogService,
     private readonly originalWorkService: OriginalWorkService
   ) {}
+
+  async incrementLikeCount({ commentId }: { commentId: number }) {
+    await this.originalWorkCommentRepository.increment(
+      { id: commentId },
+      'like_count',
+      1
+    );
+  }
+
+  async decrementLikeCount({ commentId }: { commentId: number }) {
+    await this.originalWorkCommentRepository.decrement(
+      { id: commentId },
+      'like_count',
+      1
+    );
+  }
+
+  async incrementCommentCount({ commentId }: { commentId: number }) {
+    await this.originalWorkCommentRepository.increment(
+      { id: commentId },
+      'comment_count',
+      1
+    );
+  }
+
+  async decrementCommentCount({ commentId }: { commentId: number }) {
+    await this.originalWorkCommentRepository.decrement(
+      { id: commentId },
+      'comment_count',
+      1
+    );
+  }
 
   async getAllComments(originalWorkId: number) {
     return await this.originalWorkCommentRepository.find({
@@ -81,6 +111,8 @@ export class OriginalWorkCommentService {
 
     if (targetCommentId == null) {
       await this.originalWorkService.incrementCommentCount({ originalWorkId });
+    } else {
+      await this.incrementCommentCount({ commentId: targetCommentId });
     }
 
     await this.logService.createLog({
@@ -125,6 +157,10 @@ export class OriginalWorkCommentService {
     if (comment.target_comment_id == null) {
       await this.originalWorkService.decrementCommentCount({
         originalWorkId: comment.original_work_id,
+      });
+    } else {
+      await this.decrementCommentCount({
+        commentId: comment.target_comment_id,
       });
     }
 
