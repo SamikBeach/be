@@ -1,7 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { LogService } from './log.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { PaginateQuery } from 'nestjs-paginate';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('log')
 export class LogController {
@@ -9,7 +9,7 @@ export class LogController {
 
   @Get('search')
   @IsPublic()
-  searchLogs(@Query() dto: PaginateQuery) {
+  searchLogs(@Paginate() dto: PaginateQuery) {
     return this.logService.searchLogs(dto);
   }
 }
