@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorCommentModel } from './entities/author_comment.entity';
 import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
-import { CommonService } from '@common/common.service';
 import { AuthorService } from '@author/author.service';
 import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
@@ -12,10 +11,41 @@ export class AuthorCommentService {
   constructor(
     @InjectRepository(AuthorCommentModel)
     private readonly authorCommentRepository: Repository<AuthorCommentModel>,
-    private readonly commonService: CommonService,
     private readonly logService: LogService,
     private readonly authorService: AuthorService
   ) {}
+
+  async incrementLikeCount({ commentId }: { commentId: number }) {
+    await this.authorCommentRepository.increment(
+      { id: commentId },
+      'like_count',
+      1
+    );
+  }
+
+  async decrementLikeCount({ commentId }: { commentId: number }) {
+    await this.authorCommentRepository.decrement(
+      { id: commentId },
+      'like_count',
+      1
+    );
+  }
+
+  async incrementCommentCount({ commentId }: { commentId: number }) {
+    await this.authorCommentRepository.increment(
+      { id: commentId },
+      'comment_count',
+      1
+    );
+  }
+
+  async decrementCommentCount({ commentId }: { commentId: number }) {
+    await this.authorCommentRepository.decrement(
+      { id: commentId },
+      'comment_count',
+      1
+    );
+  }
 
   async getAllComments(authorId: number) {
     return await this.authorCommentRepository.find({
@@ -81,6 +111,8 @@ export class AuthorCommentService {
 
     if (targetCommentId == null) {
       await this.authorService.incrementCommentCount({ authorId });
+    } else {
+      await this.incrementCommentCount({ commentId: targetCommentId });
     }
 
     await this.logService.createLog({
@@ -125,6 +157,10 @@ export class AuthorCommentService {
     if (comment.target_comment_id == null) {
       await this.authorService.decrementCommentCount({
         authorId: comment.author_id,
+      });
+    } else {
+      await this.decrementCommentCount({
+        commentId: comment.target_comment_id,
       });
     }
 
