@@ -6,11 +6,10 @@ import {
   Patch,
   Get,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { OriginalWorkCommentService } from './original_work_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { SearchAuthorCommentsDto } from '@author/author_comment/dto/search-comment.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('original-work-comment')
 export class OriginalWorkCommentController {
@@ -22,7 +21,7 @@ export class OriginalWorkCommentController {
   @IsPublic()
   searchComments(
     @Param('originalWorkId') originalWorkId: number,
-    @Query() dto: SearchAuthorCommentsDto
+    @Paginate() dto: PaginateQuery
   ) {
     return this.originalWorkCommentService.searchComments({
       originalWorkId,

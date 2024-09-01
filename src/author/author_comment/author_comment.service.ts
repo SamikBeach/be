@@ -5,6 +5,7 @@ import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
 import { CommonService } from '@common/common.service';
 import { AuthorService } from '@author/author.service';
+import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
 @Injectable()
 export class AuthorCommentService {
@@ -33,30 +34,24 @@ export class AuthorCommentService {
     });
   }
 
-  async searchComments({ authorId, dto }) {
-    return this.commonService.paginate(
-      dto,
-      this.authorCommentRepository,
-      {
-        where: {
-          author_id: authorId,
-          target_comment_id: IsNull(),
-        },
-        relations: {
-          user: true,
-        },
-        select: {
-          user: {
-            id: true,
-            name: true,
-          },
-        },
-        order: {
-          created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
-        },
+  async searchComments({
+    authorId,
+    dto,
+  }: {
+    authorId: number;
+    dto: PaginateQuery;
+  }): Promise<Paginated<AuthorCommentModel>> {
+    return await paginate(dto, this.authorCommentRepository, {
+      where: {
+        author_id: authorId,
+        target_comment_id: IsNull(),
       },
-      'author-comment/search'
-    );
+      sortableColumns: ['id', 'like_count', 'comment_count'],
+      defaultSortBy: [['id', 'ASC']],
+      searchableColumns: ['comment'],
+      relativePath: true,
+      relations: ['author', 'user'],
+    });
   }
 
   async addComment({

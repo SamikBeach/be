@@ -4,8 +4,8 @@ import { OriginalWorkCommentModel } from './entities/original_work_comment.entit
 import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
 import { CommonService } from '@common/common.service';
-import { SearchAuthorCommentsDto } from '@author/author_comment/dto/search-comment.dto';
 import { OriginalWorkService } from '@original_work/original_work.service';
+import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
 @Injectable()
 export class OriginalWorkCommentService {
@@ -33,37 +33,24 @@ export class OriginalWorkCommentService {
       },
     });
   }
-
   async searchComments({
     originalWorkId,
     dto,
   }: {
     originalWorkId: number;
-    dto: SearchAuthorCommentsDto;
-  }) {
-    return this.commonService.paginate(
-      dto,
-      this.originalWorkCommentRepository,
-      {
-        where: {
-          original_work_id: originalWorkId,
-          target_comment_id: IsNull(),
-        },
-        relations: {
-          user: true,
-        },
-        select: {
-          user: {
-            id: true,
-            name: true,
-          },
-        },
-        order: {
-          created_at: dto.sort === 'latest' ? 'DESC' : 'ASC',
-        },
+    dto: PaginateQuery;
+  }): Promise<Paginated<OriginalWorkCommentModel>> {
+    return await paginate(dto, this.originalWorkCommentRepository, {
+      where: {
+        original_work_id: originalWorkId,
+        target_comment_id: IsNull(),
       },
-      'original-work-comment/search'
-    );
+      sortableColumns: ['id', 'like_count', 'comment_count'],
+      defaultSortBy: [['id', 'ASC']],
+      searchableColumns: ['comment'],
+      relativePath: true,
+      relations: ['user'],
+    });
   }
 
   async addComment({

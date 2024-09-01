@@ -6,10 +6,10 @@ import {
   Patch,
   Get,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('author-comment')
 export class AuthorCommentController {
@@ -17,7 +17,10 @@ export class AuthorCommentController {
 
   @Get(':authorId/search')
   @IsPublic()
-  searchComments(@Param('authorId') authorId: number, @Query() dto: string) {
+  searchComments(
+    @Param('authorId') authorId: number,
+    @Paginate() dto: PaginateQuery
+  ) {
     return this.authorCommentService.searchComments({
       authorId,
       dto,
