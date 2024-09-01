@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { SearchLogsDto } from './dto/search-logs.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LogModel } from './entities/log.entity';
 import { FindOptionsOrder, Repository } from 'typeorm';
 import { CommonService } from '@common/common.service';
+import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
 @Injectable()
 export class LogService {
@@ -33,28 +33,26 @@ export class LogService {
     });
   }
 
-  async searchLogs(dto: SearchLogsDto) {
-    return await this.commonService.paginate(
-      dto,
-      this.logRepository,
-      {
-        relations: {
-          user: true,
-          author_comment: true,
-          original_work_comment: true,
-          target_author: {
-            liked_users: true,
-            comments: true,
-          },
-          target_original_work: {
-            author: true,
-            liked_users: true,
-            comments: true,
-          },
+  async searchLogs(dto: PaginateQuery): Promise<Paginated<LogModel>> {
+    return await paginate(dto, this.logRepository, {
+      sortableColumns: ['id'],
+      defaultSortBy: [['id', 'DESC']],
+      relativePath: true,
+      relations: {
+        user: true,
+        author_comment: true,
+        original_work_comment: true,
+        target_author: {
+          liked_users: true,
+          comments: true,
+        },
+        target_original_work: {
+          author: true,
+          liked_users: true,
+          comments: true,
         },
       },
-      'log/search'
-    );
+    });
   }
 
   async createLog({
