@@ -4,9 +4,14 @@ import { AuthorLikeController } from './author_like.controller';
 import { AuthorLikeModel } from './entities/author_like.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LogModule } from '@log/log.module';
+import { AuthorModule } from '@author/author.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AuthorLikeModel]), LogModule],
+  imports: [
+    TypeOrmModule.forFeature([AuthorLikeModel]),
+    LogModule,
+    AuthorModule,
+  ],
   exports: [AuthorLikeService],
   controllers: [AuthorLikeController],
   providers: [AuthorLikeService],

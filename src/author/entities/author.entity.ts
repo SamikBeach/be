@@ -12,6 +12,7 @@ import { EraModel } from '../era/entities/era.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
+import { IsNumber } from 'class-validator';
 
 @Entity('Author')
 export class AuthorModel {
@@ -56,4 +57,12 @@ export class AuthorModel {
 
   @OneToMany(() => OriginalWorkModel, originalWork => originalWork.author)
   original_works: OriginalWorkModel[];
+
+  @Column()
+  @IsNumber()
+  like_count: number = 0;
+
+  @Column()
+  @IsNumber()
+  comment_count: number = 0;
 }

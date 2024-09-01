@@ -1,6 +1,7 @@
 import { AuthorModel } from '@author/entities/author.entity';
 import { OriginalWorkCommentModel } from '@original_work/original_work_comment/entities/original_work_comment.entity';
 import { UserModel } from '@user/entities/user.entity';
+import { IsNumber } from 'class-validator';
 import {
   Column,
   Entity,
@@ -49,4 +50,12 @@ export class OriginalWorkModel {
 
   @OneToMany(() => OriginalWorkCommentModel, comment => comment.original_work)
   comments: OriginalWorkCommentModel[];
+
+  @Column()
+  @IsNumber()
+  like_count: number;
+
+  @Column()
+  @IsNumber()
+  comment_count: number;
 }

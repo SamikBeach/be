@@ -3,13 +3,15 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthorLikeModel } from './entities/author_like.entity';
 import { LogService } from '@log/log.service';
+import { AuthorService } from '@author/author.service';
 
 @Injectable()
 export class AuthorLikeService {
   constructor(
     @InjectRepository(AuthorLikeModel)
     private readonly authorLikeRepository: Repository<AuthorLikeModel>,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly authorService: AuthorService
   ) {}
 
   async addLike({ authorId, userId }: { authorId: number; userId: number }) {
@@ -25,6 +27,8 @@ export class AuthorLikeService {
       target_author_id: authorId,
     });
 
+    await this.authorService.incrementLikeCount({ authorId });
+
     return newAuthorLike;
   }
 
@@ -33,6 +37,8 @@ export class AuthorLikeService {
       user_id: userId,
       author_id: authorId,
     });
+
+    await this.authorService.decrementLikeCount({ authorId });
 
     return deleted;
   }

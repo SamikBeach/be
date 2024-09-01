@@ -5,12 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthorCommentModel } from './entities/author_comment.entity';
 import { LogModule } from '@log/log.module';
 import { CommonModule } from '@common/common.module';
+import { AuthorModule } from '@author/author.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthorCommentModel]),
     LogModule,
     CommonModule,
+    AuthorModule,
   ],
   exports: [AuthorCommentService],
   controllers: [AuthorCommentController],

@@ -4,6 +4,7 @@ import { AuthorCommentModel } from './entities/author_comment.entity';
 import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
 import { CommonService } from '@common/common.service';
+import { AuthorService } from '@author/author.service';
 
 @Injectable()
 export class AuthorCommentService {
@@ -11,7 +12,8 @@ export class AuthorCommentService {
     @InjectRepository(AuthorCommentModel)
     private readonly authorCommentRepository: Repository<AuthorCommentModel>,
     private readonly commonService: CommonService,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly authorService: AuthorService
   ) {}
 
   async getAllComments(authorId: number) {
@@ -82,6 +84,10 @@ export class AuthorCommentService {
 
     const newAuthorComment = await this.authorCommentRepository.save(created);
 
+    if (targetCommentId == null) {
+      await this.authorService.incrementCommentCount({ authorId });
+    }
+
     await this.logService.createLog({
       user_id: userId,
       target_author_id: authorId,
@@ -114,6 +120,18 @@ export class AuthorCommentService {
     const deleted = await this.authorCommentRepository.delete({
       id: commentId,
     });
+
+    const comment = await this.authorCommentRepository.findOne({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (comment.target_comment_id == null) {
+      await this.authorService.decrementCommentCount({
+        authorId: comment.author_id,
+      });
+    }
 
     return deleted;
   }

@@ -1,19 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { OriginalWorkModel } from './entities/original_work.entity';
-import { CommonService } from '@common/common.service';
-import { SearchOriginalWorksDto } from './dto/search-original-works.dto';
 import { LogService } from '@log/log.service';
+import {
+  FilterOperator,
+  PaginateQuery,
+  Paginated,
+  paginate,
+} from 'nestjs-paginate';
 
 @Injectable()
 export class OriginalWorkService {
   constructor(
     @InjectRepository(OriginalWorkModel)
     private readonly originalWorkRepository: Repository<OriginalWorkModel>,
-    private readonly commonService: CommonService,
     private readonly logService: LogService
   ) {}
+
+  async incrementLikeCount({ originalWorkId }: { originalWorkId: number }) {
+    await this.originalWorkRepository.increment(
+      { id: originalWorkId },
+      'like_count',
+      1
+    );
+  }
+
+  async decrementLikeCount({ originalWorkId }: { originalWorkId: number }) {
+    await this.originalWorkRepository.decrement(
+      { id: originalWorkId },
+      'like_count',
+      1
+    );
+  }
+
+  async incrementCommentCount({ originalWorkId }: { originalWorkId: number }) {
+    await this.originalWorkRepository.increment(
+      { id: originalWorkId },
+      'comment_count',
+      1
+    );
+  }
+
+  async decrementCommentCount({ originalWorkId }: { originalWorkId: number }) {
+    await this.originalWorkRepository.decrement(
+      { id: originalWorkId },
+      'comment_count',
+      1
+    );
+  }
 
   async getAllOriginalWorks() {
     return await this.originalWorkRepository.find({
@@ -32,28 +67,26 @@ export class OriginalWorkService {
     });
   }
 
-  async searchOriginalWorks(dto: SearchOriginalWorksDto) {
-    return this.commonService.paginate(
-      dto,
-      this.originalWorkRepository,
-      {
-        where: {
-          ...(dto.keyword ? { title: ILike(`%${dto.keyword}%`) } : {}),
-          ...(dto.authorId ? { author: { id: dto.authorId } } : {}),
-        },
-        relations: {
-          author: true,
-          liked_users: true,
-          comments: true,
-        },
-        order: {
-          title: dto.sort === 'alphabetical' ? 'ASC' : undefined,
-          // TODO: 기원 전/후 구분
-          publication_date: dto.sort === 'publication_date' ? 'ASC' : undefined,
-        },
+  async searchOriginalWorks(
+    dto: PaginateQuery
+  ): Promise<Paginated<OriginalWorkModel>> {
+    return await paginate(dto, this.originalWorkRepository, {
+      sortableColumns: [
+        'id',
+        'title',
+        'title_in_eng',
+        'publication_date',
+        'like_count',
+        'comment_count',
+      ],
+      defaultSortBy: [['id', 'ASC']],
+      searchableColumns: ['title', 'title_in_eng'],
+      filterableColumns: {
+        author_id: [FilterOperator.EQ],
       },
-      'original_work/search'
-    );
+      relativePath: true,
+      relations: ['author'],
+    });
   }
 
   async getTrendingOriginalWorks() {

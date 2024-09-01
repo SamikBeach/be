@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { OriginalWorkService } from './original_work.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
-import { SearchOriginalWorksDto } from './dto/search-original-works.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('original-work')
 export class OriginalWorkController {
@@ -15,7 +15,7 @@ export class OriginalWorkController {
 
   @Get('search')
   @IsPublic()
-  searchOriginalWorks(@Query() dto: SearchOriginalWorksDto) {
+  searchOriginalWorks(@Paginate() dto: PaginateQuery) {
     return this.originalWorkService.searchOriginalWorks(dto);
   }
 

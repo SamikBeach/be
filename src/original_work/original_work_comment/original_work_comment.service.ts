@@ -5,6 +5,7 @@ import { IsNull, Repository } from 'typeorm';
 import { LogService } from '@log/log.service';
 import { CommonService } from '@common/common.service';
 import { SearchAuthorCommentsDto } from '@author/author_comment/dto/search-comment.dto';
+import { OriginalWorkService } from '@original_work/original_work.service';
 
 @Injectable()
 export class OriginalWorkCommentService {
@@ -12,7 +13,8 @@ export class OriginalWorkCommentService {
     @InjectRepository(OriginalWorkCommentModel)
     private readonly originalWorkCommentRepository: Repository<OriginalWorkCommentModel>,
     private readonly commonService: CommonService,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly originalWorkService: OriginalWorkService
   ) {}
 
   async getAllComments(originalWorkId: number) {
@@ -90,6 +92,10 @@ export class OriginalWorkCommentService {
     const newOriginalWorkComment =
       await this.originalWorkCommentRepository.save(created);
 
+    if (targetCommentId == null) {
+      await this.originalWorkService.incrementCommentCount({ originalWorkId });
+    }
+
     await this.logService.createLog({
       user_id: userId,
       target_original_work_id: originalWorkId,
@@ -122,6 +128,18 @@ export class OriginalWorkCommentService {
     const deleted = await this.originalWorkCommentRepository.delete({
       id: commentId,
     });
+
+    const comment = await this.originalWorkCommentRepository.findOne({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (comment.target_comment_id == null) {
+      await this.originalWorkService.decrementCommentCount({
+        originalWorkId: comment.original_work_id,
+      });
+    }
 
     return deleted;
   }

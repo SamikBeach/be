@@ -2,7 +2,6 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { PaginateAuthorDto } from './paginate-author.dto';
 
 export type AuthorSort =
-  | 'trending'
   | 'top_likes'
   | 'top_comments'
   | 'birth_date'

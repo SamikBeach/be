@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AuthorModel } from './entities/author.entity';
 import { LogService } from '@log/log.service';
 import {
@@ -15,9 +15,24 @@ export class AuthorService {
   constructor(
     @InjectRepository(AuthorModel)
     private readonly authorRepository: Repository<AuthorModel>,
-    private readonly dataSource: DataSource,
     private readonly logService: LogService
   ) {}
+
+  async incrementLikeCount({ authorId }: { authorId: number }) {
+    await this.authorRepository.increment({ id: authorId }, 'like_count', 1);
+  }
+
+  async decrementLikeCount({ authorId }: { authorId: number }) {
+    await this.authorRepository.decrement({ id: authorId }, 'like_count', 1);
+  }
+
+  async incrementCommentCount({ authorId }: { authorId: number }) {
+    await this.authorRepository.increment({ id: authorId }, 'comment_count', 1);
+  }
+
+  async decrementCommentCount({ authorId }: { authorId: number }) {
+    await this.authorRepository.decrement({ id: authorId }, 'comment_count', 1);
+  }
 
   async getAllAuthors() {
     return await this.authorRepository.find({
@@ -38,14 +53,21 @@ export class AuthorService {
 
   async searchAuthors(dto: PaginateQuery): Promise<Paginated<AuthorModel>> {
     return await paginate(dto, this.authorRepository, {
-      sortableColumns: ['id', 'era'],
+      sortableColumns: [
+        'id',
+        'era',
+        'name',
+        'born_date',
+        'like_count',
+        'comment_count',
+      ],
       defaultSortBy: [['id', 'ASC']],
-      searchableColumns: ['era'],
+      searchableColumns: ['name'],
       filterableColumns: {
         era_id: [FilterOperator.EQ],
       },
       relativePath: true,
-      relations: ['era', 'liked_users', 'comments', 'original_works'],
+      relations: ['era', 'original_works'],
     });
   }
 

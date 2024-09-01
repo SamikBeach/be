@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OriginalWorkLikeModel } from './entities/original_work_like.entity';
 import { LogService } from '@log/log.service';
+import { OriginalWorkService } from '@original_work/original_work.service';
 
 @Injectable()
 export class OriginalWorkLikeService {
   constructor(
     @InjectRepository(OriginalWorkLikeModel)
     private readonly originalWorkLikeRepository: Repository<OriginalWorkLikeModel>,
+    private readonly originalWorkService: OriginalWorkService,
     private readonly logService: LogService
   ) {}
 
@@ -32,6 +34,8 @@ export class OriginalWorkLikeService {
       target_original_work_id: originalWorkId,
     });
 
+    await this.originalWorkService.incrementLikeCount({ originalWorkId });
+
     return newOriginalWorkLike;
   }
 
@@ -46,6 +50,8 @@ export class OriginalWorkLikeService {
       user_id: userId,
       original_work_id: originalWorkId,
     });
+
+    await this.originalWorkService.decrementLikeCount({ originalWorkId });
 
     return deleted;
   }
