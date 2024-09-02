@@ -62,7 +62,7 @@ export class AuthorService {
         'comment_count',
       ],
       defaultSortBy: [['id', 'ASC']],
-      searchableColumns: ['name'],
+      searchableColumns: ['name', 'name_in_kor'],
       filterableColumns: {
         era_id: [FilterOperator.EQ],
       },
