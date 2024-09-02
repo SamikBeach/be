@@ -144,10 +144,6 @@ export class OriginalWorkCommentService {
   }
 
   async deleteComment({ commentId }: { commentId: number }) {
-    const deleted = await this.originalWorkCommentRepository.delete({
-      id: commentId,
-    });
-
     const comment = await this.originalWorkCommentRepository.findOne({
       where: {
         id: commentId,
@@ -163,6 +159,10 @@ export class OriginalWorkCommentService {
         commentId: comment.target_comment_id,
       });
     }
+
+    const deleted = await this.originalWorkCommentRepository.delete({
+      id: commentId,
+    });
 
     return deleted;
   }

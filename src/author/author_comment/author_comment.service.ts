@@ -144,10 +144,6 @@ export class AuthorCommentService {
   }
 
   async deleteComment({ commentId }: { commentId: number }) {
-    const deleted = await this.authorCommentRepository.delete({
-      id: commentId,
-    });
-
     const comment = await this.authorCommentRepository.findOne({
       where: {
         id: commentId,
@@ -163,6 +159,10 @@ export class AuthorCommentService {
         commentId: comment.target_comment_id,
       });
     }
+
+    const deleted = await this.authorCommentRepository.delete({
+      id: commentId,
+    });
 
     return deleted;
   }
