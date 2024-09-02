@@ -61,7 +61,7 @@ export class AuthorCommentModel {
   @ManyToMany(() => UserModel)
   @JoinTable({
     name: 'author_comment_like',
-    joinColumn: { name: 'author_id', referencedColumnName: 'id' },
+    joinColumn: { name: 'author_comment_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
   })
   liked_users: UserModel[];

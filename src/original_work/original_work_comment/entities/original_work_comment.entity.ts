@@ -6,7 +6,10 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -51,4 +54,21 @@ export class OriginalWorkCommentModel {
 
   @UpdateDateColumn()
   updated_at: Date = new Date();
+
+  @OneToMany(
+    () => OriginalWorkCommentModel,
+    comment => comment.target_comment_id
+  )
+  sub_comments: OriginalWorkCommentModel[];
+
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'original_work_comment_like',
+    joinColumn: {
+      name: 'original_work_comment_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  liked_users: UserModel[];
 }

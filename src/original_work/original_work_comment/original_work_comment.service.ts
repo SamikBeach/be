@@ -79,7 +79,7 @@ export class OriginalWorkCommentService {
       defaultSortBy: [['id', 'ASC']],
       searchableColumns: ['comment'],
       relativePath: true,
-      relations: ['user'],
+      relations: ['user', 'liked_users'],
     });
   }
 

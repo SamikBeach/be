@@ -80,7 +80,7 @@ export class AuthorCommentService {
       defaultSortBy: [['id', 'ASC']],
       searchableColumns: ['comment'],
       relativePath: true,
-      relations: ['author', 'user'],
+      relations: ['author', 'user', 'liked_users'],
     });
   }
 
