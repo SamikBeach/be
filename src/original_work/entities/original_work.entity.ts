@@ -40,6 +40,18 @@ export class OriginalWorkModel {
   @Column()
   publication_date_is_bc?: 0 | 1 | null;
 
+  @Column()
+  posthumous?: 0 | 1 | null;
+
+  @Column()
+  circa?: 0 | 1 | null;
+
+  @Column()
+  century?: 0 | 1 | null;
+
+  @Column()
+  s?: 0 | 1 | null;
+
   @ManyToMany(() => UserModel)
   @JoinTable({
     name: 'original_work_like',
