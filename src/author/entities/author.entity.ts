@@ -65,4 +65,8 @@ export class AuthorModel {
   @Column()
   @IsNumber()
   comment_count: number = 0;
+
+  edition_count?: number;
+
+  // editions?: any;
 }

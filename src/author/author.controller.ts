@@ -30,4 +30,10 @@ export class AuthorController {
   getAuthorById(@Param('authorId') authorId: number) {
     return this.authorService.getAuthorById(authorId);
   }
+
+  @Get(':authorId/editions')
+  @IsPublic()
+  searchAuthorEditions(@Param('authorId') authorId: number) {
+    return this.authorService.searchAuthorEditions(authorId);
+  }
 }

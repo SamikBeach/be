@@ -9,13 +9,17 @@ import {
   Paginated,
   paginate,
 } from 'nestjs-paginate';
+import { ConfigService } from '@nestjs/config';
+import { ENV_GOOGLE_BOOK_API_KEY } from '@common/const/env-keys.const';
+import axios from 'axios';
 
 @Injectable()
 export class AuthorService {
   constructor(
     @InjectRepository(AuthorModel)
     private readonly authorRepository: Repository<AuthorModel>,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly configService: ConfigService
   ) {}
 
   async incrementLikeCount({ authorId }: { authorId: number }) {
@@ -51,8 +55,24 @@ export class AuthorService {
     });
   }
 
+  async searchAuthorEditions(authorId) {
+    const author = await this.authorRepository.findOne({
+      where: { id: authorId },
+    });
+
+    const googleApiKey = this.configService.get<string>(
+      ENV_GOOGLE_BOOK_API_KEY
+    );
+
+    const googleBooks = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author.name}&key=${googleApiKey}&maxResults=10&orderBy=newest`
+    );
+
+    return googleBooks;
+  }
+
   async searchAuthors(dto: PaginateQuery): Promise<Paginated<AuthorModel>> {
-    return await paginate(dto, this.authorRepository, {
+    const authors = await paginate(dto, this.authorRepository, {
       sortableColumns: [
         'id',
         'era',
@@ -69,6 +89,30 @@ export class AuthorService {
       relativePath: true,
       relations: ['era', 'original_works'],
     });
+
+    const googleApiKey = this.configService.get<string>(
+      ENV_GOOGLE_BOOK_API_KEY
+    );
+
+    // try {
+    const editionCountArray = await Promise.all(
+      authors.data.map(async author => {
+        const googleBooks = await axios.get(
+          `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author.name}&key=${googleApiKey}&maxResults=10&orderBy=newest`
+        );
+
+        return googleBooks.data.totalItems;
+      })
+    );
+    // } catch (e) {
+    //   console.log({ e });
+    // }
+    const authorData = authors.data.map(author => ({
+      ...author,
+      edition_count: editionCountArray[author.id],
+    }));
+
+    return { ...authors, data: authorData };
   }
 
   async getTrendingAuthors() {

@@ -9,13 +9,17 @@ import {
   Paginated,
   paginate,
 } from 'nestjs-paginate';
+import { ConfigService } from '@nestjs/config';
+import { ENV_GOOGLE_BOOK_API_KEY } from '@common/const/env-keys.const';
+import axios from 'axios';
 
 @Injectable()
 export class OriginalWorkService {
   constructor(
     @InjectRepository(OriginalWorkModel)
     private readonly originalWorkRepository: Repository<OriginalWorkModel>,
-    private readonly logService: LogService
+    private readonly logService: LogService,
+    private readonly configService: ConfigService
   ) {}
 
   async incrementLikeCount({ originalWorkId }: { originalWorkId: number }) {
@@ -59,18 +63,30 @@ export class OriginalWorkService {
   }
 
   async getOriginalWorkById(originalWorkId: number) {
-    return await this.originalWorkRepository.findOne({
+    const originalWork = await this.originalWorkRepository.findOne({
       where: {
         id: originalWorkId,
       },
       relations: { author: true },
     });
+
+    const googleApiKey = this.configService.get<string>(
+      ENV_GOOGLE_BOOK_API_KEY
+    );
+
+    const googleBooks = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=intitle:${originalWork.title}+inauthor:${originalWork.author.name}&key=${googleApiKey}&maxResults=10&orderBy=newest`
+    );
+
+    originalWork.editions = googleBooks.data;
+
+    return originalWork;
   }
 
   async searchOriginalWorks(
     dto: PaginateQuery
   ): Promise<Paginated<OriginalWorkModel>> {
-    return await paginate(dto, this.originalWorkRepository, {
+    const originalWorks = await paginate(dto, this.originalWorkRepository, {
       sortableColumns: [
         'id',
         'title',
@@ -92,6 +108,8 @@ export class OriginalWorkService {
       relativePath: true,
       relations: ['author'],
     });
+
+    return originalWorks;
   }
 
   async getTrendingOriginalWorks() {
