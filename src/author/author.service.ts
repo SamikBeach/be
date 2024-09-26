@@ -90,29 +90,28 @@ export class AuthorService {
       relations: ['era', 'original_works'],
     });
 
-    const googleApiKey = this.configService.get<string>(
-      ENV_GOOGLE_BOOK_API_KEY
-    );
+    return authors;
 
-    // try {
-    const editionCountArray = await Promise.all(
-      authors.data.map(async author => {
-        const googleBooks = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author.name}&key=${googleApiKey}&maxResults=10&orderBy=newest`
-        );
+    // const googleApiKey = this.configService.get<string>(
+    //   ENV_GOOGLE_BOOK_API_KEY
+    // );
 
-        return googleBooks.data.totalItems;
-      })
-    );
-    // } catch (e) {
-    //   console.log({ e });
-    // }
-    const authorData = authors.data.map(author => ({
-      ...author,
-      edition_count: editionCountArray[author.id],
-    }));
+    // const editionCountArray = await Promise.all(
+    //   authors.data.map(async author => {
+    //     const googleBooks = await axios.get(
+    //       `https://www.googleapis.com/books/v1/volumes?q=inauthor:${author.name}&key=${googleApiKey}&maxResults=10&orderBy=newest`
+    //     );
 
-    return { ...authors, data: authorData };
+    //     return googleBooks.data.totalItems;
+    //   })
+    // );
+
+    // const authorData = authors.data.map(author => ({
+    //   ...author,
+    //   edition_count: editionCountArray[author.id] ?? 0,
+    // }));
+
+    // return { ...authors, data: authorData };
   }
 
   async getTrendingAuthors() {
