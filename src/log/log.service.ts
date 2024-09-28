@@ -42,11 +42,17 @@ export class LogService {
         user: true,
         author_comment: true,
         original_work_comment: true,
+        edition_comment: true,
         target_author: {
           liked_users: true,
           comments: true,
         },
         target_original_work: {
+          author: true,
+          liked_users: true,
+          comments: true,
+        },
+        target_edition: {
           author: true,
           liked_users: true,
           comments: true,
@@ -59,14 +65,18 @@ export class LogService {
     user_id,
     author_comment_id,
     original_work_comment_id,
+    edition_comment_id,
     target_author_id,
     target_original_work_id,
+    target_edition_id,
   }: {
     user_id: number;
     author_comment_id?: number;
     original_work_comment_id?: number;
+    edition_comment_id?: number;
     target_author_id?: number;
     target_original_work_id?: number;
+    target_edition_id?: number;
   }) {
     const created = this.logRepository.create({
       user: {
@@ -78,11 +88,17 @@ export class LogService {
       original_work_comment: {
         id: original_work_comment_id,
       },
+      edition_comment: {
+        id: edition_comment_id,
+      },
       target_author: {
         id: target_author_id,
       },
       target_original_work: {
         id: target_original_work_id,
+      },
+      target_edition: {
+        id: target_edition_id,
       },
     });
 

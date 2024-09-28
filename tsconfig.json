@@ -24,6 +24,7 @@
       "@common/*": ["src/common/*"],
       "@user/*": ["src/user/*"],
       "@original_work/*": ["src/original_work/*"],
+      "@edition/*": ["src/edition/*"],
       "@log/*": ["src/log/*"]
     }
   },

@@ -36,6 +36,14 @@ import { OriginalWorkCommentLikeModule } from '@original_work/original_work_comm
 import { OriginalWorkCommentLikeModel } from '@original_work/original_work_comment_like/entities/original_work_comment_like.entity';
 import { LogModel } from '@log/entities/log.entity';
 import { LogModule } from '@log/log.module';
+import { EditionModel } from '@edition/entities/edition.entity';
+import { EditionCommentLikeModel } from '@edition/edition_comment_like/entities/edition_comment_like.entity';
+import { EditionModule } from '@edition/edition.module';
+import { EditionCommentLikeModule } from '@edition/edition_comment_like/edition_comment_like.module';
+import { EditionLikeModule } from '@edition/edition_like/edition_like.module';
+import { EditionCommentModule } from '@edition/edition_comment/edition_comment.module';
+import { EditionCommentModel } from '@edition/edition_comment/entities/edition_comment.entity';
+import { EditionLikeModel } from '@edition/edition_like/entities/edition_like.entity';
 
 @Module({
   imports: [
@@ -52,32 +60,46 @@ import { LogModule } from '@log/log.module';
       database: process.env.DB_NAME,
       entities: [
         UserModel,
-        AuthorModel,
-        OriginalWorkModel,
         EraModel,
+        LogModel,
+
+        AuthorModel,
         AuthorLikeModel,
         AuthorCommentModel,
         AuthorCommentLikeModel,
+
+        OriginalWorkModel,
         OriginalWorkLikeModel,
         OriginalWorkCommentModel,
         OriginalWorkCommentLikeModel,
-        LogModel,
+
+        EditionModel,
+        EditionLikeModel,
+        EditionCommentModel,
+        EditionCommentLikeModel,
       ],
       synchronize: false,
     }),
     AuthModule,
     UserModule,
     CommonModule,
-    AuthorModule,
-    OriginalWorkModule,
     EraModule,
+    LogModule,
+
+    AuthorModule,
     AuthorLikeModule,
     AuthorCommentModule,
     AuthorCommentLikeModule,
+
+    OriginalWorkModule,
     OriginalWorkLikeModule,
     OriginalWorkCommentModule,
     OriginalWorkCommentLikeModule,
-    LogModule,
+
+    EditionModule,
+    EditionLikeModule,
+    EditionCommentModule,
+    EditionCommentLikeModule,
   ],
   controllers: [AppController],
   providers: [
