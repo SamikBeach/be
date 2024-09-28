@@ -7,4 +7,7 @@ export class EraModel {
 
   @Column({ name: 'era' })
   era: string;
+
+  @Column({ name: 'era_in_kor' })
+  era_in_kor: string;
 }
