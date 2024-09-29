@@ -5,7 +5,6 @@ import { EditionModel } from './entities/edition.entity';
 import { LogService } from '@log/log.service';
 import {
   FilterOperator,
-  FilterSuffix,
   PaginateQuery,
   Paginated,
   paginate,
