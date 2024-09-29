@@ -87,7 +87,7 @@ export class AuthorService {
         era_id: [FilterOperator.EQ],
       },
       relativePath: true,
-      relations: ['era', 'original_works'],
+      relations: ['era', 'original_works', 'editions'],
     });
 
     return authors;

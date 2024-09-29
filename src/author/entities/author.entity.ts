@@ -13,6 +13,7 @@ import { UserModel } from '@user/entities/user.entity';
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 import { IsNumber } from 'class-validator';
+import { EditionModel } from '@edition/entities/edition.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -66,7 +67,6 @@ export class AuthorModel {
   @IsNumber()
   comment_count: number = 0;
 
-  edition_count?: number;
-
-  // editions?: any;
+  @OneToMany(() => EditionModel, edition => edition.author)
+  editions: EditionModel[];
 }
