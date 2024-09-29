@@ -91,6 +91,7 @@ export class OriginalWorkService {
         'id',
         'title',
         'title_in_eng',
+        'title_in_kor',
         'publication_date',
         'like_count',
         'comment_count',
@@ -101,6 +102,7 @@ export class OriginalWorkService {
         'title_in_eng',
         'title_in_kor',
         'author.name',
+        'author.name_in_kor',
       ],
       filterableColumns: {
         author_id: [FilterOperator.EQ],

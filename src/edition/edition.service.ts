@@ -94,6 +94,15 @@ export class EditionService {
           },
         },
       }),
+      ...(dto.filter?.edition_id && {
+        where: {
+          original_works: {
+            editions: {
+              id: Number(dto.filter.edition_id),
+            },
+          },
+        },
+      }),
       relativePath: true,
       relations: ['author', 'original_works'],
     });
