@@ -27,6 +27,9 @@ export class LogService {
         target_original_work: {
           author: true,
         },
+        target_edition: {
+          author: true,
+        },
       },
       take,
       order,
@@ -43,19 +46,12 @@ export class LogService {
         author_comment: true,
         original_work_comment: true,
         edition_comment: true,
-        target_author: {
-          liked_users: true,
-          comments: true,
-        },
+        target_author: true,
         target_original_work: {
           author: true,
-          liked_users: true,
-          comments: true,
         },
         target_edition: {
           author: true,
-          liked_users: true,
-          comments: true,
         },
       },
     });

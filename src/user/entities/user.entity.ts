@@ -1,5 +1,6 @@
 import { AuthorModel } from '@author/entities/author.entity';
 import { BaseModel } from '@common/entities/base.entity';
+import { EditionModel } from '@edition/entities/edition.entity';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 import { IsEmail, IsString } from 'class-validator';
 import {
@@ -43,6 +44,14 @@ export class UserModel extends BaseModel {
     inverseJoinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
   })
   liked_original_works: OriginalWorkModel[];
+
+  @ManyToMany(() => EditionModel)
+  @JoinTable({
+    name: 'edition_like',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'edition_id', referencedColumnName: 'id' },
+  })
+  liked_editions: EditionModel[];
 
   @CreateDateColumn()
   created_at: Date = new Date();

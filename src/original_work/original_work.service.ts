@@ -105,6 +105,13 @@ export class OriginalWorkService {
       filterableColumns: {
         author_id: [FilterOperator.EQ],
       },
+      ...(dto.filter?.edition_id && {
+        where: {
+          editions: {
+            id: Number(dto.filter.edition_id),
+          },
+        },
+      }),
       relativePath: true,
       relations: ['author', 'editions'],
     });

@@ -77,6 +77,7 @@ export class AuthorService {
         'id',
         'era',
         'name',
+        'name_in_kor',
         'born_date',
         'like_count',
         'comment_count',

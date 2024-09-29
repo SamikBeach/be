@@ -74,7 +74,6 @@ export class EditionService {
   }
 
   async searchEditions(dto: PaginateQuery): Promise<Paginated<EditionModel>> {
-    console.log({ dto });
     const editions = await paginate(dto, this.editionRepository, {
       sortableColumns: [
         'id',
