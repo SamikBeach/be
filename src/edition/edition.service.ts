@@ -58,7 +58,7 @@ export class EditionService {
       where: {
         id: editionId,
       },
-      relations: { author: true },
+      relations: { author: true, original_works: true },
     });
 
     // const googleApiKey = this.configService.get<string>(

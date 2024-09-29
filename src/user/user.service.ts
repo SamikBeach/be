@@ -55,6 +55,7 @@ export class UserService {
           liked_authors: true,
           liked_original_works: {
             author: true,
+            editions: true,
           },
         },
       });

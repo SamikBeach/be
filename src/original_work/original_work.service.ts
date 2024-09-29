@@ -106,7 +106,7 @@ export class OriginalWorkService {
         author_id: [FilterOperator.EQ],
       },
       relativePath: true,
-      relations: ['author'],
+      relations: ['author', 'editions'],
     });
 
     return originalWorks;

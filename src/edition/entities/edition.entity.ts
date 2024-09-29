@@ -1,7 +1,6 @@
 import { AuthorModel } from '@author/entities/author.entity';
 import { EditionCommentModel } from '@edition/edition_comment/entities/edition_comment.entity';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
-import { OriginalWorkEditionModel } from '@original_work_edition/entities/original_work_edition.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { IsNumber } from 'class-validator';
 import {
