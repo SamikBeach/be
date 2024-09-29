@@ -83,7 +83,7 @@ export class EditionService {
         'comment_count',
       ],
       defaultSortBy: [['id', 'ASC']],
-      searchableColumns: ['title', 'author.name'],
+      searchableColumns: ['title', 'author.name', 'author.name_in_kor'],
       filterableColumns: {
         author_id: [FilterOperator.EQ],
       },
