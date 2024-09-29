@@ -3,7 +3,7 @@ import { EditionService } from './edition.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
-@Controller('original-work')
+@Controller('edition')
 export class EditionController {
   constructor(private readonly editionService: EditionService) {}
 

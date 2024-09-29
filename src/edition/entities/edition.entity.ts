@@ -1,5 +1,7 @@
 import { AuthorModel } from '@author/entities/author.entity';
 import { EditionCommentModel } from '@edition/edition_comment/entities/edition_comment.entity';
+import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
+import { OriginalWorkEditionModel } from '@original_work_edition/entities/original_work_edition.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { IsNumber } from 'class-validator';
 import {
@@ -29,6 +31,9 @@ export class EditionModel {
   author: AuthorModel;
 
   @Column()
+  image_url: string;
+
+  @Column()
   publication_date: string;
 
   @Column()
@@ -47,6 +52,14 @@ export class EditionModel {
     inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
   })
   liked_users: UserModel[];
+
+  @ManyToMany(() => OriginalWorkModel)
+  @JoinTable({
+    name: 'original_work_edition',
+    joinColumn: { name: 'edition_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
+  })
+  original_works: OriginalWorkModel[];
 
   @OneToMany(() => EditionCommentModel, comment => comment.edition)
   comments: EditionCommentModel[];

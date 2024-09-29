@@ -5,6 +5,7 @@ import { EditionModel } from './entities/edition.entity';
 import { LogService } from '@log/log.service';
 import {
   FilterOperator,
+  FilterSuffix,
   PaginateQuery,
   Paginated,
   paginate,
@@ -74,6 +75,7 @@ export class EditionService {
   }
 
   async searchEditions(dto: PaginateQuery): Promise<Paginated<EditionModel>> {
+    console.log({ dto });
     const editions = await paginate(dto, this.editionRepository, {
       sortableColumns: [
         'id',
@@ -87,8 +89,13 @@ export class EditionService {
       filterableColumns: {
         author_id: [FilterOperator.EQ],
       },
+      where: {
+        original_works: {
+          id: Number(dto.filter.original_work_id),
+        },
+      },
       relativePath: true,
-      relations: ['author'],
+      relations: ['author', 'original_works'],
     });
 
     return editions;

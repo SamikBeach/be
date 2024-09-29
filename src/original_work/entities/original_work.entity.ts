@@ -1,5 +1,7 @@
 import { AuthorModel } from '@author/entities/author.entity';
+import { EditionModel } from '@edition/entities/edition.entity';
 import { OriginalWorkCommentModel } from '@original_work/original_work_comment/entities/original_work_comment.entity';
+import { OriginalWorkEditionModel } from '@original_work_edition/entities/original_work_edition.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { IsNumber } from 'class-validator';
 import {
@@ -60,6 +62,14 @@ export class OriginalWorkModel {
   })
   liked_users: UserModel[];
 
+  @ManyToMany(() => EditionModel)
+  @JoinTable({
+    name: 'original_work_edition',
+    joinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'edition_id', referencedColumnName: 'id' },
+  })
+  editions: EditionModel[];
+
   @OneToMany(() => OriginalWorkCommentModel, comment => comment.original_work)
   comments: OriginalWorkCommentModel[];
 
@@ -70,7 +80,4 @@ export class OriginalWorkModel {
   @Column()
   @IsNumber()
   comment_count: number;
-
-  // @Column()
-  editions?: any;
 }

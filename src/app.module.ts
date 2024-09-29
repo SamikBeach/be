@@ -44,6 +44,8 @@ import { EditionLikeModule } from '@edition/edition_like/edition_like.module';
 import { EditionCommentModule } from '@edition/edition_comment/edition_comment.module';
 import { EditionCommentModel } from '@edition/edition_comment/entities/edition_comment.entity';
 import { EditionLikeModel } from '@edition/edition_like/entities/edition_like.entity';
+import { OriginalWorkEditionModule } from '@original_work_edition/original_work_edition.module';
+import { OriginalWorkEditionModel } from '@original_work_edition/entities/original_work_edition.entity';
 
 @Module({
   imports: [
@@ -77,6 +79,8 @@ import { EditionLikeModel } from '@edition/edition_like/entities/edition_like.en
         EditionLikeModel,
         EditionCommentModel,
         EditionCommentLikeModel,
+
+        OriginalWorkEditionModel,
       ],
       synchronize: false,
     }),
@@ -100,6 +104,8 @@ import { EditionLikeModel } from '@edition/edition_like/entities/edition_like.en
     EditionLikeModule,
     EditionCommentModule,
     EditionCommentLikeModule,
+
+    OriginalWorkEditionModule,
   ],
   controllers: [AppController],
   providers: [

@@ -25,6 +25,7 @@
       "@user/*": ["src/user/*"],
       "@original_work/*": ["src/original_work/*"],
       "@edition/*": ["src/edition/*"],
+      "@original_work_edition/*": ["src/original_work_edition/*"],
       "@log/*": ["src/log/*"]
     }
   },
