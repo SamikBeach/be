@@ -95,6 +95,7 @@ export class OriginalWorkService {
         'publication_date',
         'like_count',
         'comment_count',
+        'edition_count',
       ],
       defaultSortBy: [['id', 'ASC']],
       searchableColumns: [

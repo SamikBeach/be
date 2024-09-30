@@ -79,4 +79,8 @@ export class OriginalWorkModel {
   @Column()
   @IsNumber()
   comment_count: number;
+
+  @Column()
+  @IsNumber()
+  edition_count: number;
 }
