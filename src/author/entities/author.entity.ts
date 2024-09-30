@@ -11,9 +11,7 @@ import {
 import { EraModel } from '../era/entities/era.entity';
 import { UserModel } from '@user/entities/user.entity';
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
-import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 import { IsNumber } from 'class-validator';
-import { EditionModel } from '@edition/entities/edition.entity';
 
 @Entity('Author')
 export class AuthorModel {
@@ -56,9 +54,6 @@ export class AuthorModel {
   @OneToMany(() => AuthorCommentModel, comment => comment.author)
   comments: AuthorCommentModel[];
 
-  @OneToMany(() => OriginalWorkModel, originalWork => originalWork.author)
-  original_works: OriginalWorkModel[];
-
   @Column()
   @IsNumber()
   like_count: number = 0;
@@ -67,6 +62,17 @@ export class AuthorModel {
   @IsNumber()
   comment_count: number = 0;
 
-  @OneToMany(() => EditionModel, edition => edition.author)
-  editions: EditionModel[];
+  @Column()
+  @IsNumber()
+  original_work_count: number = 0;
+
+  @Column()
+  @IsNumber()
+  edition_count: number = 0;
+
+  // @OneToMany(() => OriginalWorkModel, originalWork => originalWork.author)
+  // original_works: OriginalWorkModel[];
+
+  // @OneToMany(() => EditionModel, edition => edition.author)
+  // editions: EditionModel[];
 }

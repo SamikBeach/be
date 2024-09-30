@@ -29,6 +29,9 @@ export class LogService {
         },
         target_edition: {
           author: true,
+          original_works: {
+            author: true,
+          },
         },
       },
       take,

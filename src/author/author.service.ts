@@ -81,6 +81,8 @@ export class AuthorService {
         'born_date',
         'like_count',
         'comment_count',
+        'edition_count',
+        'original_work_count',
       ],
       defaultSortBy: [['id', 'ASC']],
       searchableColumns: ['name', 'name_in_kor'],
@@ -88,7 +90,7 @@ export class AuthorService {
         era_id: [FilterOperator.EQ],
       },
       relativePath: true,
-      relations: ['era', 'original_works', 'editions'],
+      relations: ['era'],
     });
 
     return authors;
