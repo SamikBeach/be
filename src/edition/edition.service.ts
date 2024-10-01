@@ -57,7 +57,12 @@ export class EditionService {
       where: {
         id: editionId,
       },
-      relations: { author: true, original_works: true },
+      relations: {
+        author: true,
+        original_works: {
+          author: true,
+        },
+      },
     });
 
     // const googleApiKey = this.configService.get<string>(
@@ -104,7 +109,12 @@ export class EditionService {
         },
       }),
       relativePath: true,
-      relations: ['author', 'original_works'],
+      relations: {
+        author: true,
+        original_works: {
+          author: true,
+        },
+      },
     });
 
     return editions;

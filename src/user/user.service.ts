@@ -58,6 +58,7 @@ export class UserService {
           },
           liked_editions: {
             author: true,
+            original_works: true,
           },
         },
       });
