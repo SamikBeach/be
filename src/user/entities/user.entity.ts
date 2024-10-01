@@ -53,6 +53,39 @@ export class UserModel extends BaseModel {
   })
   liked_editions: EditionModel[];
 
+  @ManyToMany(() => AuthorModel)
+  @JoinTable({
+    name: 'author_comment',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'author_id',
+      referencedColumnName: 'id',
+    },
+  })
+  commented_authors: AuthorModel[];
+
+  @ManyToMany(() => OriginalWorkModel)
+  @JoinTable({
+    name: 'original_work_comment',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'original_work_id',
+      referencedColumnName: 'id',
+    },
+  })
+  commented_original_works: OriginalWorkModel[];
+
+  @ManyToMany(() => EditionModel)
+  @JoinTable({
+    name: 'edition_comment',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'edition_id',
+      referencedColumnName: 'id',
+    },
+  })
+  commented_editions: EditionModel[];
+
   @CreateDateColumn()
   created_at: Date = new Date();
 

@@ -51,4 +51,10 @@ export class UserController {
   getUserLikesByUserId(@Param('userId') userId: number) {
     return this.userService.getUserLikesByUserId(userId);
   }
+
+  @Get(':userId/comment')
+  @IsPublic()
+  getUserCommentsByUserId(@Param('userId') userId: number) {
+    return this.userService.getUserCommentsByUserId(userId);
+  }
 }

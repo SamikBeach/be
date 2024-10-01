@@ -55,11 +55,9 @@ export class UserService {
           liked_authors: true,
           liked_original_works: {
             author: true,
-            editions: true,
           },
           liked_editions: {
             author: true,
-            original_works: true,
           },
         },
       });
@@ -68,6 +66,30 @@ export class UserService {
       authors: liked_authors,
       original_works: liked_original_works,
       editions: liked_editions,
+    };
+  }
+
+  async getUserCommentsByUserId(userId: number) {
+    const { commented_authors, commented_original_works, commented_editions } =
+      await this.userRepository.findOne({
+        where: {
+          id: userId,
+        },
+        relations: {
+          commented_authors: true,
+          commented_original_works: {
+            author: true,
+          },
+          commented_editions: {
+            author: true,
+          },
+        },
+      });
+
+    return {
+      authors: commented_authors,
+      original_works: commented_original_works,
+      editions: commented_editions,
     };
   }
 }

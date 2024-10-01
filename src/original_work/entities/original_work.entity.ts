@@ -61,6 +61,14 @@ export class OriginalWorkModel {
   })
   liked_users: UserModel[];
 
+  @ManyToMany(() => UserModel)
+  @JoinTable({
+    name: 'original_work_comment',
+    joinColumn: { name: 'original_work_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'user_id', referencedColumnName: 'id' },
+  })
+  commented_users: UserModel[];
+
   @ManyToMany(() => EditionModel)
   @JoinTable({
     name: 'original_work_edition',
