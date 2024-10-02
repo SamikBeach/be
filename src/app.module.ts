@@ -46,6 +46,10 @@ import { EditionCommentModel } from '@edition/edition_comment/entities/edition_c
 import { EditionLikeModel } from '@edition/edition_like/entities/edition_like.entity';
 import { OriginalWorkEditionModule } from '@original_work_edition/original_work_edition.module';
 import { OriginalWorkEditionModel } from '@original_work_edition/entities/original_work_edition.entity';
+import { TypeModel } from './type/entities/type.entity';
+import { TypeModule } from './type/type.module';
+import { ReportModule } from './report/report.module';
+import { ReportModel } from './report/entities/report.entity';
 
 @Module({
   imports: [
@@ -64,6 +68,8 @@ import { OriginalWorkEditionModel } from '@original_work_edition/entities/origin
         UserModel,
         EraModel,
         LogModel,
+        TypeModel,
+        ReportModel,
 
         AuthorModel,
         AuthorLikeModel,
@@ -89,6 +95,8 @@ import { OriginalWorkEditionModel } from '@original_work_edition/entities/origin
     CommonModule,
     EraModule,
     LogModule,
+    TypeModule,
+    ReportModule,
 
     AuthorModule,
     AuthorLikeModule,
