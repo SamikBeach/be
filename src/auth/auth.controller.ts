@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Headers,
+  UseGuards,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { AuthService } from './auth.service';
@@ -23,20 +31,21 @@ export class AuthController {
     return await this.authService.checkEmailDuplication(email);
   }
 
-  @Post('/send-email-verification-code')
-  @IsPublic()
-  async sendEmailVerificationCode(@Body('email') email: string) {
-    return await this.authService.sendEmailVerificationCode(email);
-  }
-
   @Post('/register-user-info')
   @IsPublic()
   async registerUserInfo(
     @Body('email') email: string,
     @Body('name') name: string,
     @Body('nickname') nickname: string,
-    @Body('password') password: string
+    @Headers('authorization') tokenWithPrefix: string
   ) {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: false,
+    });
+
+    const { password } = this.authService.decodeBasicToken(token);
+
     return await this.authService.registerUserInfo({
       email,
       name,
@@ -98,6 +107,41 @@ export class AuthController {
     });
   }
 
+  @Post('/login/email')
+  @IsPublic()
+  async login(
+    @Headers('authorization') tokenWithPrefix: string,
+    @Res({ passthrough: true }) res: Response
+  ): Promise<{
+    accessToken: string;
+    refreshToken: string;
+  }> {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: false,
+    });
+
+    const { email, password } = this.authService.decodeBasicToken(token);
+
+    const { accessToken, refreshToken } = await this.authService.loginWithEmail(
+      {
+        email,
+        password,
+      }
+    );
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
   @Post('/login/google')
   @IsPublic()
   async loginWithGoogle(
@@ -122,10 +166,11 @@ export class AuthController {
 
     const { email, name } = ticket.getPayload();
 
-    const { accessToken, refreshToken } = await this.authService.login({
-      email,
-      name,
-    });
+    const { accessToken, refreshToken } =
+      await this.authService.loginWithGoogle({
+        email,
+        name,
+      });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,

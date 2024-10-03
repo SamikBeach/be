@@ -2,17 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserModel } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
+import { ENV_HASH_ROUNDS_KEY } from '@common/const/env-keys.const';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserModel)
-    private readonly userRepository: Repository<UserModel>
+    private readonly userRepository: Repository<UserModel>,
+    private readonly configService: ConfigService
   ) {}
 
-  async createUser(user: Pick<UserModel, 'email' | 'verification_code'>) {
+  async createUser(
+    user: Pick<UserModel, 'email' | 'password' | 'verification_code'>
+  ) {
     const createdUser = this.userRepository.create({
       email: user.email,
+      password: user.password,
       verification_code: user.verification_code,
     });
 
@@ -38,6 +45,13 @@ export class UserService {
       },
     });
 
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    const hash = await bcrypt.hash(
+      password,
+      parseInt(this.configService.get<string>(ENV_HASH_ROUNDS_KEY))
+    );
+
     if (user) {
       await this.userRepository.update(
         {
@@ -46,7 +60,8 @@ export class UserService {
         {
           name,
           nickname,
-          password,
+          password: hash,
+          verification_code: verificationCode,
         }
       );
     } else {
@@ -54,28 +69,12 @@ export class UserService {
         email,
         name,
         nickname,
-        password,
+        password: hash,
+        verification_code: verificationCode,
       });
 
       await this.userRepository.save(createdUser);
     }
-  }
-
-  async updateVerificationCode({
-    email,
-    verification_code,
-  }: {
-    email: string;
-    verification_code: number;
-  }) {
-    await this.userRepository.update(
-      {
-        email,
-      },
-      {
-        verification_code,
-      }
-    );
   }
 
   async updateVerified(email: string, verified: boolean) {
