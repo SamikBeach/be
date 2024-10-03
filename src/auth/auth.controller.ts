@@ -183,4 +183,30 @@ export class AuthController {
       refreshToken,
     };
   }
+
+  @Post('/sign-up/google')
+  @IsPublic()
+  async signUpWithGoogle(@Body('code') code: string) {
+    const client = new OAuth2Client(
+      this.configService.get<string>(ENV_GOOGLE_CLIENT_ID),
+      this.configService.get<string>(ENV_GOOGLE_CLIENT_SECRET),
+      'postmessage'
+    );
+
+    const { tokens } = await client.getToken(code);
+
+    const ticket = await client.verifyIdToken({
+      idToken: tokens.id_token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { email, name } = ticket.getPayload();
+
+    await this.authService.checkEmailDuplication(email);
+
+    return await this.authService.loginWithGoogle({
+      email,
+      name,
+    });
+  }
 }

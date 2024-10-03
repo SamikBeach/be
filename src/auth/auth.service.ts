@@ -232,7 +232,7 @@ export class AuthService {
 
     if (user?.verified) {
       throw new UnauthorizedException({
-        message: '이미 가입된 이메일입니다.',
+        message: '이미 가입된 이메일이에요.',
       });
     }
 
