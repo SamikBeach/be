@@ -33,7 +33,18 @@ export class UserModel extends BaseModel {
 
   @Column()
   @IsString()
-  name: string;
+  @IsOptional()
+  name?: string;
+
+  @Column()
+  @IsString()
+  @IsOptional()
+  nickname?: string;
+
+  @Column()
+  @IsString()
+  @IsOptional()
+  password?: string;
 
   @Column()
   @IsNumber()

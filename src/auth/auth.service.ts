@@ -151,4 +151,42 @@ export class AuthService {
 
     return this.mailService.sendVerificationCode(email, verificationCode);
   }
+
+  async registerUserInfo({
+    email,
+    name,
+    nickname,
+    password,
+  }: {
+    email: string;
+    name?: string;
+    nickname?: string;
+    password: string;
+  }) {
+    this.userService.registerUserInfo({ email, name, nickname, password });
+
+    return true;
+  }
+
+  async verifyCode({
+    email,
+    verificationCode,
+  }: {
+    email: string;
+    verificationCode: number;
+  }) {
+    const user = await this.userService.getUserByEmail(email);
+
+    if (!user) {
+      throw new UnauthorizedException('가입되지 않은 이메일입니다.');
+    }
+
+    if (user.verification_code !== verificationCode) {
+      throw new UnauthorizedException('인증코드가 일치하지 않습니다.');
+    }
+
+    this.userService.updateVerified(email, true);
+
+    return true;
+  }
 }

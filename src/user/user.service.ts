@@ -21,6 +21,46 @@ export class UserService {
     return newUser;
   }
 
+  async registerUserInfo({
+    email,
+    name,
+    nickname,
+    password,
+  }: {
+    email: string;
+    name?: string;
+    nickname?: string;
+    password: string;
+  }) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (user) {
+      await this.userRepository.update(
+        {
+          email,
+        },
+        {
+          name,
+          nickname,
+          password,
+        }
+      );
+    } else {
+      const createdUser = this.userRepository.create({
+        email,
+        name,
+        nickname,
+        password,
+      });
+
+      await this.userRepository.save(createdUser);
+    }
+  }
+
   async updateVerificationCode({
     email,
     verification_code,
@@ -34,6 +74,17 @@ export class UserService {
       },
       {
         verification_code,
+      }
+    );
+  }
+
+  async updateVerified(email: string, verified: boolean) {
+    await this.userRepository.update(
+      {
+        email,
+      },
+      {
+        verified,
       }
     );
   }

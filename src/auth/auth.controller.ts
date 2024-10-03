@@ -29,6 +29,34 @@ export class AuthController {
     return await this.authService.sendEmailVerificationCode(email);
   }
 
+  @Post('/register-user-info')
+  @IsPublic()
+  async registerUserInfo(
+    @Body('email') email: string,
+    @Body('name') name: string,
+    @Body('nickname') nickname: string,
+    @Body('password') password: string
+  ) {
+    return await this.authService.registerUserInfo({
+      email,
+      name,
+      nickname,
+      password,
+    });
+  }
+
+  @Post('/verify-code')
+  @IsPublic()
+  async verifyCode(
+    @Body('email') email: string,
+    @Body('verification_code') verification_code: number
+  ) {
+    return await this.authService.verifyCode({
+      email,
+      verificationCode: verification_code,
+    });
+  }
+
   @Post('token/access')
   @IsPublic()
   @UseGuards(RefreshTokenGuard)
