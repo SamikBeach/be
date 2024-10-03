@@ -140,7 +140,7 @@ export class AuthService {
     const existingUser = await this.userService.getUserByEmail(user.email);
 
     if (!existingUser) {
-      throw new UnauthorizedException('존재하지 않는 사용자입니다.');
+      throw new UnauthorizedException('존재하지 않는 사용자에요.');
     }
 
     /**
@@ -155,7 +155,7 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
-      throw new UnauthorizedException('비밀번호가 틀렸습니다.');
+      throw new UnauthorizedException('비밀번호가 틀렸어요.');
     }
 
     return existingUser;
