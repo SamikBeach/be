@@ -5,13 +5,15 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { ENV_HASH_ROUNDS_KEY } from '@common/const/env-keys.const';
+import { MailService } from '@mail/mail.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserModel)
     private readonly userRepository: Repository<UserModel>,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly mailService: MailService
   ) {}
 
   async createUser(
@@ -76,6 +78,8 @@ export class UserService {
 
       await this.userRepository.save(createdUser);
     }
+
+    this.mailService.sendVerificationCode(email, verificationCode);
   }
 
   async updateVerified(email: string, verified: boolean) {

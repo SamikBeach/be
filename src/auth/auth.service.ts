@@ -150,29 +150,6 @@ export class AuthService {
     };
   }
 
-  // async registerWithEmail(user: RegisterUserDto) {
-  //   const hash = await bcrypt.hash(
-  //     user.password,
-  //     parseInt(this.configService.get<string>(ENV_HASH_ROUNDS_KEY))
-  //   );
-
-  //   const newUser = await this.userService.createUser({
-  //     ...user,
-  //     password: hash,
-  //   });
-
-  //   return {
-  //     accessToken: this.signToken({
-  //       email: newUser.email,
-  //       isRefreshToken: false,
-  //     }),
-  //     refreshToken: this.signToken({
-  //       email: newUser.email,
-  //       isRefreshToken: true,
-  //     }),
-  //   };
-  // }
-
   verifyToken(token: string) {
     try {
       return this.jwtService.verify(token, {
@@ -274,6 +251,15 @@ export class AuthService {
 
     this.userService.updateVerified(email, true);
 
-    return true;
+    return {
+      accessToken: this.signToken({
+        email: user.email,
+        isRefreshToken: false,
+      }),
+      refreshToken: this.signToken({
+        email: user.email,
+        isRefreshToken: true,
+      }),
+    };
   }
 }
