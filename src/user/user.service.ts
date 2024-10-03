@@ -15,10 +15,11 @@ export class UserService {
   ) {}
 
   async createUser(
-    user: Pick<UserModel, 'email' | 'password' | 'verification_code'>
+    user: Pick<UserModel, 'email' | 'name' | 'password' | 'verification_code'>
   ) {
     const createdUser = this.userRepository.create({
       email: user.email,
+      name: user.name,
       password: user.password,
       verification_code: user.verification_code,
     });

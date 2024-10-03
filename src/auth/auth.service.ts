@@ -16,7 +16,13 @@ export class AuthService {
     private readonly mailService: MailService
   ) {}
 
-  async loginWithGoogle({ email }: { email: string; name: string }): Promise<{
+  async loginWithGoogle({
+    email,
+    name,
+  }: {
+    email: string;
+    name: string;
+  }): Promise<{
     accessToken: string;
     refreshToken: string;
   }> {
@@ -27,7 +33,10 @@ export class AuthService {
     if (!user) {
       const createdUser = await this.userService.createUser({
         email,
+        name,
       });
+
+      await this.userService.updateVerified(email, true);
 
       userEmail = createdUser.email;
     } else {
