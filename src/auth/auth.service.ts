@@ -38,6 +38,7 @@ export class AuthService {
       const createdUser = await this.userService.createUser({
         email,
         name,
+        nickname: name,
       });
 
       await this.userService.updateVerified(email, true);
