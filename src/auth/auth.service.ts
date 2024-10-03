@@ -1,5 +1,4 @@
 import { ENV_JWT_SECRET_KEY } from '@common/const/env-keys.const';
-import { MailService } from '@mail/mail.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -12,8 +11,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly configService: ConfigService,
-    private readonly mailService: MailService
+    private readonly configService: ConfigService
   ) {}
 
   async loginWithGoogle({
@@ -25,6 +23,12 @@ export class AuthService {
   }): Promise<{
     accessToken: string;
     refreshToken: string;
+    user: {
+      id: number;
+      email: string;
+      name?: string;
+      nickname?: string;
+    };
   }> {
     const user = await this.userService.getUserByEmail(email);
 
@@ -52,6 +56,12 @@ export class AuthService {
         email: userEmail,
         isRefreshToken: true,
       }),
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        nickname: user.nickname,
+      },
     };
   }
 
@@ -97,6 +107,12 @@ export class AuthService {
   async loginWithEmail(user: Pick<UserModel, 'email' | 'password'>): Promise<{
     accessToken: string;
     refreshToken: string;
+    user: {
+      id: number;
+      email: string;
+      name?: string;
+      nickname?: string;
+    };
   }> {
     const existingUser = await this.authenticateWithEmailAndPassword(user);
 
@@ -109,6 +125,12 @@ export class AuthService {
         email: existingUser.email,
         isRefreshToken: true,
       }),
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+        name: existingUser.name,
+        nickname: existingUser.nickname,
+      },
     };
   }
 
@@ -260,6 +282,12 @@ export class AuthService {
         email: user.email,
         isRefreshToken: true,
       }),
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        nickname: user.nickname,
+      },
     };
   }
 }

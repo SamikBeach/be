@@ -115,6 +115,12 @@ export class AuthController {
   ): Promise<{
     accessToken: string;
     refreshToken: string;
+    user: {
+      id: number;
+      email: string;
+      name?: string;
+      nickname?: string;
+    };
   }> {
     const token = this.authService.extractTokenFromHeader({
       tokenWithPrefix,
@@ -123,12 +129,11 @@ export class AuthController {
 
     const { email, password } = this.authService.decodeBasicToken(token);
 
-    const { accessToken, refreshToken } = await this.authService.loginWithEmail(
-      {
+    const { accessToken, refreshToken, user } =
+      await this.authService.loginWithEmail({
         email,
         password,
-      }
-    );
+      });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -139,6 +144,7 @@ export class AuthController {
     return {
       accessToken,
       refreshToken,
+      user,
     };
   }
 
@@ -150,6 +156,12 @@ export class AuthController {
   ): Promise<{
     accessToken: string;
     refreshToken: string;
+    user: {
+      id: number;
+      email: string;
+      name?: string;
+      nickname?: string;
+    };
   }> {
     const client = new OAuth2Client(
       this.configService.get<string>(ENV_GOOGLE_CLIENT_ID),
@@ -166,7 +178,7 @@ export class AuthController {
 
     const { email, name } = ticket.getPayload();
 
-    const { accessToken, refreshToken } =
+    const { accessToken, refreshToken, user } =
       await this.authService.loginWithGoogle({
         email,
         name,
@@ -181,12 +193,16 @@ export class AuthController {
     return {
       accessToken,
       refreshToken,
+      user,
     };
   }
 
   @Post('/sign-up/google')
   @IsPublic()
-  async signUpWithGoogle(@Body('code') code: string) {
+  async signUpWithGoogle(
+    @Body('code') code: string,
+    @Res({ passthrough: true }) res: Response
+  ) {
     const client = new OAuth2Client(
       this.configService.get<string>(ENV_GOOGLE_CLIENT_ID),
       this.configService.get<string>(ENV_GOOGLE_CLIENT_SECRET),
@@ -204,9 +220,22 @@ export class AuthController {
 
     await this.authService.checkEmailDuplication(email);
 
-    return await this.authService.loginWithGoogle({
-      email,
-      name,
+    const { accessToken, refreshToken, user } =
+      await this.authService.loginWithGoogle({
+        email,
+        name,
+      });
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
     });
+
+    return {
+      accessToken,
+      refreshToken,
+      user,
+    };
   }
 }
