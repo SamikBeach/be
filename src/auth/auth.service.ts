@@ -1,4 +1,5 @@
 import { ENV_JWT_SECRET_KEY } from '@common/const/env-keys.const';
+import { MailService } from '@mail/mail.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +10,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly mailService: MailService
   ) {}
 
   async login({ email, name }: { email: string; name: string }): Promise<{
@@ -115,5 +117,23 @@ export class AuthService {
         ? 60 * 60 * 24 * 30 // 30일
         : 60 * 60, // 1시간,
     });
+  }
+
+  async checkEmailDuplication(email: string) {
+    const user = await this.userService.getUserByEmail(email);
+
+    if (user) {
+      throw new UnauthorizedException({
+        message: '이미 가입된 이메일입니다.',
+      });
+    }
+
+    return true;
+  }
+
+  async sendEmailVerificationCode(email: string) {
+    await this.checkEmailDuplication(email);
+
+    return this.mailService.sendVerificationCode(email);
   }
 }

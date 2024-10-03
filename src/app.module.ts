@@ -50,6 +50,7 @@ import { TypeModel } from './type/entities/type.entity';
 import { TypeModule } from './type/type.module';
 import { ReportModule } from './report/report.module';
 import { ReportModel } from './report/entities/report.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { ReportModel } from './report/entities/report.entity';
     LogModule,
     TypeModule,
     ReportModule,
+    MailModule,
 
     AuthorModule,
     AuthorLikeModule,

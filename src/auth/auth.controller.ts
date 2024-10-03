@@ -17,6 +17,18 @@ export class AuthController {
     private readonly configService: ConfigService
   ) {}
 
+  @Post('/check-email-duplication')
+  @IsPublic()
+  async checkEmailDuplication(@Body('email') email: string) {
+    return await this.authService.checkEmailDuplication(email);
+  }
+
+  @Post('/send-email-verification-code')
+  @IsPublic()
+  async sendEmailVerificationCode(@Body('email') email: string) {
+    return await this.authService.sendEmailVerificationCode(email);
+  }
+
   @Post('token/access')
   @IsPublic()
   @UseGuards(RefreshTokenGuard)

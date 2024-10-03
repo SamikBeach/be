@@ -14,3 +14,11 @@ export const ENV_GOOGLE_BOOK_API_KEY = 'GOOGLE_BOOK_API_KEY';
 export const ENV_GOOGLE_CLIENT_ID = 'GOOGLE_CLIENT_ID';
 
 export const ENV_GOOGLE_CLIENT_SECRET = 'GOOGLE_CLIENT_SECRET';
+
+export const ENV_MAIL_HOST = 'MAIL_HOST';
+
+export const ENV_MAIL_PORT = 'MAIL_PORT';
+
+export const ENV_MAIL_USER = 'MAIL_USER';
+
+export const ENV_MAIL_PASSWORD = 'MAIL_PASSWORD';

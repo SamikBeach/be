@@ -26,7 +26,8 @@
       "@original_work/*": ["src/original_work/*"],
       "@edition/*": ["src/edition/*"],
       "@original_work_edition/*": ["src/original_work_edition/*"],
-      "@log/*": ["src/log/*"]
+      "@log/*": ["src/log/*"],
+      "@mail/*": ["src/mail/*"]
     }
   },
   "exclude": ["src/auth_legacy/*"]
