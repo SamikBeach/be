@@ -14,7 +14,7 @@ export class AuthService {
     private readonly mailService: MailService
   ) {}
 
-  async login({ email, name }: { email: string; name: string }): Promise<{
+  async login({ email }: { email: string; name: string }): Promise<{
     accessToken: string;
     refreshToken: string;
   }> {
@@ -25,7 +25,6 @@ export class AuthService {
     if (!user) {
       const createdUser = await this.userService.createUser({
         email,
-        name,
       });
 
       userEmail = createdUser.email;
@@ -122,7 +121,7 @@ export class AuthService {
   async checkEmailDuplication(email: string) {
     const user = await this.userService.getUserByEmail(email);
 
-    if (user) {
+    if (user?.verified) {
       throw new UnauthorizedException({
         message: '이미 가입된 이메일입니다.',
       });
@@ -134,6 +133,22 @@ export class AuthService {
   async sendEmailVerificationCode(email: string) {
     await this.checkEmailDuplication(email);
 
-    return this.mailService.sendVerificationCode(email);
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    const user = this.userService.getUserByEmail(email);
+
+    if (user) {
+      this.userService.updateVerificationCode({
+        email,
+        verification_code: verificationCode,
+      });
+    } else {
+      this.userService.createUser({
+        email,
+        verification_code: verificationCode,
+      });
+    }
+
+    return this.mailService.sendVerificationCode(email, verificationCode);
   }
 }

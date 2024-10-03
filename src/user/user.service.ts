@@ -10,15 +10,32 @@ export class UserService {
     private readonly userRepository: Repository<UserModel>
   ) {}
 
-  async createUser(user: Pick<UserModel, 'email' | 'name'>) {
+  async createUser(user: Pick<UserModel, 'email' | 'verification_code'>) {
     const createdUser = this.userRepository.create({
       email: user.email,
-      name: user.name,
+      verification_code: user.verification_code,
     });
 
     const newUser = await this.userRepository.save(createdUser);
 
     return newUser;
+  }
+
+  async updateVerificationCode({
+    email,
+    verification_code,
+  }: {
+    email: string;
+    verification_code: number;
+  }) {
+    await this.userRepository.update(
+      {
+        email,
+      },
+      {
+        verification_code,
+      }
+    );
   }
 
   async getAllUsers() {

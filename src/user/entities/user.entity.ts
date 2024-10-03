@@ -2,7 +2,13 @@ import { AuthorModel } from '@author/entities/author.entity';
 import { BaseModel } from '@common/entities/base.entity';
 import { EditionModel } from '@edition/entities/edition.entity';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
-import { IsEmail, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +34,15 @@ export class UserModel extends BaseModel {
   @Column()
   @IsString()
   name: string;
+
+  @Column()
+  @IsNumber()
+  @IsOptional()
+  verification_code?: number;
+
+  @Column()
+  @IsBoolean()
+  verified: boolean;
 
   @ManyToMany(() => AuthorModel)
   @JoinTable({

@@ -9,21 +9,15 @@ export class MailService {
     private readonly configService: ConfigService
   ) {}
 
-  sendVerificationCode(to: string): void {
+  sendVerificationCode(to: string, verificationCode: number): void {
     this.mailerService
       .sendMail({
         to,
         from: this.configService.get<string>('MAIL_USER'),
         subject: '삼익비치 인증코드',
-        text: `Your verification code is ${Math.floor(
-          100000 + Math.random() * 900000
-        )}`,
-        html: `인증코드는 <b>${Math.floor(
-          100000 + Math.random() * 900000
-        )}</b>입니다.`,
+        html: `인증코드는 <b>${verificationCode}</b>입니다.`,
       })
-      .then(result => {
-        console.log(result);
+      .then(() => {
         return true;
       })
       .catch(error => {
