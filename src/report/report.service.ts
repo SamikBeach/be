@@ -12,7 +12,6 @@ export class ReportService {
   ) {}
 
   async postReport(dto: PostReportDto) {
-    console.log({ dto });
     const created = this.reportRepository.create(dto);
 
     return await this.reportRepository.save(created);

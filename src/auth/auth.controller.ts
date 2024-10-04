@@ -137,9 +137,6 @@ export class AuthController {
 
     const decodedPassword = Buffer.from(password, 'base64').toString('utf8');
 
-    console.log({ decodedPassword });
-    console.log(user.password);
-
     if (user.password == null) {
       throw new UnauthorizedException(
         '소셜 로그인 사용자는 비밀번호를 변경할 수 없어요.'
