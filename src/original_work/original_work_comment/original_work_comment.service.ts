@@ -179,6 +179,7 @@ export class OriginalWorkCommentService {
         user: {
           id: true,
           name: true,
+          nickname: true,
         },
       },
     });

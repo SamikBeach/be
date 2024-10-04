@@ -179,6 +179,7 @@ export class EditionCommentService {
         user: {
           id: true,
           name: true,
+          nickname: true,
         },
       },
     });

@@ -179,6 +179,7 @@ export class AuthorCommentService {
         user: {
           id: true,
           name: true,
+          nickname: true,
         },
       },
     });
