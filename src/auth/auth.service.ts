@@ -35,9 +35,10 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
 
     let userEmail = '';
+    let newUser = undefined;
 
     if (!user) {
-      const createdUser = await this.userService.createUser({
+      newUser = await this.userService.createUser({
         email,
         name,
         nickname: name,
@@ -45,7 +46,7 @@ export class AuthService {
 
       await this.userService.updateVerified(email, true);
 
-      userEmail = createdUser.email;
+      userEmail = newUser.email;
     } else {
       userEmail = user.email;
     }
@@ -60,10 +61,10 @@ export class AuthService {
         isRefreshToken: true,
       }),
       user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        nickname: user.nickname,
+        id: user?.id ?? newUser.id,
+        email: user?.email ?? newUser.email,
+        name: user?.name ?? newUser.name,
+        nickname: user?.nickname ?? newUser.nickname,
       },
     };
   }
@@ -359,5 +360,9 @@ export class AuthService {
       email,
       password: new_password,
     });
+  }
+
+  async deleteAccount({ email }: { email: string }) {
+    return await this.userService.deleteUser({ email });
   }
 }

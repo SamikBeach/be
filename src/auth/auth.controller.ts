@@ -8,6 +8,7 @@ import {
   Res,
   Patch,
   UnauthorizedException,
+  Delete,
 } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -158,6 +159,35 @@ export class AuthController {
       email: user.email,
       new_password: newPassword,
     });
+  }
+
+  @Delete('delete-account')
+  @IsPublic()
+  async deleteAccount(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const tokenWithPrefix = req.headers['authorization'];
+
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: true,
+    });
+
+    const { email } = await this.authService.verifyToken(token);
+
+    res.cookie('refreshToken', undefined, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+    res.cookie('accessToken', undefined, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+    });
+
+    return await this.authService.deleteAccount({ email });
   }
 
   @Post('token/access')

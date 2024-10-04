@@ -220,4 +220,10 @@ export class UserService {
       nickname,
     };
   }
+
+  async deleteUser({ email }: { email: string }) {
+    await this.userRepository.delete({
+      email,
+    });
+  }
 }
