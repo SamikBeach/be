@@ -13,7 +13,8 @@ export class ReportModel {
 
   @Column()
   @IsNumber()
-  user_id: number;
+  @IsOptional()
+  user_id?: number;
 
   @Column()
   @IsNumber()
