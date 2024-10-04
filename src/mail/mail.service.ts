@@ -14,8 +14,8 @@ export class MailService {
       .sendMail({
         to,
         from: this.configService.get<string>('MAIL_USER'),
-        subject: '삼익비치 인증코드',
-        html: `인증코드는 <b>${verificationCode}</b>입니다.`,
+        subject: '삼익비치 인증번호',
+        html: `인증번호는 <b>${verificationCode}</b>입니다.`,
       })
       .then(() => {
         return true;

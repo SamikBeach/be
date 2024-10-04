@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserModel } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -168,5 +168,50 @@ export class UserService {
       original_works: commented_original_works,
       editions: commented_editions,
     };
+  }
+
+  async updateUserInfo({
+    email,
+    name,
+    nickname,
+    password,
+    verification_code,
+  }: {
+    email: string;
+    name?: string;
+    nickname?: string;
+    password?: string;
+    verification_code?: number;
+  }) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('가입되지 않은 이메일이에요.');
+    }
+
+    let hash = '';
+
+    if (password) {
+      hash = await bcrypt.hash(
+        password,
+        parseInt(this.configService.get<string>(ENV_HASH_ROUNDS_KEY))
+      );
+    }
+
+    return await this.userRepository.update(
+      {
+        email,
+      },
+      {
+        ...(name && { name }),
+        ...(nickname && { nickname }),
+        ...(password && { password: hash }),
+        ...(verification_code && { verification_code }),
+      }
+    );
   }
 }

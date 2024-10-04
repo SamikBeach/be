@@ -1,4 +1,5 @@
 import { ENV_JWT_SECRET_KEY } from '@common/const/env-keys.const';
+import { MailService } from '@mail/mail.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -11,7 +12,8 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly mailService: MailService
   ) {}
 
   async loginWithGoogle({
@@ -255,6 +257,22 @@ export class AuthService {
     return true;
   }
 
+  async updateUserInfo({
+    email,
+    name,
+    nickname,
+    password,
+  }: {
+    email: string;
+    name?: string;
+    nickname?: string;
+    password?: string;
+  }) {
+    this.userService.updateUserInfo({ email, name, nickname, password });
+
+    return true;
+  }
+
   async verifyCode({
     email,
     verificationCode,
@@ -263,16 +281,29 @@ export class AuthService {
     verificationCode: number;
   }) {
     const user = await this.userService.getUserByEmail(email);
+    console.log({ email, verificationCode, user });
 
     if (!user) {
-      throw new UnauthorizedException('가입되지 않은 이메일입니다.');
+      throw new UnauthorizedException('가입되지 않은 이메일이에요.');
     }
 
     if (user.verification_code !== verificationCode) {
-      throw new UnauthorizedException('인증코드가 일치하지 않습니다.');
+      throw new UnauthorizedException('인증번호가 일치하지 않아요.');
     }
 
-    this.userService.updateVerified(email, true);
+    await this.userService.updateVerified(email, true);
+
+    return user;
+  }
+
+  async verifyCodeAndLogin({
+    email,
+    verificationCode,
+  }: {
+    email: string;
+    verificationCode: number;
+  }) {
+    const user = await this.verifyCode({ email, verificationCode });
 
     return {
       accessToken: this.signToken({
@@ -290,5 +321,28 @@ export class AuthService {
         nickname: user.nickname,
       },
     };
+  }
+
+  async sendPasswordResetEmail(email: string) {
+    const user = await this.userService.getUserByEmail(email);
+
+    if (!user) {
+      throw new UnauthorizedException('가입되지 않은 이메일이에요.');
+    }
+
+    if (user.password == null) {
+      throw new UnauthorizedException(
+        '소셜 계정으로 가입된 이메일이에요. 소셜 로그인을 이용해 주세요.'
+      );
+    }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
+
+    await this.userService.updateUserInfo({
+      email,
+      verification_code: verificationCode,
+    });
+
+    this.mailService.sendVerificationCode(email, verificationCode);
   }
 }

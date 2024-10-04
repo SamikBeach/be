@@ -6,6 +6,7 @@ import {
   UseGuards,
   Req,
   Res,
+  Put,
 } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -64,6 +65,43 @@ export class AuthController {
       email,
       verificationCode: verification_code,
     });
+  }
+
+  @Post('/verify-code-and-login')
+  @IsPublic()
+  async verifyCodeAndLogin(
+    @Body('email') email: string,
+    @Body('verification_code') verification_code: number
+  ) {
+    return await this.authService.verifyCodeAndLogin({
+      email,
+      verificationCode: verification_code,
+    });
+  }
+
+  @Put('update-user-info')
+  @IsPublic()
+  async updateUserInfo(
+    @Body('email') email: string,
+    @Headers('authorization') tokenWithPrefix: string
+  ) {
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: false,
+    });
+
+    const { password } = this.authService.decodeBasicToken(token);
+
+    return await this.authService.updateUserInfo({
+      email,
+      password,
+    });
+  }
+
+  @Post('send-password-reset-email')
+  @IsPublic()
+  async sendPasswordResetEmail(@Body('email') email: string) {
+    return await this.authService.sendPasswordResetEmail(email);
   }
 
   @Post('token/access')
