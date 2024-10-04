@@ -347,4 +347,17 @@ export class AuthService {
 
     this.mailService.sendVerificationCode(email, verificationCode);
   }
+
+  async changePassword({
+    email,
+    new_password,
+  }: {
+    email: string;
+    new_password: string;
+  }) {
+    return await this.userService.updateUserInfo({
+      email,
+      password: new_password,
+    });
+  }
 }

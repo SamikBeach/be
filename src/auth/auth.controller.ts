@@ -7,6 +7,7 @@ import {
   Req,
   Res,
   Patch,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -18,11 +19,14 @@ import {
   ENV_GOOGLE_CLIENT_SECRET,
 } from '@common/const/env-keys.const';
 import { RefreshTokenGuard } from './guard/bearer-token.guard';
+import { UserService } from '@user/user.service';
+import * as bcrypt from 'bcrypt';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly configService: ConfigService
   ) {}
 
@@ -111,6 +115,47 @@ export class AuthController {
   @IsPublic()
   async sendPasswordResetEmail(@Body('email') email: string) {
     return await this.authService.sendPasswordResetEmail(email);
+  }
+
+  @Post('change-password')
+  @IsPublic()
+  async changePassword(
+    @Body('password') password: string,
+    @Body('new_password') new_password: string,
+    @Req() req: Request
+  ) {
+    const tokenWithPrefix = req.headers['authorization'];
+
+    const token = this.authService.extractTokenFromHeader({
+      tokenWithPrefix,
+      isBearer: true,
+    });
+
+    const { email } = await this.authService.verifyToken(token);
+
+    const user = await this.userService.getUserByEmail(email);
+
+    const decodedPassword = Buffer.from(password, 'base64').toString('utf8');
+
+    if (user.password == null) {
+      throw new UnauthorizedException(
+        '소셜 로그인 사용자는 비밀번호를 변경할 수 없어요.'
+      );
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      decodedPassword,
+      user.password
+    );
+
+    if (!isValidPassword) {
+      throw new UnauthorizedException('비밀번호가 틀렸어요.');
+    }
+
+    return await this.authService.changePassword({
+      email: user.email,
+      new_password,
+    });
   }
 
   @Post('token/access')
