@@ -42,8 +42,6 @@ export class BearerTokenGuard implements CanActivate {
       isBearer: true,
     });
 
-    console.log({ token });
-
     const result = await this.authService.verifyToken(token);
 
     /**

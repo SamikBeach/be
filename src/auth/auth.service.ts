@@ -268,9 +268,12 @@ export class AuthService {
     nickname?: string;
     password?: string;
   }) {
-    this.userService.updateUserInfo({ email, name, nickname, password });
-
-    return true;
+    return await this.userService.updateUserInfo({
+      email,
+      name,
+      nickname,
+      password,
+    });
   }
 
   async verifyCode({
@@ -281,7 +284,6 @@ export class AuthService {
     verificationCode: number;
   }) {
     const user = await this.userService.getUserByEmail(email);
-    console.log({ email, verificationCode, user });
 
     if (!user) {
       throw new UnauthorizedException('가입되지 않은 이메일이에요.');

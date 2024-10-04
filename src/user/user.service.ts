@@ -202,7 +202,7 @@ export class UserService {
       );
     }
 
-    return await this.userRepository.update(
+    await this.userRepository.update(
       {
         email,
       },
@@ -213,5 +213,11 @@ export class UserService {
         ...(verification_code && { verification_code }),
       }
     );
+
+    return {
+      email,
+      name,
+      nickname,
+    };
   }
 }

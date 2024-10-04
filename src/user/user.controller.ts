@@ -37,7 +37,12 @@ export class UserController {
 
     const user = await this.getUserByEmail(email);
 
-    return { id: user.id, name: user.name, email: user.email };
+    return {
+      id: user.id,
+      name: user.name,
+      nickname: user.nickname,
+      email: user.email,
+    };
   }
 
   @Get(':userId')

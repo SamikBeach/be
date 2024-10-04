@@ -6,7 +6,7 @@ import {
   UseGuards,
   Req,
   Res,
-  Put,
+  Patch,
 } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -79,22 +79,31 @@ export class AuthController {
     });
   }
 
-  @Put('update-user-info')
+  @Patch('update-user-info')
   @IsPublic()
   async updateUserInfo(
     @Body('email') email: string,
+    @Body('nickname') nickname: string,
     @Headers('authorization') tokenWithPrefix: string
   ) {
-    const token = this.authService.extractTokenFromHeader({
-      tokenWithPrefix,
-      isBearer: false,
-    });
+    const splitToken = tokenWithPrefix.split(' ');
+    const isBasicToken = splitToken[0] === 'Basic';
 
-    const { password } = this.authService.decodeBasicToken(token);
+    let password = undefined;
+
+    if (isBasicToken) {
+      const token = this.authService.extractTokenFromHeader({
+        tokenWithPrefix,
+        isBearer: false,
+      });
+
+      password = this.authService.decodeBasicToken(token).password;
+    }
 
     return await this.authService.updateUserInfo({
       email,
       password,
+      nickname,
     });
   }
 
