@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
 import { AuthService } from '@auth/auth.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('user')
 export class UserController {
@@ -21,6 +22,12 @@ export class UserController {
     const result = this.userService.getUserByEmail(email);
 
     return result;
+  }
+
+  @Get('search')
+  @IsPublic()
+  searchUser(@Paginate('search') query: PaginateQuery) {
+    return this.userService.searchUser(query);
   }
 
   @Get('my')

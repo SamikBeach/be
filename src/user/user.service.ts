@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { ENV_HASH_ROUNDS_KEY } from '@common/const/env-keys.const';
 import { MailService } from '@mail/mail.service';
+import { PaginateQuery, Paginated, paginate } from 'nestjs-paginate';
 
 @Injectable()
 export class UserService {
@@ -225,5 +226,16 @@ export class UserService {
     await this.userRepository.delete({
       email,
     });
+  }
+
+  async searchUser(dto: PaginateQuery): Promise<Paginated<UserModel>> {
+    const users = await paginate(dto, this.userRepository, {
+      sortableColumns: ['nickname', 'created_at'],
+      defaultSortBy: [['nickname', 'DESC']],
+      searchableColumns: ['nickname'],
+      relativePath: true,
+    });
+
+    return users;
   }
 }
