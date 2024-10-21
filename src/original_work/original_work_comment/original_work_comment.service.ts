@@ -174,6 +174,7 @@ export class OriginalWorkCommentService {
       },
       relations: {
         user: true,
+        liked_users: true,
       },
       select: {
         user: {

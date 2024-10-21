@@ -174,6 +174,7 @@ export class AuthorCommentService {
       },
       relations: {
         user: true,
+        liked_users: true,
       },
       select: {
         user: {
