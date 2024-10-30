@@ -182,10 +182,10 @@ import { ThrottleInterceptor } from '@common/interceptor/throttle.interceptor';
       provide: APP_GUARD,
       useClass: RBACGuard,
     },
-    {
-      provide: APP_FILTER,
-      useClass: ForbiddenExceptionFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: ForbiddenExceptionFilter,
+    // },
     {
       provide: APP_FILTER,
       useClass: QueryFailedExceptionFilter,
