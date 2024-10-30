@@ -51,12 +51,46 @@ import { TypeModule } from './type/type.module';
 import { ReportModule } from './report/report.module';
 import { ReportModel } from './report/entities/report.entity';
 import { MailModule } from './mail/mail.module';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+    }),
+    WinstonModule.forRoot({
+      level: 'debug',
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize({
+              all: true,
+            }),
+            winston.format.timestamp(),
+            winston.format.printf(
+              info =>
+                `${info.timestamp} [${info.context}] ${info.level} ${info.message}`
+            )
+          ),
+        }),
+        new winston.transports.File({
+          dirname: join(process.cwd(), 'logs'),
+          filename: 'logs.log',
+          format: winston.format.combine(
+            // winston.format.colorize({
+            //   all: true,
+            // }),
+            winston.format.timestamp(),
+            winston.format.printf(
+              info =>
+                `${info.timestamp} [${info.context}] ${info.level} ${info.message}`
+            )
+          ),
+        }),
+      ],
     }),
     // async - config service 써서 바꾸기(joi도 써보기)
     TypeOrmModule.forRoot({

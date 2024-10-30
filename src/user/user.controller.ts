@@ -1,9 +1,9 @@
 import { Controller, Get, Body, Param, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
-import { AuthService } from '@auth/auth.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
+import { AuthService } from '@auth/auth.service';
 
 @Controller('user')
 export class UserController {
