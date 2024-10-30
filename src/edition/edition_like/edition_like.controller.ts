@@ -18,7 +18,6 @@ export class EditionLikeController {
   constructor(private readonly editionLikeService: EditionLikeService) {}
 
   @Post(':editionId')
-  @IsPublic()
   create(
     @Param('editionId') editionId: number,
     @Body('userId') userId: number
@@ -27,7 +26,6 @@ export class EditionLikeController {
   }
 
   @Delete(':editionId')
-  @IsPublic()
   remove(
     @Param('editionId') editionId: number,
     @Query('userId') userId: number

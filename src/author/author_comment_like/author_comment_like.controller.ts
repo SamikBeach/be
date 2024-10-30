@@ -20,7 +20,6 @@ export class AuthorCommentLikeController {
   ) {}
 
   @Post(':authorCommentId')
-  @IsPublic()
   addLike(
     @Param('authorCommentId') authorCommentId: number,
     @Body('userId') userId: number
@@ -29,7 +28,6 @@ export class AuthorCommentLikeController {
   }
 
   @Delete(':authorCommentId')
-  @IsPublic()
   removeLike(
     @Param('authorCommentId') authorCommentId: number,
     @Query('userId') userId: number

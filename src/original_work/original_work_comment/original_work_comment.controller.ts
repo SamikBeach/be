@@ -39,7 +39,6 @@ export class OriginalWorkCommentController {
   }
 
   @Post(':originalWorkId')
-  @IsPublic()
   addComment(
     @Param('originalWorkId') originalWorkId: number,
     @Body('userId') userId: number,
@@ -57,7 +56,6 @@ export class OriginalWorkCommentController {
   }
 
   @Patch(':commentId')
-  @IsPublic()
   updateComment(
     @Param('commentId') commentId: number,
     @Body('comment') comment: string
@@ -69,7 +67,6 @@ export class OriginalWorkCommentController {
   }
 
   @Delete(':commentId')
-  @IsPublic()
   deleteComment(@Param('commentId') commentId: number) {
     return this.originalWorkCommentService.deleteComment({
       commentId,

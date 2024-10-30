@@ -20,7 +20,6 @@ export class OriginalWorkLikeController {
   ) {}
 
   @Post(':originalWorkId')
-  @IsPublic()
   create(
     @Param('originalWorkId') originalWorkId: number,
     @Body('userId') userId: number
@@ -29,7 +28,6 @@ export class OriginalWorkLikeController {
   }
 
   @Delete(':originalWorkId')
-  @IsPublic()
   remove(
     @Param('originalWorkId') originalWorkId: number,
     @Query('userId') userId: number

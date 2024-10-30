@@ -18,13 +18,11 @@ export class AuthorLikeController {
   constructor(private readonly authorLikeService: AuthorLikeService) {}
 
   @Post(':authorId')
-  @IsPublic()
   addLike(@Param('authorId') authorId: number, @Body('userId') userId: number) {
     return this.authorLikeService.addLike({ authorId, userId });
   }
 
   @Delete(':authorId')
-  @IsPublic()
   removeLike(
     @Param('authorId') authorId: number,
     @Query('userId') userId: number

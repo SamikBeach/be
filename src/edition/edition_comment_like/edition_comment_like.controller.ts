@@ -20,7 +20,6 @@ export class EditionCommentLikeController {
   ) {}
 
   @Post(':editionCommentId')
-  @IsPublic()
   addLike(
     @Param('editionCommentId') editionCommentId: number,
     @Body('userId') userId: number
@@ -32,7 +31,6 @@ export class EditionCommentLikeController {
   }
 
   @Delete(':editionCommentId')
-  @IsPublic()
   removeLike(
     @Param('editionCommentId') editionCommentId: number,
     @Query('userId') userId: number

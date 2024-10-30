@@ -38,7 +38,6 @@ export class AuthorCommentController {
   }
 
   @Post(':authorId')
-  @IsPublic()
   addComment(
     @Param('authorId') authorId: number,
     @Body('userId') userId: number,
@@ -56,7 +55,6 @@ export class AuthorCommentController {
   }
 
   @Patch(':commentId')
-  @IsPublic()
   updateComment(
     @Param('commentId', ParseIntPipe) commentId: number,
     @Body('comment') comment: string
@@ -68,7 +66,6 @@ export class AuthorCommentController {
   }
 
   @Delete(':commentId')
-  @IsPublic()
   deleteComment(@Param('commentId') commentId: number) {
     return this.authorCommentService.deleteComment({
       commentId,

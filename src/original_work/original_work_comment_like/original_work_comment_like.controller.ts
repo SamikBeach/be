@@ -20,7 +20,6 @@ export class OriginalWorkCommentLikeController {
   ) {}
 
   @Post(':originalWorkCommentId')
-  @IsPublic()
   addLike(
     @Param('originalWorkCommentId') originalWorkCommentId: number,
     @Body('userId') userId: number
@@ -32,7 +31,6 @@ export class OriginalWorkCommentLikeController {
   }
 
   @Delete(':originalWorkCommentId')
-  @IsPublic()
   removeLike(
     @Param('originalWorkCommentId') originalWorkCommentId: number,
     @Query('userId') userId: number

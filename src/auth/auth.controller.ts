@@ -86,7 +86,6 @@ export class AuthController {
   }
 
   @Patch('update-user-info')
-  @IsPublic()
   async updateUserInfo(
     @Body('email') email: string,
     @Body('nickname') nickname: string,
@@ -120,7 +119,6 @@ export class AuthController {
   }
 
   @Post('change-password')
-  @IsPublic()
   async changePassword(
     @Body('password') password: string,
     @Body('new_password') new_password: string,
@@ -163,7 +161,6 @@ export class AuthController {
   }
 
   @Delete('delete-account')
-  @IsPublic()
   async deleteAccount(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response
@@ -192,7 +189,6 @@ export class AuthController {
   }
 
   @Post('token/access')
-  @IsPublic()
   postTokenAccess(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
@@ -207,7 +203,6 @@ export class AuthController {
   }
 
   @Post('token/refresh')
-  @IsPublic()
   postTokenRefresh(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 

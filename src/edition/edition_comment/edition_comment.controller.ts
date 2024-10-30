@@ -37,7 +37,6 @@ export class EditionCommentController {
   }
 
   @Post(':editionId')
-  @IsPublic()
   addComment(
     @Param('editionId') editionId: number,
     @Body('userId') userId: number,
@@ -55,7 +54,6 @@ export class EditionCommentController {
   }
 
   @Patch(':commentId')
-  @IsPublic()
   updateComment(
     @Param('commentId') commentId: number,
     @Body('comment') comment: string
@@ -67,7 +65,6 @@ export class EditionCommentController {
   }
 
   @Delete(':commentId')
-  @IsPublic()
   deleteComment(@Param('commentId') commentId: number) {
     return this.editionCommentService.deleteComment({
       commentId,
