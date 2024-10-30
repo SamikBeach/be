@@ -1,8 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsPublic } from '@auth/decorator/is-public.decorator';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('author')
 @ApiBearerAuth()
@@ -24,6 +25,9 @@ export class AuthorController {
 
   @Get('trending')
   @IsPublic()
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('author/trending')
+  @CacheTTL(100000)
   getTrendingAuthors() {
     return this.authorService.getTrendingAuthors();
   }

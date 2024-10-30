@@ -1,8 +1,9 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { OriginalWorkService } from './original_work.service';
 import { IsPublic } from '@auth/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('original-work')
 @ApiBearerAuth()
@@ -24,6 +25,9 @@ export class OriginalWorkController {
 
   @Get('trending')
   @IsPublic()
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey('original-work/trending')
+  @CacheTTL(100000)
   getTrendingAuthors() {
     return this.originalWorkService.getTrendingOriginalWorks();
   }
