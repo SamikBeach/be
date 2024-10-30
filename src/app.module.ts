@@ -56,6 +56,7 @@ import { join } from 'path';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BearerTokenMiddleware } from '@auth/middleware/bearer-token.middleware';
 import { AuthGuard } from '@auth/guard/auth.guard';
+import { RBACGuard } from '@auth/guard/rbac.guard';
 
 @Module({
   imports: [
@@ -168,6 +169,10 @@ import { AuthGuard } from '@auth/guard/auth.guard';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RBACGuard,
     },
   ],
 })

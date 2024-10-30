@@ -21,6 +21,8 @@ import { UserService } from '@user/user.service';
 import * as bcrypt from 'bcrypt';
 import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsPublic } from './decorator/is-public.decorator';
+import { Role } from '@user/entities/user.entity';
+import { RBAC } from './decorator/rbac.decorator';
 
 @Controller('auth')
 @ApiBearerAuth()
@@ -363,5 +365,11 @@ export class AuthController {
       refreshToken,
       user,
     };
+  }
+
+  @Post('/rbac-test')
+  @RBAC(Role.admin)
+  async rbacTest() {
+    return 'RBAC Guard 테스트용 end point';
   }
 }

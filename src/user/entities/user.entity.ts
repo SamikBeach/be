@@ -20,6 +20,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum Role {
+  admin,
+  paidUser,
+  user,
+}
+
 @Entity('User')
 export class UserModel extends BaseModel {
   @PrimaryGeneratedColumn()
