@@ -21,7 +21,9 @@ export class ResponseTimeInterceptor implements NestInterceptor {
         const respTime = Date.now();
         const diff = respTime - reqTime;
 
-        console.log(`[${req.method} ${req.path}] ${diff}ms`);
+        console.log(
+          `[REQ] ${req.method} ${req.path} ${diff}ms, ${new Date(reqTime).toLocaleString()}`
+        );
       })
     );
   }

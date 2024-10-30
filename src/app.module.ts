@@ -14,7 +14,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from './user/entities/user.entity';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
 import { OriginalWorkModule } from './original_work/original_work.module';
@@ -212,11 +211,6 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         }
       )
-      .forRoutes('*')
-      .apply(LogMiddleware)
-      .forRoutes({
-        path: '*',
-        method: RequestMethod.ALL,
-      });
+      .forRoutes('*');
   }
 }
