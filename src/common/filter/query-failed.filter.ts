@@ -10,7 +10,7 @@ export class QueryFailedExceptionFilter implements ExceptionFilter {
 
     const status = 400;
 
-    console.log(exception);
+    console.log({ exception });
 
     let message = '데이터베이스 에러 발생! - 에 해당하는 커스텀 메세지';
 

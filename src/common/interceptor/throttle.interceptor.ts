@@ -29,7 +29,6 @@ export class ThrottleInterceptor implements NestInterceptor {
     /// VALUE -> count
 
     const email = request?.user?.email;
-    console.log({ email });
 
     if (!email) {
       return next.handle();
@@ -39,8 +38,6 @@ export class ThrottleInterceptor implements NestInterceptor {
       count: number;
       unit: 'minute';
     }>(Throttle, context.getHandler());
-
-    console.log({ throttleOptions });
 
     if (!throttleOptions) {
       return next.handle();
