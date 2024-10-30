@@ -18,16 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@auth/*": ["src/auth/*"],
-      "@author/*": ["src/author/*"],
-      "@book/*": ["src/book/*"],
-      "@common/*": ["src/common/*"],
-      "@user/*": ["src/user/*"],
-      "@original_work/*": ["src/original_work/*"],
-      "@edition/*": ["src/edition/*"],
-      "@original_work_edition/*": ["src/original_work_edition/*"],
-      "@log/*": ["src/log/*"],
-      "@mail/*": ["src/mail/*"]
+      "@*": ["src/*"]
     }
   },
   "exclude": ["src/auth_legacy/*"]
