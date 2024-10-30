@@ -6,6 +6,7 @@ import {
   Patch,
   Get,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
@@ -54,7 +55,7 @@ export class AuthorCommentController {
   @Patch(':commentId')
   @IsPublic()
   updateComment(
-    @Param('commentId') commentId: number,
+    @Param('commentId', ParseIntPipe) commentId: number,
     @Body('comment') comment: string
   ) {
     return this.authorCommentService.updateComment({

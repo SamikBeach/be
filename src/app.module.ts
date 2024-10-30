@@ -58,6 +58,7 @@ import { MailModule } from './mail/mail.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
+    // async - config service 써서 바꾸기(joi도 써보기)
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
