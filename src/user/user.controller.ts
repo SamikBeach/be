@@ -4,8 +4,11 @@ import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
 import { AuthService } from '@auth/auth.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiBearerAuth()
+@ApiTags('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,

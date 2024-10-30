@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { AuthorCommentLikeService } from './author_comment_like.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('author-comment-like')
+@ApiBearerAuth()
+@ApiTags('author-comment-like')
 export class AuthorCommentLikeController {
   constructor(
     private readonly authorCommentLikeService: AuthorCommentLikeService

@@ -2,8 +2,11 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { EditionService } from './edition.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('edition')
+@ApiBearerAuth()
+@ApiTags('edition')
 export class EditionController {
   constructor(private readonly editionService: EditionService) {}
 

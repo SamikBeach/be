@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { OriginalWorkLikeService } from './original_work_like.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('original-work-like')
+@ApiBearerAuth()
+@ApiTags('original-work-like')
 export class OriginalWorkLikeController {
   constructor(
     private readonly originalWorkLikeService: OriginalWorkLikeService

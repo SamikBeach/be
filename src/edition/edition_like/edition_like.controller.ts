@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { EditionLikeService } from './edition_like.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('edition-like')
+@ApiBearerAuth()
+@ApiTags('edition-like')
 export class EditionLikeController {
   constructor(private readonly editionLikeService: EditionLikeService) {}
 

@@ -11,8 +11,11 @@ import {
 import { AuthorCommentService } from './author_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('author-comment')
+@ApiBearerAuth()
+@ApiTags('author-comment')
 export class AuthorCommentController {
   constructor(private readonly authorCommentService: AuthorCommentService) {}
 

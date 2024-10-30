@@ -2,8 +2,11 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { AuthorService } from './author.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('author')
+@ApiBearerAuth()
+@ApiTags('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 

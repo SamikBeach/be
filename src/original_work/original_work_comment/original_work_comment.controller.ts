@@ -10,8 +10,11 @@ import {
 import { OriginalWorkCommentService } from './original_work_comment.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('original-work-comment')
+@ApiBearerAuth()
+@ApiTags('original-work-comment')
 export class OriginalWorkCommentController {
   constructor(
     private readonly originalWorkCommentService: OriginalWorkCommentService

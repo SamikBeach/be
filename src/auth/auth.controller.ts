@@ -22,8 +22,11 @@ import {
 import { RefreshTokenGuard } from './guard/bearer-token.guard';
 import { UserService } from '@user/user.service';
 import * as bcrypt from 'bcrypt';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiBearerAuth()
+@ApiTags('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -232,6 +235,7 @@ export class AuthController {
   }
 
   @Post('/login/email')
+  @ApiBasicAuth()
   @IsPublic()
   async login(
     @Headers('authorization') tokenWithPrefix: string,

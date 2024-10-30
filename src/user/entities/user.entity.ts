@@ -1,6 +1,7 @@
 import { AuthorModel } from '@author/entities/author.entity';
 import { BaseModel } from '@common/entities/base.entity';
 import { EditionModel } from '@edition/entities/edition.entity';
+import { ApiProperty } from '@nestjs/swagger';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
 import {
   IsBoolean,
@@ -49,6 +50,10 @@ export class UserModel extends BaseModel {
   @Column()
   @IsNumber()
   @IsOptional()
+  @ApiProperty({
+    description: '이메일로 발송된 6자리 인증 코드',
+    example: '123456',
+  })
   verification_code?: number;
 
   @Column()

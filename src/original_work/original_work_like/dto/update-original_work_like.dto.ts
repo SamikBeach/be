@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { CreateOriginalWorkLikeDto } from './create-original_work_like.dto';
 
-export class UpdateOriginalWorkLikeDto extends PartialType(CreateOriginalWorkLikeDto) {}
+export class UpdateOriginalWorkLikeDto extends PartialType(
+  CreateOriginalWorkLikeDto
+) {}

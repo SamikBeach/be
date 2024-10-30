@@ -2,8 +2,11 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { OriginalWorkService } from './original_work.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('original-work')
+@ApiBearerAuth()
+@ApiTags('original-work')
 export class OriginalWorkController {
   constructor(private readonly originalWorkService: OriginalWorkService) {}
 
