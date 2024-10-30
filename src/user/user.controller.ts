@@ -1,8 +1,7 @@
-import { Controller, Get, Body, Param, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Body, Param, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
-import { AccessTokenGuard } from '@auth/guard/bearer-token.guard';
 import { AuthService } from '@auth/auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -34,7 +33,6 @@ export class UserController {
   }
 
   @Get('my')
-  @UseGuards(AccessTokenGuard)
   async getMyUserInfo(@Req() req: Request) {
     const tokenWithPrefix = req.headers['authorization'];
 
@@ -43,7 +41,7 @@ export class UserController {
       isBearer: true,
     });
 
-    const { email } = await this.authService.verifyToken(token);
+    const { email } = await this.authService.verifyToken({ token });
 
     const user = await this.getUserByEmail(email);
 

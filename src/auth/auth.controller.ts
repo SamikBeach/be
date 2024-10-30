@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   Headers,
-  UseGuards,
   Req,
   Res,
   Patch,
@@ -19,7 +18,6 @@ import {
   ENV_GOOGLE_CLIENT_ID,
   ENV_GOOGLE_CLIENT_SECRET,
 } from '@common/const/env-keys.const';
-import { RefreshTokenGuard } from './guard/bearer-token.guard';
 import { UserService } from '@user/user.service';
 import * as bcrypt from 'bcrypt';
 import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -135,7 +133,7 @@ export class AuthController {
       isBearer: true,
     });
 
-    const { email } = await this.authService.verifyToken(token);
+    const { email } = await this.authService.verifyToken({ token });
 
     const user = await this.userService.getUserByEmail(email);
 
@@ -177,7 +175,7 @@ export class AuthController {
       isBearer: true,
     });
 
-    const { email } = await this.authService.verifyToken(token);
+    const { email } = await this.authService.verifyToken({ token });
 
     res.cookie('refreshToken', undefined, {
       httpOnly: true,
@@ -195,7 +193,6 @@ export class AuthController {
 
   @Post('token/access')
   @IsPublic()
-  @UseGuards(RefreshTokenGuard)
   postTokenAccess(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
@@ -211,7 +208,6 @@ export class AuthController {
 
   @Post('token/refresh')
   @IsPublic()
-  @UseGuards(RefreshTokenGuard)
   postTokenRefresh(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
@@ -223,6 +219,11 @@ export class AuthController {
     return {
       refreshToken: newToken,
     };
+  }
+
+  @Post('token/block')
+  blockToken(@Body('token') token: string) {
+    return this.authService.tokenBlock(token);
   }
 
   @Post('/logout')

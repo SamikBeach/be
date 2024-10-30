@@ -7,7 +7,7 @@ import { MailService } from '@mail/mail.service';
 
 @Module({
   imports: [JwtModule.register({}), UserModule],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
   controllers: [AuthController],
   providers: [AuthService, MailService],
 })

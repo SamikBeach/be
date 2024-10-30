@@ -1,6 +1,10 @@
-import { ENV_JWT_SECRET_KEY } from '@common/const/env-keys.const';
+import {
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET,
+} from '@common/const/env-keys.const';
 import { MailService } from '@mail/mail.service';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { UserModel } from '@user/entities/user.entity';
@@ -13,7 +17,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
     private readonly configService: ConfigService,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache
   ) {}
 
   async loginWithGoogle({
@@ -176,10 +182,23 @@ export class AuthService {
     };
   }
 
-  verifyToken(token: string) {
+  verifyToken({
+    token,
+    isRefreshToken = false,
+  }: {
+    token: string;
+    isRefreshToken?: boolean;
+  }) {
     try {
+      const refreshTokenSecret =
+        this.configService.get<string>(REFRESH_TOKEN_SECRET);
+      const accessTokenSecret =
+        this.configService.get<string>(ACCESS_TOKEN_SECRET);
+
       return this.jwtService.verify(token, {
-        secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
+        secret: this.configService.get<string>(
+          isRefreshToken ? accessTokenSecret : refreshTokenSecret
+        ),
       });
     } catch {
       throw new UnauthorizedException('토큰이 만료됐거나 잘못된 토큰입니다.');
@@ -194,7 +213,9 @@ export class AuthService {
     isRefreshToken: boolean;
   }) {
     const user = this.jwtService.verify(token, {
-      secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
+      secret: this.configService.get<string>(
+        isRefreshToken ? REFRESH_TOKEN_SECRET : ACCESS_TOKEN_SECRET
+      ),
       complete: true,
     });
 
@@ -223,11 +244,30 @@ export class AuthService {
     };
 
     return this.jwtService.sign(payload, {
-      secret: this.configService.get<string>(ENV_JWT_SECRET_KEY),
+      secret: this.configService.get<string>(
+        isRefreshToken ? REFRESH_TOKEN_SECRET : ACCESS_TOKEN_SECRET
+      ),
       expiresIn: isRefreshToken
         ? 60 * 60 * 24 * 30 // 30일
         : 60 * 60, // 1시간,
     });
+  }
+
+  async tokenBlock(token: string) {
+    const payload = this.jwtService.decode(token);
+
+    const expiryDate = +new Date(payload['exp'] * 1000);
+    const now = +Date.now();
+
+    const differenceInSeconds = (expiryDate - now) / 1000;
+
+    await this.cacheManager.set(
+      `BLOCK_TOKEN_${token}`,
+      payload,
+      Math.max(differenceInSeconds * 1000, 1)
+    );
+
+    return true;
   }
 
   async checkEmailDuplication(email: string) {
