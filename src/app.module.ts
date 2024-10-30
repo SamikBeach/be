@@ -13,7 +13,7 @@ import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from './user/entities/user.entity';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
@@ -57,6 +57,8 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { BearerTokenMiddleware } from '@auth/middleware/bearer-token.middleware';
 import { AuthGuard } from '@auth/guard/auth.guard';
 import { RBACGuard } from '@auth/guard/rbac.guard';
+import { ForbiddenExceptionFilter } from '@common/filter/forbidden.filter';
+import { QueryFailedExceptionFilter } from '@common/filter/query-failed.filter';
 
 @Module({
   imports: [
@@ -173,6 +175,14 @@ import { RBACGuard } from '@auth/guard/rbac.guard';
     {
       provide: APP_GUARD,
       useClass: RBACGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ForbiddenExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: QueryFailedExceptionFilter,
     },
   ],
 })
