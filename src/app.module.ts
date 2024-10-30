@@ -59,6 +59,7 @@ import { AuthGuard } from '@auth/guard/auth.guard';
 import { RBACGuard } from '@auth/guard/rbac.guard';
 import { ForbiddenExceptionFilter } from '@common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from '@common/filter/query-failed.filter';
+import { CacheConfigService } from '@cacheConfig.service';
 
 @Module({
   imports: [
@@ -66,9 +67,9 @@ import { QueryFailedExceptionFilter } from '@common/filter/query-failed.filter';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    CacheModule.register({
-      ttl: 0,
+    CacheModule.registerAsync({
       isGlobal: true,
+      useClass: CacheConfigService,
     }),
     WinstonModule.forRoot({
       level: 'debug',
