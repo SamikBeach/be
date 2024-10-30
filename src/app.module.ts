@@ -169,12 +169,8 @@ import { BearerTokenMiddleware } from '@auth/middleware/bearer-token.middleware'
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LogMiddleware)
-      .forRoutes({
-        path: '*',
-        method: RequestMethod.ALL,
-      })
       .apply(BearerTokenMiddleware)
+      // TODO: fix this
       .exclude(
         {
           path: 'auth/login',
@@ -185,6 +181,11 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         }
       )
-      .forRoutes('*');
+      .forRoutes('*')
+      .apply(LogMiddleware)
+      .forRoutes({
+        path: '*',
+        method: RequestMethod.ALL,
+      });
   }
 }
