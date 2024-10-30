@@ -3,7 +3,7 @@ import { BaseModel } from '@common/entities/base.entity';
 import { EditionModel } from '@edition/entities/edition.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
-import { Transform } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -54,6 +54,9 @@ export class UserModel extends BaseModel {
   @Column()
   @IsString()
   @IsOptional()
+  @Exclude({
+    toPlainOnly: true,
+  })
   password?: string;
 
   @Column()
@@ -62,6 +65,9 @@ export class UserModel extends BaseModel {
   @ApiProperty({
     description: '이메일로 발송된 6자리 인증 코드',
     example: '123456',
+  })
+  @Exclude({
+    toPlainOnly: true,
   })
   verification_code?: number;
 
@@ -127,8 +133,14 @@ export class UserModel extends BaseModel {
   commented_editions: EditionModel[];
 
   @CreateDateColumn()
+  @Exclude({
+    toPlainOnly: true,
+  })
   created_at: Date = new Date();
 
   @UpdateDateColumn()
+  @Exclude({
+    toPlainOnly: true,
+  })
   updated_at: Date = new Date();
 }
