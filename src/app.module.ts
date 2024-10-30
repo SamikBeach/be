@@ -60,6 +60,7 @@ import { RBACGuard } from '@auth/guard/rbac.guard';
 import { ForbiddenExceptionFilter } from '@common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from '@common/filter/query-failed.filter';
 import { CacheConfigService } from '@cacheConfig.service';
+import { ThrottleInterceptor } from '@common/interceptor/throttle.interceptor';
 
 @Module({
   imports: [
@@ -172,6 +173,10 @@ import { CacheConfigService } from '@cacheConfig.service';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ThrottleInterceptor,
     },
     {
       provide: APP_GUARD,

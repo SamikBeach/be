@@ -182,7 +182,7 @@ export class AuthService {
     };
   }
 
-  verifyToken({
+  async verifyToken({
     token,
     isRefreshToken = false,
   }: {
@@ -190,7 +190,7 @@ export class AuthService {
     isRefreshToken?: boolean;
   }) {
     try {
-      return this.jwtService.verify(token, {
+      return await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>(
           isRefreshToken ? REFRESH_TOKEN_SECRET : ACCESS_TOKEN_SECRET
         ),
@@ -200,14 +200,14 @@ export class AuthService {
     }
   }
 
-  rotateToken({
+  async rotateToken({
     token,
     isRefreshToken,
   }: {
     token: string;
     isRefreshToken: boolean;
   }) {
-    const user = this.jwtService.verify(token, {
+    const user = await this.jwtService.verifyAsync(token, {
       secret: this.configService.get<string>(
         isRefreshToken ? REFRESH_TOKEN_SECRET : ACCESS_TOKEN_SECRET
       ),

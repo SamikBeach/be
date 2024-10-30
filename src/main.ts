@@ -18,6 +18,7 @@ async function bootstrap() {
     .setTitle('samik beach')
     .setDescription('samik beach API description')
     .setVersion('1.0')
+    .addServer('/api/v1')
     .addBasicAuth()
     .addBearerAuth()
     .build();

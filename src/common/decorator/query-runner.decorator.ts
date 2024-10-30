@@ -1,19 +1,19 @@
 import {
+  createParamDecorator,
   ExecutionContext,
   InternalServerErrorException,
-  createParamDecorator,
 } from '@nestjs/common';
 
 export const QueryRunner = createParamDecorator(
-  (data, context: ExecutionContext) => {
-    const req = context.switchToHttp().getRequest();
+  (_: unknown, context: ExecutionContext) => {
+    const request = context.switchToHttp().getRequest();
 
-    if (!req.queryRunner) {
+    if (!request || !request.queryRunner) {
       throw new InternalServerErrorException(
-        `QueryRunner Decorator를 사용하려면 TransactionInterceptor를 적용해야 합니다.`
+        'Query Runner 객체를 찾을 수 없습니다!'
       );
     }
 
-    return req.queryRunner;
+    return request.queryRunner;
   }
 );

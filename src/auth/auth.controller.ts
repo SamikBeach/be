@@ -23,6 +23,7 @@ import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { IsPublic } from './decorator/is-public.decorator';
 import { Role } from '@user/entities/user.entity';
 import { RBAC } from './decorator/rbac.decorator';
+import { Throttle } from '@common/decorator/throttle.decorator';
 
 @Controller('auth')
 @ApiBearerAuth()
@@ -192,10 +193,10 @@ export class AuthController {
 
   @Post('token/access')
   @IsPublic()
-  postTokenAccess(@Req() req: Request) {
+  async postTokenAccess(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
-    const newToken = this.authService.rotateToken({
+    const newToken = await this.authService.rotateToken({
       token: refreshToken,
       isRefreshToken: false,
     });
@@ -207,10 +208,10 @@ export class AuthController {
 
   @Post('token/refresh')
   @IsPublic()
-  postTokenRefresh(@Req() req: Request) {
+  async postTokenRefresh(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
-    const newToken = this.authService.rotateToken({
+    const newToken = await this.authService.rotateToken({
       token: refreshToken,
       isRefreshToken: true,
     });
@@ -237,6 +238,10 @@ export class AuthController {
   @Post('/login/email')
   @ApiBasicAuth()
   @IsPublic()
+  @Throttle({
+    count: 5,
+    unit: 'minute',
+  })
   async login(
     @Headers('authorization') tokenWithPrefix: string,
     @Res({ passthrough: true }) res: Response
@@ -277,6 +282,10 @@ export class AuthController {
   }
 
   @Post('/login/google')
+  @Throttle({
+    count: 5,
+    unit: 'minute',
+  })
   @IsPublic()
   async loginWithGoogle(
     @Body('code') code: string,
