@@ -1,6 +1,6 @@
 import { Controller, Get, Body, Param, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { AuthService } from '@auth/auth.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';

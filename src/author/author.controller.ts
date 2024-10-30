@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AuthorService } from './author.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 
 @Controller('author')
 @ApiBearerAuth()

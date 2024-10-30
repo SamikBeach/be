@@ -10,7 +10,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { OAuth2Client } from 'google-auth-library';
-import { IsPublic } from '@common/decorator/is-public.decorator';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
@@ -21,6 +20,7 @@ import {
 import { UserService } from '@user/user.service';
 import * as bcrypt from 'bcrypt';
 import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from './decorator/is-public.decorator';
 
 @Controller('auth')
 @ApiBearerAuth()

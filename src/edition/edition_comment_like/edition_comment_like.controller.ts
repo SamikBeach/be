@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { EditionCommentLikeService } from './edition_comment_like.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('edition-comment-like')

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { EraService } from './era.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 
 @Controller('era')
 export class EraController {

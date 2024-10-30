@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { EditionCommentService } from './edition_comment.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 

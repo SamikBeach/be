@@ -13,7 +13,7 @@ import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from './user/entities/user.entity';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { LogMiddleware } from './common/middleware/log.middleware';
 import { AuthorModule } from './author/author.module';
 import { AuthorModel } from './author/entities/author.entity';
@@ -55,6 +55,7 @@ import * as winston from 'winston';
 import { join } from 'path';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BearerTokenMiddleware } from '@auth/middleware/bearer-token.middleware';
+import { AuthGuard } from '@auth/guard/auth.guard';
 
 @Module({
   imports: [
@@ -161,6 +162,10 @@ import { BearerTokenMiddleware } from '@auth/middleware/bearer-token.middleware'
   providers: [
     AppService,
     {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
@@ -170,7 +175,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(BearerTokenMiddleware)
-      // TODO: fix this
+      // TODO: fix this (path 정확하게)
       .exclude(
         {
           path: 'auth/login',

@@ -9,9 +9,9 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { AuthorCommentService } from './author_comment.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 
 @Controller('author-comment')
 @ApiBearerAuth()

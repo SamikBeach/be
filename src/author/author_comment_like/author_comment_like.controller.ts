@@ -8,8 +8,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { AuthorCommentLikeService } from './author_comment_like.service';
-import { IsPublic } from '@common/decorator/is-public.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { IsPublic } from '@auth/decorator/is-public.decorator';
 
 @Controller('author-comment-like')
 @ApiBearerAuth()
