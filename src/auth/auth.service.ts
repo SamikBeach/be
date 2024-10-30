@@ -190,14 +190,9 @@ export class AuthService {
     isRefreshToken?: boolean;
   }) {
     try {
-      const refreshTokenSecret =
-        this.configService.get<string>(REFRESH_TOKEN_SECRET);
-      const accessTokenSecret =
-        this.configService.get<string>(ACCESS_TOKEN_SECRET);
-
       return this.jwtService.verify(token, {
         secret: this.configService.get<string>(
-          isRefreshToken ? accessTokenSecret : refreshTokenSecret
+          isRefreshToken ? REFRESH_TOKEN_SECRET : ACCESS_TOKEN_SECRET
         ),
       });
     } catch {

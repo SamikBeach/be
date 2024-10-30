@@ -189,6 +189,7 @@ export class AuthController {
   }
 
   @Post('token/access')
+  @IsPublic()
   postTokenAccess(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
@@ -203,6 +204,7 @@ export class AuthController {
   }
 
   @Post('token/refresh')
+  @IsPublic()
   postTokenRefresh(@Req() req: Request) {
     const refreshToken = req.cookies['refreshToken'];
 
