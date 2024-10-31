@@ -24,6 +24,7 @@ import { IsPublic } from './decorator/is-public.decorator';
 import { Role } from '@user/entities/user.entity';
 import { RBAC } from './decorator/rbac.decorator';
 import { Throttle } from '@common/decorator/throttle.decorator';
+import { NicknameValidationPipe } from '@common/pipe/nickname-validation.pipe';
 
 @Controller('auth')
 @ApiBearerAuth()
@@ -46,7 +47,7 @@ export class AuthController {
   async registerUserInfo(
     @Body('email') email: string,
     @Body('name') name: string,
-    @Body('nickname') nickname: string,
+    @Body('nickname', NicknameValidationPipe) nickname: string,
     @Headers('authorization') tokenWithPrefix: string
   ) {
     const token = this.authService.extractTokenFromHeader({
@@ -91,7 +92,7 @@ export class AuthController {
   @Patch('update-user-info')
   async updateUserInfo(
     @Body('email') email: string,
-    @Body('nickname') nickname: string,
+    @Body('nickname', NicknameValidationPipe) nickname: string,
     @Headers('authorization') tokenWithPrefix: string
   ) {
     const splitToken = tokenWithPrefix.split(' ');
