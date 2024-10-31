@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
       credentials: true,
-      origin: 'http://3.39.250.251/',
+      origin: 'http://3.39.250.251',
     },
     logger: ['verbose'],
   });
