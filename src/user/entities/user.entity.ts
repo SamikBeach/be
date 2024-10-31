@@ -27,7 +27,7 @@ export enum Role {
   user,
 }
 
-@Entity('User')
+@Entity('user')
 export class UserModel extends BaseModel {
   @PrimaryGeneratedColumn()
   // NOTE: Transform test
