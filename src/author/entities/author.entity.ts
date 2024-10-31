@@ -13,7 +13,7 @@ import { UserModel } from '@user/entities/user.entity';
 import { AuthorCommentModel } from '@author/author_comment/entities/author_comment.entity';
 import { IsNumber } from 'class-validator';
 
-@Entity('Author')
+@Entity('author')
 export class AuthorModel {
   @PrimaryGeneratedColumn()
   id: number;
