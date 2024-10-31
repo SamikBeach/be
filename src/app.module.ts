@@ -60,6 +60,7 @@ import { QueryFailedExceptionFilter } from '@common/filter/query-failed.filter';
 import { CacheConfigService } from '@cacheConfig.service';
 import { ThrottleInterceptor } from '@common/interceptor/throttle.interceptor';
 import { ResponseTimeInterceptor } from '@common/interceptor/response-time.interceptor';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { ResponseTimeInterceptor } from '@common/interceptor/response-time.inter
       isGlobal: true,
       useClass: CacheConfigService,
     }),
+    ScheduleModule.forRoot(),
     WinstonModule.forRoot({
       level: 'debug',
       transports: [
