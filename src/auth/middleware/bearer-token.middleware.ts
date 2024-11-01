@@ -31,6 +31,7 @@ export class BearerTokenMiddleware implements NestMiddleware {
   ) {
     /// Basic $token
     /// Bearer $token
+    console.log('미들웨어 통과');
     const authHeader = req.headers['authorization'];
 
     if (!authHeader) {
