@@ -209,7 +209,7 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         },
         {
-          path: 'auth/register',
+          path: 'auth/register-user-info',
           method: RequestMethod.POST,
         }
       )
