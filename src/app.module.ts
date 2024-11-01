@@ -209,6 +209,10 @@ export class AppModule implements NestModule {
           method: RequestMethod.POST,
         },
         {
+          path: 'auth/check-email-duplication',
+          method: RequestMethod.POST,
+        },
+        {
           path: 'auth/register-user-info',
           method: RequestMethod.POST,
         }
