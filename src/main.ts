@@ -11,7 +11,7 @@ async function bootstrap() {
       credentials: true,
       origin: [
         'http://3.39.250.251',
-        'http://www.samikbeach.click',
+        'https://www.samikbeach.click',
         'http://localhost:3000',
       ],
     },
