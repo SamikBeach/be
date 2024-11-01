@@ -204,6 +204,10 @@ export class AppModule implements NestModule {
       .apply(BearerTokenMiddleware)
       .exclude(
         {
+          path: '/',
+          method: RequestMethod.GET,
+        },
+        {
           path: 'v1/auth/login/email',
           method: RequestMethod.POST,
         },
