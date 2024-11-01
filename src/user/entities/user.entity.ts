@@ -3,7 +3,7 @@ import { BaseModel } from '@common/entities/base.entity';
 import { EditionModel } from '@edition/entities/edition.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { OriginalWorkModel } from '@original_work/entities/original_work.entity';
-import { Exclude, Transform } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -30,8 +30,6 @@ export enum Role {
 @Entity('user')
 export class UserModel extends BaseModel {
   @PrimaryGeneratedColumn()
-  // NOTE: Transform test
-  @Transform(({ value }) => Number(value))
   id: number;
 
   @Column({
