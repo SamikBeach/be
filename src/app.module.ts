@@ -203,20 +203,10 @@ export class AppModule implements NestModule {
     consumer
       .apply(BearerTokenMiddleware)
       // TODO: fix this (path 정확하게)
-      .exclude(
-        {
-          path: 'auth/login',
-          method: RequestMethod.POST,
-        },
-        {
-          path: 'auth/check-email-duplication',
-          method: RequestMethod.POST,
-        },
-        {
-          path: 'auth/register-user-info',
-          method: RequestMethod.POST,
-        }
-      )
+      .exclude({
+        path: 'auth/login',
+        method: RequestMethod.POST,
+      })
       .forRoutes('*');
   }
 }

@@ -31,7 +31,7 @@ export class BearerTokenMiddleware implements NestMiddleware {
   ) {
     /// Basic $token
     /// Bearer $token
-    console.log('미들웨어 통과');
+
     const authHeader = req.headers['authorization'];
 
     if (!authHeader) {
@@ -103,11 +103,11 @@ export class BearerTokenMiddleware implements NestMiddleware {
       throw new BadRequestException('토큰 포맷이 잘못됐습니다!');
     }
 
-    const [bearer, token] = basicSplit;
+    const [_, token] = basicSplit;
 
-    if (bearer.toLowerCase() !== 'bearer') {
-      throw new BadRequestException('토큰 포맷이 잘못됐습니다!');
-    }
+    // if (bearer.toLowerCase() !== 'bearer') {
+    //   throw new BadRequestException('토큰 포맷이 잘못됐습니다!');
+    // }
 
     return token;
   }
