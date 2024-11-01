@@ -12,6 +12,9 @@ async function bootstrap() {
       origin: [
         'http://3.39.250.251',
         'https://www.samikbeach.click',
+        'https://samikbeach.click',
+        'http://www.samikbeach.click',
+        'http://samikbeach.click',
         'http://localhost:3000',
       ],
     },
