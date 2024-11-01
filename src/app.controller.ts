@@ -12,7 +12,6 @@ export class AppController {
   @Get()
   @IsPublic()
   getHello(): string {
-    console.log('root');
     return this.appService.getHello();
   }
 }
