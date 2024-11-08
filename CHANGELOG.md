@@ -1,5 +1,12 @@
 # 🚦 CHANGELOG
 
+## [1.0.1](https://github.com/SamikBeach/be/compare/1.0.0...1.0.1) (2024-11-08)
+
+
+### Bug Fixes
+
+* fix for release ([13ca87c](https://github.com/SamikBeach/be/commit/13ca87ca40eda60c828f1ed6b29c84621e54fd1e))
+
 # 1.0.0 (2024-11-08)
 
 
