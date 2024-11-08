@@ -67,6 +67,6 @@ async function bootstrap() {
     })
   );
 
-  await app.listen(3000);
+  await app.listen(process.env.NODE_ENV === 'production' ? 3000 : 3001);
 }
 bootstrap();
