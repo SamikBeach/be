@@ -56,10 +56,6 @@
             "release": false
           },
           {
-            "type": "chore",
-            "release": false
-          },
-          {
             "type": "ci",
             "release": false
           },
