@@ -19,6 +19,9 @@
   "devDependencies": {
     "@nestjs/testing": "^10.3.8",
     "@types/bcrypt": "^5.0.2",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^24.2.0",
     "@types/cache-manager": "^4.0.6",
     "@types/cache-manager-redis-store": "^2.0.4",
     "@types/cookie-parser": "^1.4.7",
