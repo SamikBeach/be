@@ -1,6 +1,6 @@
 {
   "name": "be",
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@4.5.1",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
