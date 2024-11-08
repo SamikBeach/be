@@ -19,6 +19,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "devDependencies": {
+    "@nestjs/cli": "^10.4.7",
     "@nestjs/testing": "^10.3.8",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
